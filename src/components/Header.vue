@@ -1,7 +1,7 @@
 <template>
     <div class="header">
         <div class="headerItem">
-            <span class="headerElement material-icons">
+            <span @click="toggleBurger" class="headerElementMenu headerElement material-icons">
                 menu
             </span>
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Logo_of_YouTube_%282015-2017%29.svg/1280px-Logo_of_YouTube_%282015-2017%29.svg.png" alt="" width="60px" class="headerElement" />
@@ -36,7 +36,26 @@
 
 <script>
 export default {
-
+    name: 'Header',
+    data() {
+        return {
+            keywords: ''
+        }
+    },
+    props: {
+        'burger': {
+            type: Boolean,
+            default: true
+        }
+    },
+    emits: [
+        'toggleBurger'
+    ],
+    methods: {
+        toggleBurger() {
+            this.$emit('toggleBurger', !this.burger)
+        }
+    }
 }
 </script>
 
@@ -81,6 +100,10 @@ export default {
         width: 575px;
         display: flex;
         align-items: center;
+    }
+
+    .headerElementMenu {
+        cursor: pointer;
     }
 
 </style>
