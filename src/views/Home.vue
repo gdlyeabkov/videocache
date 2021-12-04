@@ -92,8 +92,8 @@
           </div>
           <div v-else class="videos">
             <div class="videosColum">
-              <div v-for="video in videos" :key="video" class="video">
-                <video class="videoHeader" controls>
+              <div v-for="video in videos" :key="video" class="video" @click="$router.push({ name: 'Video', query: { videoid: video._id } })">
+                <video class="videoHeader" controls  :id="`videoElement${video._id}Id`" @mouseenter="videoHoverHandler(`videoElement${video._id}Id`)" @mouseleave="videoHoutHandler(`videoElement${video._id}Id`)">
                   <source :src="`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`" />
                 </video>
                 <div class="videoFooter">
@@ -193,6 +193,12 @@ export default {
     })
   },
   methods: {
+    videoHoutHandler(videoId) {
+      document.getElementById(videoId).pause()
+    },
+    videoHoverHandler(videoId) {
+      document.getElementById(videoId).play()
+    },
     getChannel(channelId) {
       fetch(`http://localhost:4000/api/channels/get/?channelid=${channelId}`, {
         mode: 'cors',
