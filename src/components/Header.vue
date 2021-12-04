@@ -32,13 +32,18 @@
             </div>
         </div>
         <div v-if="avatarContextMenu && isAuth" class="avatarContextMenu">
-            <div class="avatarContextMenuItem" @click="avatarContextMenu = false; isCreateChannelDialog = true">
+            <div class="avatarContextMenuItem" @click="toChannel">
                 <div class="avatarContextMenuElement">
                     <span class="material-icons-outlined avatarContextMenuElementIcon">
                         person
                     </span>
                     <span>
-                        Создать канал
+                        {{
+                            bloger.channels.length <= 0 ?
+                                'Создать канал'
+                            :
+                                'Мой канал'
+                        }}
                     </span>
                 </div>
                 <span>
@@ -89,7 +94,7 @@
                     <span class="material-icons-outlined avatarContextMenuElementIcon">
                         logout
                     </span>
-                    <span @click="$router.push({ name: 'Home' })">
+                    <span @click="logout">
                         Выйти
                     </span>
                 </div>
@@ -368,6 +373,11 @@ export default {
             blogerPassword: '',
             isCreateBlogerDialog: false,
             isCheckBlogerDialog: false,
+            bloger: {
+                login: '',
+                password: '',
+                channels: []
+            },
             token: window.localStorage.getItem("videocachetoken")
         }
     },
@@ -382,12 +392,68 @@ export default {
     ],
     mounted() {
         jwt.verify(this.token, 'videocachesecret', (err, decoded) => {
-            if (!err) {
-                this.isAuth = true
+            if (err) {
+                alert('Не могу получить блогера')
+                this.$router.push({ name: 'Home' })
+            } else {
+                this.getBloger(decoded.bloger)
             }
         })
     },
     methods: {
+        getBloger(login) {
+            
+            fetch(`http://localhost:4000/api/blogers/get/?blogerlogin=${login}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    this.isAuth = true
+                    this.bloger = JSON.parse(result).bloger
+                    alert('Получил блогера')
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу получить блогера')
+                }
+            })
+        },
+        toChannel() {
+            if (this.bloger.channels.length <= 0) {
+                this.avatarContextMenu = false
+                this.isCreateChannelDialog = true
+            } else if (this.bloger.channels.length >= 1) {
+                this.$router.push({ name: 'Channel', query: { channelid: this.bloger.channels[0].id } })
+            }
+        },
+        logout() {
+            this.token = jwt.sign({
+                bloger: this.blogerLogin
+            }, 'videocachesecret', { expiresIn: 1 })
+            localStorage.removeItem('videocachetoken')
+            this.isAuth = false
+            this.avatarContextMenu = false
+        },
         checkBloger() {
 
             fetch(`http://localhost:4000/api/blogers/check/?blogerlogin=${this.blogerLogin}&blogerpassword=${this.blogerPassword}`, {
@@ -416,15 +482,16 @@ export default {
                 return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
             })
             .then(result => {
-                if (JSON.parse(result).status.includes('OK')) {
+                if (JSON.parse(result).status === 'OK') {
                     this.token = jwt.sign({
                         bloger: this.blogerLogin
                     }, 'videocachesecret', { expiresIn: '5m' })
                     localStorage.setItem('videocachetoken', this.token)
                     this.isAuth = true
                     this.isCheckBlogerDialog = false
+                    this.getBloger(this.blogerLogin)
                     alert('Вошел блогером')
-                } else if(JSON.parse(result).status.includes('Error')) {
+                } else if (JSON.parse(result).status === 'Error') {
                     alert('Не могу войти блогером')
                 }
             })
@@ -458,11 +525,11 @@ export default {
                 return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
             })
             .then(result => {
-                if (JSON.parse(result).status.includes('OK')) {
+                if (JSON.parse(result).status === 'OK') {
                     this.isAuth = true
                     this.isCreateBlogerDialog = false
                     alert('Создал блогера')
-                } else if(JSON.parse(result).status.includes('false')) {
+                } else if (JSON.parse(result).status === 'Error') {
                     alert('Не могу создать блогера')
                 }
             })
@@ -470,7 +537,7 @@ export default {
         },
         createChannel() {
             
-            fetch(`http://localhost:4000/api/blogers/create/?blogerlogin=${this.blogerLogin}&blogerpassword=${this.blogerPassword}`, {
+            fetch(`http://localhost:4000/api/channels/create/?blogerid=${this.bloger._id}&channelname=${this.channelName}`, {
                 mode: 'cors',
                 method: 'GET'
             }).then(response => response.body).then(rb  => {
@@ -496,10 +563,11 @@ export default {
                 return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
             })
             .then(result => {
-                if (JSON.parse(result).status.includes('OK')) {
+                if (JSON.parse(result).status === 'OK') {
                     this.isCreateChannelDialog = false
                     alert('Создал канал')
-                } else if(JSON.parse(result).status.includes('false')) {
+                    this.getBloger(this.bloger.login)
+                } else if (JSON.parse(result).status === 'Error') {
                     alert('Не могу создать канал')
                 }
             })
