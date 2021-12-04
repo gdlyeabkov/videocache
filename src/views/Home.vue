@@ -198,6 +198,7 @@ export default {
     },
     videoHoverHandler(videoId) {
       document.getElementById(videoId).play()
+      
     },
     getChannel(channelId) {
       fetch(`http://localhost:4000/api/channels/get/?channelid=${channelId}`, {
