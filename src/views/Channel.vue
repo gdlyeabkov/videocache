@@ -24,7 +24,7 @@
                             <button class="btn btn-primary channelBtn">
                                 Настроить вид канала
                             </button>
-                            <button class="btn btn-primary channelBtn">
+                            <button class="btn btn-primary channelBtn" @click="$router.push({ name: 'Studio', query: { channelid: channel._id } })">
                                 Видео
                             </button>
                             <span class="exportCSVLabel">

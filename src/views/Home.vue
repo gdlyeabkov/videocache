@@ -85,27 +85,41 @@
               chevron_right
             </span>
           </div>
-          <div class="videos">
+          <div v-if="videos.length <= 0" class="notFoundVideo">
+            <span>
+              Нет опубликованных видео
+            </span>
+          </div>
+          <div v-else class="videos">
             <div class="videosColum">
-              <div v-for="video in 10" :key="video" class="video">
+              <div v-for="video in videos" :key="video" class="video">
                 <video class="videoHeader" controls>
-                  <source src="../assets/video_example.mp4" />
+                  <source :src="`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`" />
                 </video>
                 <div class="videoFooter">
-                  <div class="videoAvatar videoItem">
+                  <div :style="`background-image: url('${`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`}');`" class="videoAvatar videoItem">
                     
                   </div>
                   <div class="aboutVideo videoItem">
                     <span class="videoName">
-                      Selena Gomez, Ava Max - Break My Heart
+                      {{
+                        video.name
+                      }}
                     </span>
                     <span>
-                      Atlantic Music
+                      {{
+                        video.channelName
+                      }}
                     </span>
                     <span>
-                      2,9 млн просмотров
+                      {{
+                        video.views
+                      }} просмотров
                     </span>
                     <span>
+                      {{
+                        `${video.created.split('T')[0].split('-')[2]}/${video.created.split('T')[0].split('-')[1]}/${video.created.split('T')[0].split('-')[0]}`
+                      }}
                       2 недели назад
                     </span>
                   </div>
@@ -139,10 +153,81 @@ export default {
     return {
       burger: false,
       activeTab: 'Home',
-      videoFilter: 'Все'
+      videoFilter: 'Все',
+      videos: []
     }
   },
+  mounted() {
+    fetch(`http://localhost:4000/api/videos/all/`, {
+      mode: 'cors',
+      method: 'GET'
+    }).then(response => response.body).then(rb  => {
+        const reader = rb.getReader()
+        return new ReadableStream({
+            start(controller) {
+                function push() {
+                    reader.read().then( ({done, value}) => {
+                        if (done) {
+                            console.log('done', done);
+                            controller.close();
+                            return;
+                        }
+                        controller.enqueue(value);
+                        console.log(done, value);
+                        push();
+                    })
+                }
+                push();
+            }
+        });
+    }).then(stream => {
+        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+    })
+    .then(result => {
+        if (JSON.parse(result).status === 'OK') {
+            this.videos = JSON.parse(result).videos
+            alert('Получил группу видео')
+        } else if (JSON.parse(result).status === 'Error') {
+            alert('Не могу получить группу видео')
+        }
+    })
+  },
   methods: {
+    getChannel(channelId) {
+      fetch(`http://localhost:4000/api/channels/get/?channelid=${channelId}`, {
+        mode: 'cors',
+        method: 'GET'
+      }).then(response => response.body).then(rb  => {
+        const reader = rb.getReader()
+        return new ReadableStream({
+          start(controller) {
+            function push() {
+              reader.read().then( ({done, value}) => {
+                if (done) {
+                  console.log('done', done);
+                  controller.close();
+                  return;
+                }
+                controller.enqueue(value);
+                console.log(done, value);
+                push();
+              })
+            }
+            push();
+          }
+        });
+      }).then(stream => {
+        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+      })
+    .then(result => {
+      if (JSON.parse(result).status === 'OK') {
+        alert('Получил канал')
+        return JSON.parse(result).channel
+      } else if (JSON.parse(result).status === 'Error') {
+        alert('Не могу получить канал')
+      }
+    })
+  },
     toggleBurgerHandler(toggler) {
       this.burger = toggler
     },
@@ -247,7 +332,8 @@ export default {
   }
   
   .video {
-    width: 20%;
+    /* width: 20%; */
+    width: 225px;
     float: left;
     margin: 25px;
     display: flex;
@@ -286,6 +372,12 @@ export default {
 
   .videoItem {
     margin: 5px;
+  }
+
+  .notFoundVideo {
+    display: flex;
+    justify-content: center;
+    margin: 50px 0px;
   }
 
 </style>

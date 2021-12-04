@@ -75,9 +75,14 @@ const PlayListModel = mongoose.model('PlayListModel', PlayListSchema)
 
 const VideoSchema = new mongoose.Schema({
   name: String,
-  blogger: String,
+  channel: String,
+  channelName: String,
   likes: [mongoose.Schema.Types.Map],
   dislikes: [mongoose.Schema.Types.Map],
+  views: {
+    type: Number,
+    default: 0
+  },
   created: {
       type: Date,
       default: Date.now
@@ -202,14 +207,15 @@ app.get('/api/blogers/check', (req,res) => {
   })
 })
 
-app.get('/api/videos/get', (req, res) => {
+app.get('/api/videos/source/get', (req, res) => {
         
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
   
-  return res.sendFile(__dirname + `/uploads/${req.query.videoname}.mp4`)
+  // return res.sendFile(__dirname + `/uploads/${req.query.videoname}.mp4`)
+  return res.sendFile(__dirname + `/uploads/${req.query.videoname}`)
 
 })
 
@@ -245,6 +251,61 @@ app.get('/api/channels/get', (req, res) => {
     }
   })
   
+})
+
+app.post('/api/videos/upload', upload.single('myFile'), (req, res) => {
+  
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+
+  let videoName = ''
+  if (req.file) {
+    videoName = req.file.originalname
+  }
+  let newVideo = new VideoModel({ name: videoName, channel: req.query.channelid, channelName: req.query.channelname })
+  newVideo.save(function (err, video) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      ChannelModel.updateOne({ _id: req.query.channelid },
+        { $push: 
+          {
+            videos: [
+              {
+                id: video._id.toString()
+              }
+            ] 
+          }
+      }, (err, channel) => {
+        if (err) {
+            return res.json({ "status": "Error" })
+        } else {
+          return res.redirect('http://localhost:8080/')
+        }
+      })
+    }
+  })
+
+})
+
+app.get('/api/videos/all', (req, res) => {
+
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query = VideoModel.find({})
+  query.exec((err, allVideos) => {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      return res.json({ status: 'OK', videos: allVideos })
+    }
+  })
+
 })
 
 app.get('**', (req, res) => { 
