@@ -9,6 +9,18 @@ const storage = multer.diskStorage({
     }
 })
 const upload = multer({ storage: storage })
+
+const storageForChannels = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'channels')
+  },
+  filename: function (req, file, cb) {
+    // cb(null, file.originalname)
+    cb(null, `${req.query.channelname}.png`)
+  }
+})
+const uploadForChannels = multer({ storage: storageForChannels })
+
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 
@@ -175,6 +187,54 @@ app.get('/api/channels/create', async (req, res) => {
   })
 })
 
+app.post('/api/channels/create', uploadForChannels.single('myFile'), async (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query = ChannelModel.find({})
+  query.exec((err, allChannels) => {
+      if (err) {
+          return res.json({ "status": "Error" })
+      }
+      let channelExists = false
+      allChannels.forEach(channel => {
+        if (channel.name.includes(req.query.channelname)) {
+          channelExists = true
+        }
+      })
+      if (channelExists) {
+        return res.json({ status: 'Error' })
+      } else {
+          let newChannel = new ChannelModel({ name: req.query.channelname, bloger: req.query.blogerid })
+          newChannel.save(function (err, channel) {
+            if (err) {
+              return res.json({ "status": "Error" })
+            } else {
+              BlogerModel.updateOne({ _id: req.query.blogerid },
+                { $push: 
+                  {
+                    channels: [
+                      {
+                        id: channel._id.toString()
+                      }
+                    ] 
+                  }
+              }, (err, user) => {
+                if(err){
+                    return res.json({ "status": "Error" })
+                } else {
+                  return res.redirect('http://localhost:8080/')
+                }
+              })
+            }
+          })
+      }
+  })
+})
+
 app.get('/api/blogers/check', (req,res) => {
   
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -216,6 +276,17 @@ app.get('/api/videos/source/get', (req, res) => {
   
   // return res.sendFile(__dirname + `/uploads/${req.query.videoname}.mp4`)
   return res.sendFile(__dirname + `/uploads/${req.query.videoname}`)
+
+})
+
+app.get('/api/channels/source/get', (req, res) => {
+        
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  return res.sendFile(__dirname + `/channels/${req.query.channelname}.png`)
 
 })
 
@@ -303,6 +374,23 @@ app.get('/api/videos/all', (req, res) => {
       return res.json({ "status": "Error" })
     } else {
       return res.json({ status: 'OK', videos: allVideos })
+    }
+  })
+
+})
+
+app.get('/api/video/get', (req, res) => {
+
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  VideoModel.findOne({ _id: req.query.videoid }, function(err, video) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      return res.json({ "status": "OK", video: video })
     }
   })
 

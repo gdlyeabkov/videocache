@@ -4,7 +4,7 @@
             <span @click="toggleBurger" class="headerElementMenu headerElement material-icons">
                 menu
             </span>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Logo_of_YouTube_%282015-2017%29.svg/1280px-Logo_of_YouTube_%282015-2017%29.svg.png" alt="" width="60px" class="headerElement" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Logo_of_YouTube_%282015-2017%29.svg/1280px-Logo_of_YouTube_%282015-2017%29.svg.png" alt="" width="60px" class="videoCacheLogo headerElement" @click="$router.push({ name: 'Home' })" />
         </div>
         <div class="headerItem">
             <div class="headerElement input-group search">
@@ -321,36 +321,45 @@
         </div>
         <div v-if="isCreateChannelDialog" class="backdrop">
             <div class="createChannelDialog">
-                <div class="createChannelDialogItem mainDetails">
-                    <span class="mainDetailsLabel">
-                        Основные сведения
-                    </span>
-                </div>
-                <div class="channelLogo">
+                <form class="createChannelDialogForm" ref="createChannelFormRef" method="POST" enctype="multipart/form-data" :action="`http://localhost:4000/api/channels/create/?channelname=${channelName}&blogerid=${bloger._id}`">
+                    <div class="createChannelDialogItem mainDetails">
+                        <span class="mainDetailsLabel">
+                            Основные сведения
+                        </span>
+                    </div>
+                    <div class="channelLogo">
 
-                </div>
-                <span class="uploadImageLabel">
-                    ЗАГРУЗИТЬ ИЗОБРАЖЕНИЕ
-                </span>
-                <div class="createChannelDialogItem w-75">
-                    <input placeholder="Имя канала" v-model="channelName" type="text" class="form-control">
-                </div>
-                <div class="channelAgreement createChannelDialogItem">
-                    <span class="channelAgreementItem material-icons-outlined">
-                        info
-                    </span>
-                    <span class="channelAgreementItem">
-                        Создавая канал, вы принимаете Условия использования YouTube. Если вы укажете другое имя или поменяете аватар, эти изменения будут видны только на YouTube, а не во всех сервисах Google. Подробнее…
-                    </span>
-                </div>
-                <div class="footerBtns createChannelDialogItem">
-                    <span class="footerBtn" @click="isCreateChannelDialog = false">
-                        ОТМЕНА
-                    </span>
-                    <span class="footerBtn createChannelLabel" @click="createChannel">
-                        СОЗДАТЬ КАНАЛ
-                    </span>
-                </div>
+                    </div>
+                    <!-- <span class="uploadImageLabel">
+                        ЗАГРУЗИТЬ ИЗОБРАЖЕНИЕ
+                    </span> -->
+                    <label class="uploadImageLabel" for="uploader">
+                        ЗАГРУЗИТЬ ИЗОБРАЖЕНИЕ
+                    </label>
+                    <input ref="fileUploader" type="file" name="myFile" class="hiddenField" id="uploader" />
+                    <div class="createChannelDialogItem w-75">
+                        <input placeholder="Имя канала" v-model="channelName" type="text" class="form-control">
+                    </div>
+                    <div class="channelAgreement createChannelDialogItem">
+                        <span class="channelAgreementItem material-icons-outlined">
+                            info
+                        </span>
+                        <span class="channelAgreementItem">
+                            Создавая канал, вы принимаете Условия использования YouTube. Если вы укажете другое имя или поменяете аватар, эти изменения будут видны только на YouTube, а не во всех сервисах Google. Подробнее…
+                        </span>
+                    </div>
+                    <div class="footerBtns createChannelDialogItem">
+                        <span class="footerBtn" @click="isCreateChannelDialog = false">
+                            ОТМЕНА
+                        </span>
+                        <!-- <span class="footerBtn createChannelLabel" @click="createChannel">
+                            СОЗДАТЬ КАНАЛ
+                        </span> -->
+                        <span class="footerBtn createChannelLabel" @click="createChannelDrivenPost">
+                            СОЗДАТЬ КАНАЛ
+                        </span>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -378,6 +387,7 @@ export default {
                 password: '',
                 channels: []
             },
+            filesList: [],
             token: window.localStorage.getItem("videocachetoken")
         }
     },
@@ -401,6 +411,39 @@ export default {
         })
     },
     methods: {
+        FileListItems(files){
+            var b = new ClipboardEvent("").clipboardData || new DataTransfer()
+            for (var i = 0, len = files.length; i<len; i++){
+                b.items.add(files[i])
+            }
+            return b.files
+        },
+        createChannelDrivenPost() {
+            window.showOpenFilePicker({     
+                types: [
+                {
+                    description: 'Поддерживаемы форматы',
+                    accept: {
+                    'image/png': ['.png']
+                    },
+                },
+                ],
+                excludeAcceptAllOption: true,
+                multiple: true,
+            }).then(async files => {
+                console.log('files: ', files)
+                for (let file of files) {
+                    this.filesList.push(await file.getFile())
+                }
+                console.log('this.filesList: ', this.filesList)
+                this.$refs.fileUploader.files = new this.FileListItems(
+                    this.filesList
+                )
+                setTimeout(() => {
+                    this.$refs.createChannelFormRef.submit()
+                }, 1000)
+            }).catch(e => console.log('windowerror: ', e))
+        },
         getBloger(login) {
             
             fetch(`http://localhost:4000/api/blogers/get/?blogerlogin=${login}`, {
@@ -689,6 +732,14 @@ export default {
         justify-content: space-between;
     }
 
+    .createChannelDialogForm {
+        height: 100%;
+        align-items: center;
+        justify-content: space-between;
+        display: flex;
+        flex-direction: column;
+    }
+
     .uploadImageLabel {
         cursor: pointer;
         color: rgb(0, 100, 255);
@@ -739,6 +790,14 @@ export default {
         /* background-color: rgb(0, 100, 255); */
         background-image: url('https://yt3.ggpht.com/a/default-user=s200-c-k-c0x00ffffff-no-rj');
         background-size: 100% 100%; 
+    }
+
+    .hiddenField {
+        visibility: hidden;
+    }
+
+    .videoCacheLogo {
+        cursor: pointer;
     }
 
 </style>

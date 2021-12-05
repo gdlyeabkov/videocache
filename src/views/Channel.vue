@@ -1,11 +1,11 @@
 <template>
     <div>
         <Header :burger="burger" @toggleBurger="toggleBurgerHandler" />
-        <div clas="main">
+        <div class="main">
             <Aside :burger="burger" :activeTab="activeTab" @changeActiveTab="changeActiveTabHandler" />        
             <div class="article" :style="`left: ${burger ? '20%' : '10%'}`">
                 <div v-if="activeTab === 'Channel'">
-                    <div class="aso">
+                    <div class="aso" :style="`background-image: url('http://localhost:4000/api/channels/source/get/?channelname=${channel.name}');`">
                         
                     </div>
                     <div class="channelHeader">
@@ -58,10 +58,11 @@
                                 О КАНАЛЕ
                             </span>
                         </div>
-                        <div :class="{ channelTab: true, activeChannelTab: activeChannelTab === 'Search' }" @click="activeChannelTab = 'Search'">
+                        <div :class="{ channelTab: true, searchChannelTab: true, activeChannelTab: activeChannelTab === 'Search' }" @click="activeChannelTab = 'Search'">
                             <span class="material-icons">
                                 search
                             </span>
+                            <input v-if="activeChannelTab === 'Search'" v-model="keywords" placeholder="Поиск" type="text" class="form-control searchField" />
                         </div>
                         <div :class="{ channelTab: true, activeChannelTab: activeChannelTab === 'Popular' }" @click="activeChannelTab = 'Popular'">
                             <span>
@@ -75,18 +76,196 @@
                         </div>
                     </div>
                     <hr />
-                    <div class="videoFormats">
-                        <div class="videoFormat">
-                            <div class="videoFormatHeader">
-                                <span>
-                                    Все видео
+                    <div v-if="activeChannelTab === 'Main'">
+                        <div class="videoFormats">
+                            <div class="videoFormat">
+                                <div class="videoFormatHeader">
+                                    <span class="allVideosLabel videoFormatHeaderItem">
+                                        Все видео
+                                    </span>
+                                    <span class="playAllLabel videoFormatHeaderItem">
+                                        ВОСПРОИЗВЕСТИ ВСЕ
+                                    </span>
+                                </div>
+                                <div class="videoFormatBody">
+                                    <div v-for="video in videos" :key="video" class="video" @click="$router.push({ name: 'Video', query: { videoid: video._id } })">
+                                        <video controls >
+                                            <source :src="`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`" />
+                                        </video>
+                                        <span>
+                                            {{
+                                                video.name
+                                            }}
+                                        </span>
+                                        <div class="videoFooter">
+                                            <span>
+                                                {{
+                                                    video.views
+                                                }} просмотр
+                                            </span>
+                                            <span>
+                                                {{
+                                                    `${video.created.split('T')[0].split('-')[2]}/${video.created.split('T')[0].split('-')[1]}/${video.created.split('T')[0].split('-')[0]}`
+                                                }}
+                                                1 месяц назад
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="activeChannelTab === 'Video'">
+                        <div class="videoFormats">
+                            <div class="videoFormat">
+                                <div class="videoFormatHeader">
+                                    <span class="allVideosLabel videoFormatHeaderItem">
+                                        Загрузки
+                                    </span>
+                                    <span class="playAllLabel videoFormatHeaderItem">
+                                        ВОСПРОИЗВЕСТИ ВСЕ
+                                    </span>
+                                    <span class="allVideosLabel videoFormatHeaderItem">
+                                        ТОП ТЕГИ
+                                    </span>
+                                </div>
+                                <div class="videoFormatBody">
+                                    <div v-for="video in videos" :key="video" class="video" @click="$router.push({ name: 'Video', query: { videoid: video._id } })">
+                                        <video controls >
+                                            <source :src="`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`" />
+                                        </video>
+                                        <span>
+                                            {{
+                                                video.name
+                                            }}
+                                        </span>
+                                        <div class="videoFooter">
+                                            <span>
+                                                {{
+                                                    video.views
+                                                }} просмотр
+                                            </span>
+                                            <span>
+                                                {{
+                                                    `${video.created.split('T')[0].split('-')[2]}/${video.created.split('T')[0].split('-')[1]}/${video.created.split('T')[0].split('-')[0]}`
+                                                }}
+                                                1 месяц назад
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="activeChannelTab === 'PlayLists'">
+                        <div class="videoFormats">
+                            <div class="videoFormat">
+                                <div class="videoFormatHeader">
+                                    <span class="allVideosLabel videoFormatHeaderItem">
+                                        Все плэйлисты
+                                    </span>
+                                    <span class="allVideosLabel videoFormatHeaderItem">
+                                        ТОП ТЕГИ
+                                    </span>
+                                </div>
+                                <div class="videoFormatBody">
+                                    <div v-for="video in videos" :key="video" class="video" @click="$router.push({ name: 'Video', query: { videoid: video._id } })">
+                                        <video controls >
+                                            <source :src="`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`" />
+                                        </video>
+                                        <span class="likedVideoLabel">
+                                            Понравившиеся
+                                        </span>
+                                        <div class="videoFooter">
+                                            <span class="material-icons-outlined">
+                                                shopping_bag
+                                            </span>
+                                            <span>
+                                                Ограниченный доступ
+                                            </span>
+                                        </div>
+                                        <span class="showPlayListLabel">
+                                            ПОСМОТРЕТЬ ВЕСЬ ПЛЭЙЛИСТ
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="activeChannelTab === 'Channels'">
+                        <div class="notFoundChannels">
+                            <span>
+                                Здесь нет ссылок на другие каналы.
+                            </span>
+                        </div>
+                    </div>
+                    <div v-else-if="activeChannelTab === 'About'">
+                        <div class="aboutChannel">
+                            <div class="aboutChannelAside">
+                                <span class="aboutChannelElement aboutChannelAsideItemHeader">
+                                    Описание
                                 </span>
-                                <span>
-                                    ВОСПРОИЗВЕСТИ ВСЕ
+                                <span class="aboutChannelElement">
+                                    это канал карась геймс, мой канал о разработке моих инди игр. Также можно следить за разработкой в группе вк
+                                </span>
+                                <span class="aboutChannelElement">
+                                    https://vk.com/karasgames
                                 </span>
                             </div>
-                            <div class="videoFormatBody">
-                                
+                            <div class="aboutChannelArticle">
+                                    <span class="aboutChannelElement aboutChannelArticleItem aboutChannelArticleItemHeader">
+                                        Статистика
+                                    </span>
+                                    <span class="aboutChannelElement aboutChannelArticleItem">
+                                        Дата регистрации: 26 июн. 2021 г.
+                                    </span>
+                                    <span class="aboutChannelElement aboutChannelArticleItem">
+                                        1 564 просмотра
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="activeChannelTab === 'Search'">
+                        <div v-if="videos.filter(video => video.name.toLowerCase().includes(keywords.toLowerCase())).length <= 0" class="notFoundChannels">
+                            <span>
+                                На этом канале нет материалов, которые соответствуют запросу "{{ keywords }}".
+                            </span>
+                        </div>
+                        <div v-else-if="videos.filter(video => video.name.toLowerCase().includes(keywords.toLowerCase())).length >= 1" class="videoFormats">
+                            <div class="videoFormat">
+                                <div class="videoFormatHeader">
+                                    <span class="allVideosLabel videoFormatHeaderItem">
+                                        Все видео
+                                    </span>
+                                    <span class="playAllLabel videoFormatHeaderItem">
+                                        ВОСПРОИЗВЕСТИ ВСЕ
+                                    </span>
+                                </div>
+                                <div class="videoFormatBody">
+                                    <div v-for="video in videos" :key="video" class="video" @click="$router.push({ name: 'Video', query: { videoid: video._id } })">
+                                        <video controls >
+                                            <source :src="`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`" />
+                                        </video>
+                                        <span>
+                                            {{
+                                                video.name
+                                            }}
+                                        </span>
+                                        <div class="videoFooter">
+                                            <span>
+                                                {{
+                                                    video.views
+                                                }} просмотр
+                                            </span>
+                                            <span>
+                                                {{
+                                                    `${video.created.split('T')[0].split('-')[2]}/${video.created.split('T')[0].split('-')[1]}/${video.created.split('T')[0].split('-')[0]}`
+                                                }}
+                                                1 месяц назад
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -117,45 +296,87 @@ export default {
             channel: {
 
             },
+            videos: [],
+            keywords: '',
             token: window.localStorage.getItem("videocachetoken")
         }
     },
     mounted() {
-        fetch(`http://localhost:4000/api/channels/get/?channelid=${this.$route.query.channelid}`, {
-            mode: 'cors',
-            method: 'GET'
-        }).then(response => response.body).then(rb  => {
-            const reader = rb.getReader()
-            return new ReadableStream({
-                start(controller) {
-                    function push() {
-                        reader.read().then( ({done, value}) => {
-                            if (done) {
-                                console.log('done', done);
-                                controller.close();
-                                return;
-                            }
-                            controller.enqueue(value);
-                            console.log(done, value);
-                            push();
-                        })
-                    }
-                    push();
-                }
-            });
-        }).then(stream => {
-            return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
-        })
-        .then(result => {
-            if (JSON.parse(result).status === 'OK') {
-                this.channel = JSON.parse(result).channel
-                alert('Получил канал')
-            } else if (JSON.parse(result).status === 'Error') {
-                alert('Не могу получить канал')
-            }
-        })
+        this.getChannel()
+        this.getVideos()
     },
     methods: {
+        getVideos() {
+            fetch(`http://localhost:4000/api/videos/all/`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    this.videos = JSON.parse(result).videos
+                    this.videos = this.videos.filter(video => video.channel === this.$route.query.channelid)
+                    alert('Получил группу видео')
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу получить группу видео')
+                }
+            })
+        },
+        getChannel() {
+            fetch(`http://localhost:4000/api/channels/get/?channelid=${this.$route.query.channelid}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    this.channel = JSON.parse(result).channel
+                    alert('Получил канал')
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу получить канал')
+                }
+            })
+        },
         changeActiveTabHandler(tab) {
           this.activeTab = tab
         },
@@ -186,7 +407,7 @@ export default {
         overflow-y: scroll;
         box-sizing: border-box;
         padding: 35px;
-        position: fixed;
+        position: absolute;
         left: 10%;
         top: 65px;
         background-color: rgb(240, 240, 240);
@@ -276,8 +497,94 @@ export default {
     }
 
     .videoFormatHeader {
+        cursor: pointer;
         display: flex;
     }
 
+    .video {
+        cursor: pointer;
+        width: 225px;
+        float: left;
+        display: flex;
+        flex-direction: column;
+        margin: 25px;
+    }
+
+    .videoFormatHeaderItem {
+        margin: 0px 10px;
+    }
+
+    .allVideosLabel {
+        font-weight: bolder;
+    }
+
+    .playAllLabel {
+        font-size: 18px;
+        color: rgb(125, 125, 125);
+    }
+
+    .videoFooter {
+        display: flex;
+        font-size: 12px;
+        color: rgb(125, 125, 125);
+        justify-content: space-between;
+    }
+
+    .likedVideoLabel {
+        font-weight: bolder;
+    }
+
+    .showPlayListLabel {
+        font-weight: bolder;
+        color: rgb(125, 125, 125);
+    }
+
+    .notFoundChannels {
+        margin: 75px 0px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .aboutChannel {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .aboutChannelAside {
+        display: flex;
+        flex-direction: column;
+        border-bottom: 1px solid rgb(150, 150, 150);
+    }
+
+    .aboutChannelArticle {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .aboutChannelArticleItem {
+        border-bottom: 1px solid rgb(150, 150, 150);
+    }
+
+    .aboutChannelArticleItemHeader, .aboutChannelAsideItemHeader {
+        font-weight: bolder;
+        font-size: 18px;
+        padding: 15px 0px;
+    }
+
+    .aboutChannelElement {
+        margin: 15px 0px;
+    }
+
+    .searchField {
+        width: 135px;
+        margin: 0px 5px;
+        height: 28px;
+    }
+
+    .searchChannelTab {
+        display: flex;
+        align-items: center;
+    }
+    
 
 </style>

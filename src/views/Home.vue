@@ -339,6 +339,7 @@ export default {
   }
   
   .video {
+    cursor: pointer;
     /* width: 20%; */
     width: 225px;
     float: left;
