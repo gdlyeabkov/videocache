@@ -146,7 +146,7 @@
                     <span class="material-icons-outlined avatarContextMenuElementIcon">
                         settings
                     </span>
-                    <span @click="$router.push({ name: 'Home' })">
+                    <span @click="$router.push({ name: 'Settings' })">
                         Настройки
                     </span>
                 </div>
