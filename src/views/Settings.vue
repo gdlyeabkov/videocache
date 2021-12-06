@@ -11,7 +11,7 @@
                     <div class="accoutHeader">
                         <div class="accoutHeaderItem">
                             <span class="accoutHeaderElement accoutHeaderElementHeader">
-                                Добавьте сведения о себе и настройте доступ к функциям YouTube
+                                Добавьте сведения о себе и настройте доступ к функциям VideoCache
                             </span>
                             <span class="accoutHeaderElement">
                                 Вы вошли в аккаунт karasgames2000@gmail.com
@@ -23,10 +23,10 @@
 
                     </div>
                     <span class="seetingsTabHeader">
-                        Ваш канал YouTube
+                        Ваш канал VideoCache
                     </span>
                     <span>
-                        Чтобы загружать ролики, оставлять комментарии, создавать плейлисты и пользоваться другими функциями YouTube, нужно создать канал. 
+                        Чтобы загружать ролики, оставлять комментарии, создавать плейлисты и пользоваться другими функциями VideoCache, нужно создать канал. 
                     </span>
                     <div class="myChannel">
                         <span class="seetingsTabHeader">
@@ -57,7 +57,7 @@
                         Ваш аккаунт
                     </span>
                      <span>
-                        Для входа на YouTube используется аккаунт Google. 
+                        Для входа на VideoCache используется аккаунт Google. 
                     </span>
                     <div class="myChannel">
                         <span class="seetingsTabHeader">
@@ -78,10 +78,10 @@
                         </span>
                         <div class="myChannelInfo">
                             <span>
-                                Подписка YouTube Premium не оформлена. | Оформить YouTube Premium
+                                Подписка VideoCache Premium не оформлена. | Оформить VideoCache Premium
                             </span>
                             <span>
-                                С подпиской YouTube Premium вас ждет музыка в фоновом режиме, видео без рекламы и многое другое.
+                                С подпиской VideoCache Premium вас ждет музыка в фоновом режиме, видео без рекламы и многое другое.
                             </span>
                         </div>
                     </div>
@@ -117,7 +117,7 @@
                         <div class="myChannelInfo">
                             <div class="myChannelColumn">
                                 <div class="privacyRow">
-                                    <input type="checkbox" class="privacyRowItem" />
+                                    <input @change="setIsSubs" :value="bloger.isSubs" type="checkbox" class="privacyRowItem" />
                                     <span class="privacyRowItem seetingsTabHeader">
                                         Подписки
                                     </span>
@@ -130,7 +130,7 @@
                             </div>
                             <div class="myChannelColumn">
                                 <div class="privacyRow">
-                                    <input type="checkbox" class="privacyRowItem" />
+                                    <input @change="setIsRecomendedVideo" :value="bloger.isRecomendedVideo" type="checkbox" class="privacyRowItem" />
                                     <span class="seetingsTabHeader privacyRowItem">                                    
                                         Рекомендованные видео
                                     </span>
@@ -143,7 +143,7 @@
                             </div>
                             <div class="myChannelColumn">
                                 <div class="privacyRow">
-                                    <input type="checkbox" class="privacyRowItem" />
+                                    <input @change="setIsActionsForChannel" :value="bloger.isActionsForChannel" type="checkbox" class="privacyRowItem" />
                                     <span class="seetingsTabHeader privacyRowItem">                                    
                                         Действия на канале
                                     </span>
@@ -156,7 +156,7 @@
                             </div>
                             <div class="myChannelColumn">
                                 <div class="privacyRow">
-                                    <input type="checkbox" class="privacyRowItem" />
+                                    <input @change="setIsActionsForComments" :value="bloger.isActionsForComments" type="checkbox" class="privacyRowItem" />
                                     <span class="seetingsTabHeader privacyRowItem">                                    
                                         Действия с комментариями
                                     </span>
@@ -169,7 +169,7 @@
                             </div>
                             <div class="myChannelColumn">
                                 <div class="privacyRow">
-                                    <input type="checkbox" class="privacyRowItem" />
+                                    <input @change="setIsAnswersForComments" :value="bloger.isAnswersForComments" type="checkbox" class="privacyRowItem" />
                                     <span class="seetingsTabHeader privacyRowItem">                                    
                                         Ответы на комментарии
                                     </span>
@@ -182,7 +182,7 @@
                             </div>
                             <div class="myChannelColumn">
                                 <div class="privacyRow">
-                                    <input type="checkbox" class="privacyRowItem" />
+                                    <input @change="setIsMentions" :value="bloger.isMentions" type="checkbox" class="privacyRowItem" />
                                     <span class="seetingsTabHeader privacyRowItem">                                    
                                         Упоминания
                                     </span>
@@ -195,7 +195,7 @@
                             </div>
                             <div class="myChannelColumn">
                                 <div class="privacyRow">
-                                    <input type="checkbox" class="privacyRowItem" />
+                                    <input @change="setIsRecords" :value="bloger.isRecords" type="checkbox" class="privacyRowItem" />
                                     <span class="seetingsTabHeader privacyRowItem">                                    
                                         Записи с моим контентом на других каналах
                                     </span>
@@ -224,9 +224,9 @@
                         <div class="myChannelInfo">
                             <div class="myChannelColumn">
                                 <div class="privacyRow">
-                                    <input type="checkbox" class="privacyRowItem" />
+                                    <input @change="setIsMailing" :value="bloger.isMailing" type="checkbox" class="privacyRowItem" />
                                     <span class="privacyRowItem seetingsTabHeader">
-                                        Новости YouTube и YouTube Детям, а также рекомендации для всей семьи
+                                        Новости VideoCache и VideoCache Детям, а также рекомендации для всей семьи
                                     </span>
                                 </div>
                                 <div class="myChannelInfo">
@@ -244,7 +244,7 @@
                         <div class="myChannelInfo">
                             <div class="myChannelColumn">
                                 <div class="privacyRow">
-                                    <input type="checkbox" class="privacyRowItem" />
+                                    <input @change="setIsPermission" :value="bloger.isPermission" type="checkbox" class="privacyRowItem" />
                                     <span class="privacyRowItem seetingsTabHeader">
                                         Уведомления о последних действиях на моем канале и новости сервиса (кроме тех, на которые отменена подписка)
                                     </span>
@@ -264,9 +264,9 @@
                         <div class="myChannelInfo">
                             <div class="myChannelColumn">
                                 <div class="privacyRow">
-                                    <input type="checkbox" class="privacyRowItem" />
+                                    <input @change="setIsGeneralVideoCacheNews" :value="bloger.isGeneralVideoCacheNews" type="checkbox" class="privacyRowItem" />
                                     <span class="privacyRowItem seetingsTabHeader">
-                                        Общие новости YouTube
+                                        Общие новости VideoCache
                                     </span>
                                 </div>
                                 <div class="myChannelInfo">
@@ -277,20 +277,20 @@
                             </div>
                             <div class="myChannelColumn">
                                 <div class="privacyRow">
-                                    <input type="checkbox" class="privacyRowItem" />
+                                    <input @change="setIsNewsForVideoCachePremium" :value="bloger.isNewsForVideoCachePremium" type="checkbox" class="privacyRowItem" />
                                     <span class="privacyRowItem seetingsTabHeader">
-                                        Новости YouTube Premium
+                                        Новости VideoCache Premium
                                     </span>
                                 </div>
                                 <div class="myChannelInfo">
                                     <span>
-                                        Рекомендации и новости о YouTube Premium и YouTube Music Premium
+                                        Рекомендации и новости о VideoCache Premium и VideoCache Music Premium
                                     </span>
                                 </div>
                             </div>
                             <div class="myChannelColumn">
                                 <div class="privacyRow">
-                                    <input type="checkbox" class="privacyRowItem" />
+                                    <input @change="setIsNewsForAuthors" :value="bloger.isNewsForAuthors" type="checkbox" class="privacyRowItem" />
                                     <span class="privacyRowItem seetingsTabHeader">
                                         Новости для авторов
                                     </span>
@@ -310,9 +310,9 @@
                         <div class="myChannelInfo">
                             <div class="myChannelColumn">
                                 <div class="privacyRow">
-                                    <select class="form-select">
-                                        <option value="Русский">Русский</option>
-                                        <option value="English">English</option>
+                                    <select @change="setLanguage" v-model="lanaauge" class="form-select">
+                                        <option :value="'Русский'">Русский</option>
+                                        <option :value="'English'">English</option>
                                     </select>
                                 </div>
                                 <div class="myChannelInfo">
@@ -344,9 +344,14 @@
                             Подсказки
                         </span>
                         <div class="playingRow">
-                            <input type="checkbox" class="playingRowItem" />
+                            <input @change="setIsShowAnnotationsForVideo" type="checkbox" :value="bloger.isShowAnnotationsForVideo" class="playingRowItem" />
                             <span class="playingRowItem">
-                                Вы будете перенаправлены на страницу аккаунта.
+                                {{
+                                    !bloger.isShowAnnotationsForVideo ?
+                                        'Показывать в видео подсказки'
+                                    :
+                                        'Показывать в видео подсказки'
+                                }}
                             </span>
                             <span class="playingRowItem material-icons-outlined">
                                 help_outline
@@ -358,9 +363,14 @@
                             Субтитры
                         </span>
                         <div class="playingRow">
-                            <input type="checkbox" class="playingRowItem" />
+                            <input @change="setIsShowSubtitlesAlways" type="checkbox" :value="bloger.isShowSubtitlesAlways" class="playingRowItem" />
                             <span class="playingRowItem">
-                                Всегда показывать субтитры
+                                {{
+                                    !bloger.isShowSubtitlesAlways ?
+                                        'Всегда показывать субтитры'
+                                    :
+                                        'Отключить "Всегда показывать субтитры"'
+                                }}
                             </span>
                             <span class="playingRowItem material-icons-outlined">
                                 help_outline
@@ -372,9 +382,14 @@
                             &nbsp;
                         </span>
                         <div class="playingRow">
-                            <input type="checkbox" class="playingRowItem" />
+                            <input @change="setIsShowAutoCreatedSubtitles" type="checkbox" :value="bloger.isShowAutoCreatedSubtitles" class="playingRowItem" />
                             <span class="playingRowItem">
-                                Показывать автоматически созданные субтитры, если они доступны
+                                {{
+                                    !bloger.isShowAutoCreatedSubtitles ?
+                                        'Показывать автоматически созданные субтитры, если они доступны'
+                                    :
+                                        'Скрывать автоматически созданные субтитры, если они доступны'
+                                }}
                             </span>
                             <span class="playingRowItem material-icons-outlined">
                                 help_outline
@@ -386,7 +401,7 @@
                             Настройки кодека AV1
                         </span>
                         <div class="playingRow">
-                            <input type="radio" class="playingRowItem" />
+                            <input v-model="codec" type="radio" :value="'auto'" name="codec" class="playingRowItem" />
                             <span class="playingRowItem">
                                 Автоматически (рекомендованно)
                             </span>
@@ -400,7 +415,7 @@
                             &nbsp;
                         </span>
                         <div class="playingRow">
-                            <input type="radio" class="playingRowItem" />
+                            <input v-model="codec" type="radio" :value="'sd'" name="codec" class="playingRowItem" />
                             <span class="playingRowItem">
                                 Использовать AV-1 для SD-контента
                             </span>
@@ -414,7 +429,7 @@
                             &nbsp;
                         </span>
                         <div class="playingRow">
-                            <input type="radio" class="playingRowItem" />
+                            <input v-model="codec" type="radio" :value="'always'" name="codec" class="playingRowItem" />
                             <span class="playingRowItem">
                                 Всегда использовать AV1
                             </span>
@@ -431,13 +446,13 @@
                     <div class="accoutHeader">
                         <div class="accoutHeaderItem">
                             <span class="accoutHeaderElement accoutHeaderElementHeader">
-                                Настройте доступ к своему контенту на YouTube
+                                Настройте доступ к своему контенту на VideoCache
                             </span>
                             <span class="accoutHeaderElement">
                                 В этом разделе можно выбрать, кому доступен список ваших подписок и сохраненные плейлисты.
                             </span>
                             <span class="accountHeaderElement">
-                                Ознакомьтесь с Условиями использования YouTube и Политикой конфиденциальности Google.
+                                Ознакомьтесь с Условиями использования VideoCache и Политикой конфиденциальности Google.
                             </span>
                         </div>
                         <img src="https://yt3.ggpht.com/UhjsV-ihiyEBav8xnrM6Ud2ARTYiiPs8o71LsPDfPunxrtFumlSUc1ydpBice0Z4WOLDcDOboA=s88-c-k-c0x00ffffff-no-rj-mo" alt="" width="175px" />
@@ -452,9 +467,14 @@
                         <div class="myChannelInfo">
                             <div class="myChannelColumn">
                                 <div class="privacyRow">
-                                    <input type="checkbox" class="privacyRowItem" />
+                                    <input @change="setIsHideCacheInfoForPlayLists" :value="bloger.isHideCacheInfoForPlayLists" type="checkbox" class="privacyRowItem" />
                                     <span class="privacyRowItem seetingsTabHeader">
-                                        Не показывать информацию о сохраненных плейлистах
+                                        {{
+                                            !bloger.isHideCacheInfoForPlayLists ?
+                                                'Не показывать информацию о сохраненных плейлистах'
+                                            :
+                                                'Показывать информацию о сохраненных плейлистах'
+                                        }}
                                     </span>
                                 </div>
                                 <div class="myChannelInfo">
@@ -462,15 +482,20 @@
                                         Плейлисты, созданные другими пользователями, не будут показываться на вашем канале. Для подборок, которые создали вы, будут применяться отдельные настройки доступа. Подробнее…
                                     </span>
                                     <span>
-                                        С подпиской YouTube Premium вас ждет музыка в фоновом режиме, видео без рекламы и многое другое.
+                                        С подпиской VideoCache Premium вас ждет музыка в фоновом режиме, видео без рекламы и многое другое.
                                     </span>
                                 </div>
                             </div>
                             <div class="myChannelColumn">
                                 <div class="privacyRow">
-                                    <input type="checkbox" class="privacyRowItem" />
+                                    <input @change="setIsHideInfoForMySubs" :value="bloger.isHideCacheInfoForMySubs" type="checkbox" class="privacyRowItem" />
                                     <span class="seetingsTabHeader privacyRowItem">                                    
-                                        Не показывать информацию о моих подписках
+                                        {{
+                                            !bloger.isHideCacheInfoForMySubs ?
+                                                'Не показывать информацию о моих подписках'
+                                            :
+                                                'Показывать информацию о моих подписках'
+                                        }}
                                     </span>
                                 </div>
                                 <div class="myChannelInfo">
@@ -483,7 +508,7 @@
                     </div>
                     <div class="myChannel">
                         <span class="seetingsTabHeader">
-                            Реклама на YouTube
+                            Реклама на VideoCache
                         </span>
                         <div class="myChannelInfo">
                             <span>
@@ -502,7 +527,7 @@
                                 Настройки синхронизации
                             </span>
                             <span class="accoutHeaderElement">
-                                В этом разделе вы можете связать канал YouTube с аккаунтами в других сервисах.
+                                В этом разделе вы можете связать канал VideoCache с аккаунтами в других сервисах.
                             </span>
                             <span class="accountHeaderElement">
                                 Полный список разрешенных сервисов приведен здесь.
@@ -731,7 +756,7 @@
                     <div class="accoutHeader">
                         <div class="accoutHeaderItem">
                             <span class="accoutHeaderElement accoutHeaderElementHeader">
-                                Укажите, как вы будете совершать покупки на YouTube
+                                Укажите, как вы будете совершать покупки на VideoCache
                             </span>
                             <span class="accoutHeaderElement">
                                 
@@ -748,14 +773,19 @@
                                 Функция быстрых покупок отключена
                             </span>
                             <span>
-                                При совершении покупок на YouTube вам нужно будет подтверждать свой аккаунт.
+                                При совершении покупок на VideoCache вам нужно будет подтверждать свой аккаунт.
                             </span>
                             <span class="enablePaySettingDetail">
                                 Подробнее…
                             </span>
                         </div>
-                        <button class="btn btn-light enableSettingsBtn">
-                            Включить
+                        <button class="btn btn-light enableSettingsBtn" @click="setIsFastPurchases">
+                            {{
+                                !bloger.isFastPurchases ?
+                                    'Включить'
+                                :
+                                    'Выключить'
+                            }}
                         </button>
                     </div>
                 </div>
@@ -777,57 +807,69 @@
                     <div class="separator">
 
                     </div>
+                    <input ref="mockField" type="text" class="hiddenField" />
                     <div class="myChannel">
                         <span class="seetingsTabHeader">
                             Идентификатор пользователя
                         </span>
-                        <button class="btn btn-light copySettingsBlock">
+                        <button class="btn btn-light copySettingsBlock" @click="copyId(bloger._id)">
                             <span>
-                                MSYwB_yfWxv6Xj2a_J4YDg
+                                {{
+                                    bloger._id
+                                }}
                             </span>
                             <span class=" copySettingsBtn">
                                 Копировать
                             </span>
                         </button>
                     </div>
-                    <div class="myChannel">
-                        <span class="seetingsTabHeader">
-                            Идентификатор канала
-                        </span>
-                        <button class="btn btn-light copySettingsBlock">
-                            <span>
-                                UCMSYwB_yfWxv6Xj2a_J4YDg
+                    <div v-if="bloger.channels.length >= 1">
+                        <div class="myChannel">
+                            <span class="seetingsTabHeader">
+                                Идентификатор канала
                             </span>
-                            <span class=" copySettingsBtn">
-                                Копировать
-                            </span>
-                        </button>
-                    </div>
-                    <div class="myChannel">
-                        <span class="seetingsTabHeader">
-                            Переместить канал
-                        </span>
-                        <div class="myChannelInfo">
-                            <span class="extendSettingHeader">
-                                Связать канал с аккаунтом бренда
-                            </span>
-                            <span>
-                                Вы можете установить связь между своим каналом YouTube и аккаунтом бренда.
-                            </span>
+                            <button class="btn btn-light copySettingsBlock"  @click="copyId(bloger.channels[0].id)">
+                                <span>
+                                    {{
+                                        bloger.channels[0].id
+                                    }}
+                                </span>
+                                <span class=" copySettingsBtn">
+                                    Копировать
+                                </span>
+                            </button>
                         </div>
-                    </div>
-                    <div class="myChannel">
-                        <span class="seetingsTabHeader">
-                            Удалить канал
-                        </span>
-                        <div class="myChannelInfo">
-                            <span class="extendSettingHeader">
+                        <div class="myChannel">
+                            <span class="seetingsTabHeader">
+                                Переместить канал
+                            </span>
+                            <div class="myChannelInfo">
+                                <span class="extendSettingHeader">
+                                    Связать канал с аккаунтом бренда
+                                </span>
+                                <span>
+                                    Вы можете установить связь между своим каналом VideoCache и аккаунтом бренда.
+                                </span>
+                            </div>
+                        </div>
+                        <div class="myChannel">
+                            <span class="seetingsTabHeader">
                                 Удалить канал
                             </span>
-                            <span>
-                                Обратите внимание, что будет удален только канал YouTube. Аккаунт Google останется доступен.
-                            </span>
+                            <div class="myChannelInfo">
+                                <span class="extendSettingHeader" @click="deleteChannel">
+                                    Удалить канал
+                                </span>
+                                <span>
+                                    Обратите внимание, что будет удален только канал VideoCache. Аккаунт Google останется доступен.
+                                </span>
+                            </div>
                         </div>
+                    </div>
+                    <div v-else>
+                        <span>
+                            Вы еще не создали канал
+                        </span>
                     </div>
                 </div>
             </div>
@@ -840,14 +882,1211 @@
 import Header from '@/components/Header.vue'
 import SettingsAside from '@/components/SettingsAside.vue'
 
+import * as jwt from 'jsonwebtoken'
+
 export default {
     name: 'Settings',
     data() {
         return {
-            activeTab: 'Аккаунт'
+            activeTab: 'Аккаунт',
+            bloger: {
+                _id: '0',
+                login: '',
+                channels: [
+
+                ],
+                isFastPurchases: false,
+                isHideCacheInfoForPlayLists: true,
+                isHideInfoForMySubs: true,
+                setIsShowAnnotationsForVideo: true,
+                isShowSubtitlesAlways: true,
+                isShowAutoCreatedSubtitles: false,
+                codec: 'auto',
+                isGeneralVideoCacheNews: false,
+                isNewsForVideoCachePremium: false,
+                isNewsForAuthors: false,
+                isSubs: true,
+                isRecomendedVideo: true,
+                isActionsForChannel: true,
+                isActionsForComments: true,
+                isAnswersForComments: true,
+                isMentions: true,
+                isRecords: true,
+                isMailing: false,
+                isPermission: true,
+                langauge: 'Русский'
+            },
+            codec: 'auto',
+            langauge: 'Русский',
+            token: window.localStorage.getItem("videocachetoken")
         }
     },
+    mounted() {
+        jwt.verify(this.token, 'videocachesecret', (err, decoded) => {
+            if (err) {
+                alert('Не могу получить блогера')
+                this.$router.push({ name: 'Home' })
+            } else {
+                this.getBloger(decoded.bloger)
+            }
+        })
+    },
     methods: {
+        setIsSubs() {
+            
+            fetch(`http://localhost:4000/api/blogers/issubs/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isSubs}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Подписки" обновлены')
+                    this.bloger.isSubs = !this.bloger.isSubs
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Подписки"')
+                }
+            })
+
+        },
+        setIsRecomendedVideo() {
+            
+            fetch(`http://localhost:4000/api/blogers/isrecomendedvideo/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isRecomendedVideo}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Рекомендованные видео" обновлены')
+                    this.bloger.isRecomendedVideo = !this.bloger.isRecomendedVideo
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Рекомендованные видео"')
+                }
+            })
+
+        },
+        setIsActionsForChannel() {
+            
+            fetch(`http://localhost:4000/api/blogers/isactionsforchannel/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isActionsForChannel}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Действия на канале" обновлены')
+                    this.bloger.isActionsForChannel = !this.bloger.isActionsForChannel
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Действия на канале"')
+                }
+            })
+
+        },
+        setIsActionsForComments() {
+            
+            fetch(`http://localhost:4000/api/blogers/isactionsforcomments/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isActionsForComments}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Действия с комменатриями" обновлены')
+                    this.bloger.isActionsForComments = !this.bloger.isActionsForComments
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Действия с комменатриями"')
+                }
+            })
+
+        },
+        setIsAnswersForComments() {
+            
+            fetch(`http://localhost:4000/api/blogers/isanswersforcomments/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isAnswersForComments}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Ответы на комменатрии" обновлены')
+                    this.bloger.isAnswersForComments = !this.bloger.isAnswersForComments
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Ответы на комменатрии"')
+                }
+            })
+
+        },
+        setIsMentions() {
+            
+            fetch(`http://localhost:4000/api/blogers/ismentions/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.IsMentions}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Упоминания" обновлены')
+                    this.bloger.isMentions = !this.bloger.isMentions
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Упоминания"')
+                }
+            })
+
+        },
+        setIsRecords() {
+            
+            fetch(`http://localhost:4000/api/blogers/isrecords/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isRecords}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Записи с моим контентом на других каналах" обновлены')
+                    this.bloger.isRecords = !this.bloger.isRecords
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Записи с моим контентом на других каналах"')
+                }
+            })
+
+        },
+        setIsPermission() {
+            
+            fetch(`http://localhost:4000/api/blogers/ispermission/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isPermission}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Разрешение" обновлены')
+                    this.bloger.isRecords = !this.bloger.isRecords
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Разрешение"')
+                }
+            })
+
+        },
+        setIsMailing() {
+            
+            fetch(`http://localhost:4000/api/blogers/ismailing/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isMailing}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Рассылка" обновлены')
+                    this.bloger.isMailing = !this.bloger.isMailing
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Рассылка"')
+                }
+            })
+
+        },
+        setLanguage() {
+            
+            fetch(`http://localhost:4000/api/blogers/langauge/set/?blogerlogin=${this.bloger.login}&value=${this.language}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Не показывать информацию о моих подписках" обновлены')
+                    this.bloger.isHideInfoForMySubs = !this.bloger.isHideInfoForMySubs
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Не показывать информацию о моих подписках"')
+                }
+            })
+
+        },
+        setIsNewsForAuthors() {
+            
+            fetch(`http://localhost:4000/api/blogers/isnewsforauthors/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isNewsForAuthors}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Новости для авторов" обновлены')
+                    this.bloger.isNewsForAuthors = !this.bloger.isNewsForAuthors
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Новости для авторов"')
+                }
+            })
+
+        },
+        setIsNewsForVideoCachePremium() {
+            
+            fetch(`http://localhost:4000/api/blogers/isnewsforvideocachepremium/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isNewsForVideoCachePremium}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Новости VideoCache Premium" обновлены')
+                    this.bloger.isNewsForVideoCachePremium = !this.bloger.isNewsForVideoCachePremium
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Новости VideoCache Premium"')
+                }
+            })
+
+        },
+        setIsGeneralVideoCacheNews() {
+            
+            fetch(`http://localhost:4000/api/blogers/isgeneralvideocachenews/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isGeneralVideoCacheNews}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Общие новости VideoCache" обновлены')
+                    this.bloger.isGeneralVideoCacheNews = !this.bloger.isGeneralVideoCacheNews
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Общие новости VideoCache" обновлены"')
+                }
+            })
+
+        },
+        setIsShowAutoCreatedSubtitles() {
+            
+            fetch(`http://localhost:4000/api/blogers/isshowautocreatedsubtitles/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isShowAutoCreatedSubtitles}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Показывать автоматически созданные субтитры" обновлены')
+                    this.bloger.isShowAutoCreatedSubtitles = !this.bloger.isShowAutoCreatedSubtitles
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Показывать автоматически созданные субтитры"')
+                }
+            })
+
+        },
+        setIsShowAutoCreatedSubtitles() {
+            
+            fetch(`http://localhost:4000/api/blogers/isshowautocreatedsubtitles/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isShowAutoCreatedSubtitles}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Показывать автоматически созданные субтитры" обновлены')
+                    this.bloger.isShowAutoCreatedSubtitles = !this.bloger.isShowAutoCreatedSubtitles
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Показывать автоматически созданные субтитры"')
+                }
+            })
+
+        },
+        setIsShowAutoCreatedSubtitles() {
+            
+            fetch(`http://localhost:4000/api/blogers/isshowautocreatedsubtitles/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isShowAutoCreatedSubtitles}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Показывать автоматически созданные субтитры" обновлены')
+                    this.bloger.isShowAutoCreatedSubtitles = !this.bloger.isShowAutoCreatedSubtitles
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Показывать автоматически созданные субтитры"')
+                }
+            })
+
+        },
+        setIsShowAutoCreatedSubtitles() {
+            
+            fetch(`http://localhost:4000/api/blogers/isshowautocreatedsubtitles/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isShowAutoCreatedSubtitles}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Показывать автоматически созданные субтитры" обновлены')
+                    this.bloger.isShowAutoCreatedSubtitles = !this.bloger.isShowAutoCreatedSubtitles
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Показывать автоматически созданные субтитры"')
+                }
+            })
+
+        },
+        setIsShowAutoCreatedSubtitles() {
+            
+            fetch(`http://localhost:4000/api/blogers/isshowautocreatedsubtitles/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isShowAutoCreatedSubtitles}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Показывать автоматически созданные субтитры" обновлены')
+                    this.bloger.isShowAutoCreatedSubtitles = !this.bloger.isShowAutoCreatedSubtitles
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Показывать автоматически созданные субтитры"')
+                }
+            })
+
+        },
+        setIsShowAutoCreatedSubtitles() {
+            
+            fetch(`http://localhost:4000/api/blogers/isshowautocreatedsubtitles/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isShowAutoCreatedSubtitles}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Показывать автоматически созданные субтитры" обновлены')
+                    this.bloger.isShowAutoCreatedSubtitles = !this.bloger.isShowAutoCreatedSubtitles
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Показывать автоматически созданные субтитры"')
+                }
+            })
+
+        },
+        setIsShowAutoCreatedSubtitles() {
+            
+            fetch(`http://localhost:4000/api/blogers/isshowautocreatedsubtitles/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isShowAutoCreatedSubtitles}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Показывать автоматически созданные субтитры" обновлены')
+                    this.bloger.isShowAutoCreatedSubtitles = !this.bloger.isShowAutoCreatedSubtitles
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Показывать автоматически созданные субтитры"')
+                }
+            })
+
+        },
+        setIsShowAutoCreatedSubtitles() {
+            
+            fetch(`http://localhost:4000/api/blogers/isshowautocreatedsubtitles/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isShowAutoCreatedSubtitles}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Показывать автоматически созданные субтитры" обновлены')
+                    this.bloger.isShowAutoCreatedSubtitles = !this.bloger.isShowAutoCreatedSubtitles
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Показывать автоматически созданные субтитры"')
+                }
+            })
+
+        },
+        setIsShowAutoCreatedSubtitles() {
+            
+            fetch(`http://localhost:4000/api/blogers/isshowautocreatedsubtitles/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isShowAutoCreatedSubtitles}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Показывать автоматически созданные субтитры" обновлены')
+                    this.bloger.isShowAutoCreatedSubtitles = !this.bloger.isShowAutoCreatedSubtitles
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Показывать автоматически созданные субтитры"')
+                }
+            })
+
+        },
+        setCodec() {
+            
+            fetch(`http://localhost:4000/api/blogers/codec/set/?blogerlogin=${this.bloger.login}&value=${this.codec}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Не показывать информацию о моих подписках" обновлены')
+                    this.bloger.isHideInfoForMySubs = !this.bloger.isHideInfoForMySubs
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Не показывать информацию о моих подписках"')
+                }
+            })
+
+        },
+        setIsShowAutoCreatedSubtitles() {
+            
+            fetch(`http://localhost:4000/api/blogers/isshowautocreatedsubtitles/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isShowAutoCreatedSubtitles}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Показывать автоматически созданные субтитры" обновлены')
+                    this.bloger.isShowAutoCreatedSubtitles = !this.bloger.isShowAutoCreatedSubtitles
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Показывать автоматически созданные субтитры"')
+                }
+            })
+
+        },
+        setIsShowSubtitlesAlways() {
+            
+            fetch(`http://localhost:4000/api/blogers/isshowsubtitlesalways/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isShowSubtitlesAlways}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Всегда показывать субтитры" обновлены')
+                    this.bloger.isShowSubtitlesAlways = !this.bloger.isShowSubtitlesAlways
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Всегда показывать субтитры"')
+                }
+            })
+
+        },
+        setIsShowAnnotationsForVideo() {
+            
+            fetch(`http://localhost:4000/api/blogers/isshowannotationsforvideo/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isShowAnnotationsForVideo}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Показывать в видео подсказки" обновлены')
+                    this.bloger.isShowAnnotationsForVideo = !this.bloger.isShowAnnotationsForVideo
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Показывать в видео подсказки"')
+                }
+            })
+
+        },
+        setIsHideInfoForMySubs() {
+            
+            fetch(`http://localhost:4000/api/blogers/ishideinfoformysubs/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isHideInfoForMySubs}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Не показывать информацию о моих подписках" обновлены')
+                    this.bloger.isHideInfoForMySubs = !this.bloger.isHideInfoForMySubs
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Не показывать информацию о моих подписках"')
+                }
+            })
+
+        },
+        setIsHideCacheInfoForPlayLists() {
+            
+            fetch(`http://localhost:4000/api/blogers/ishidecacheinfoforplaylists/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isHideCacheInfoForPlayLists}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('"Не показывать информацию о сохраненных плейлистах" обновлены')
+                    this.bloger.isHideCacheInfoForPlayLists = !this.bloger.isHideCacheInfoForPlayLists
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить "Не показывать информацию о сохраненных плейлистах"')
+                }
+            })
+
+        },
+        setIsFastPurchases() {
+            
+            fetch(`http://localhost:4000/api/blogers/isfastpurchases/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isFastPurchases}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('Быстрые покупки обновлены')
+                    this.bloger.isFastPurchases = !this.bloger.isFastPurchases
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить быстрые покупки')
+                }
+            })
+
+        },
+        copyId(subject) {
+            this.$refs.mockField.value = subject
+            this.$refs.mockField.select()
+            document.execCommand('copy')
+        },
+        deleteChannel() {
+            
+            fetch(`http://localhost:4000/api/channels/delete/?blogerlogin=${this.bloger.login}&channelid=${this.bloger.channels[0].id}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    this.bloger = JSON.parse(result).bloger
+                    alert('Канал удален')
+                    // this.getBloger(this.bloger.login)
+                    this.$router.push({ name: 'Home' })
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу удалить канал')
+                }
+            })
+
+        },
+        getBloger(login) {
+            
+            fetch(`http://localhost:4000/api/blogers/get/?blogerlogin=${login}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    this.bloger = JSON.parse(result).bloger
+                    this.codec = this.bloger.codec
+                    alert('Получил блогера')
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу получить блогера')
+                }
+            })
+
+        },
         changeActiveTabHandler(tab) {
             this.activeTab = tab
         },
@@ -937,6 +2176,7 @@ export default {
     .extendSettingHeader {
         color: rgb(0, 100, 255);
         font-weight: bolder;
+        cursor: pointer;
     }
 
     .enablePaySetting {
@@ -1008,6 +2248,11 @@ export default {
 
     .playingRowItem {
         margin: 0px 10px;
+    }
+
+    .hiddenField {
+        cursor: default;
+        opacity: 0;
     }
 
 </style>

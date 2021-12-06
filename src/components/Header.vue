@@ -141,12 +141,12 @@
                     chevron_right
                 </span>
             </div>
-            <div class="avatarContextMenuItem">
+            <div class="avatarContextMenuItem" @click="$router.push({ name: 'Settings' })">
                 <div class="avatarContextMenuElement">
                     <span class="material-icons-outlined avatarContextMenuElementIcon">
                         settings
                     </span>
-                    <span @click="$router.push({ name: 'Settings' })">
+                    <span>
                         Настройки
                     </span>
                 </div>
@@ -572,6 +572,13 @@ export default {
                     this.isAuth = true
                     this.isCreateBlogerDialog = false
                     alert('Создал блогера')
+                    let blogerData = JSON.parse(result).bloger
+                    this.getBloger(blogerData.login)
+                    this.token = jwt.sign({
+                        bloger: blogerData.login
+                    }, 'videocachesecret', { expiresIn: '5m' })
+                    localStorage.setItem('videocachetoken', this.token)
+                    
                 } else if (JSON.parse(result).status === 'Error') {
                     alert('Не могу создать блогера')
                 }

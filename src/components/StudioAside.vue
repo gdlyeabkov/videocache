@@ -1,31 +1,30 @@
 <template>
     <div class="aside" v-if="burger">
-        <div class="asideItem" @click="changeActiveTab('Home')">
-            <span :class="{ 'material-icons': activeTab === 'Home', 'material-icons-outlined': activeTab !== 'Home', asideElement: true }">
+        <div :class="{ asideItem: true, activeTab: activeTab === 'Main' }" @click="changeActiveTab('Main')">
+            <span :class="{ 'material-icons': true, asideElement: true }">
                 window
             </span>
             <span class="asideElement">
                 Главная
             </span>
         </div>
-        <div class="asideItem" @click="changeActiveTab('Explore')">
-            <span :class="{ 'material-icons': activeTab === 'Explore', 'material-icons-outlined': activeTab !== 'Explore', asideElement: true }">
+        <div :class="{ asideItem: true, activeTab: activeTab === 'Content' }" @click="changeActiveTab('Content')">
+            <span :class="{ 'material-icons': true,  asideElement: true }">
                 video_library
             </span>
             <span class="asideElement">
                 Контент
             </span>
         </div>
-        <div class="asideItem" @click="changeActiveTab('Subscriptions')">
-            <span :class="{ 'material-icons': activeTab === 'Subscriptions', 'material-icons-outlined': activeTab !== 'Subscriptions', asideElement: true }">
+        <div :class="{ asideItem: true, activeTab: activeTab === 'PlayLists' }" @click="changeActiveTab('PlayLists')">
+            <span :class="{ 'material-icons': true, asideElement: true }">
                 playlist_play
             </span>
             <span class="asideElement">
                 Плейлисты
             </span>
         </div>
-        <div class="separator"></div>
-        <div class="asideItem">
+        <div :class="{ asideItem: true, activeTab: activeTab === 'Analytics' }" @click="changeActiveTab('Analytics')">
             <span class="material-icons asideElement">
                 assessment
             </span>
@@ -33,108 +32,117 @@
                 Аналитика
             </span>
         </div>
-        <div class="asideItem">
+        <div :class="{ asideItem: true, activeTab: activeTab === 'Comments' }" @click="changeActiveTab('Comments')">
             <span class="material-icons-outlined asideElement">
-                history
+                chat
             </span>
             <span class="asideElement">
-                История
+                Комментарии
             </span>
         </div>
-        <div class="asideItem">
+        <div :class="{ asideItem: true, activeTab: activeTab === 'Subtitles' }" @click="changeActiveTab('Subtitles')">
             <span class="material-icons-outlined asideElement">
-                watch_later
+                subtitles
             </span>
             <span class="asideElement">
-                Смотреть позже
+                Субтитры
             </span>
         </div>
-        <div class="asideItem">
+        <div :class="{ asideItem: true, activeTab: activeTab === 'DRM' }" @click="changeActiveTab('DRM')">
             <span class="material-icons-outlined asideElement">
-                thumb_up
+                copyright
             </span>
             <span class="asideElement">
-                Понравившиеся
+                Авторские права
             </span>
         </div>
-        <div class="separator"></div>
-        <span class="asideHeader asideItem">
-            ПОДПИСКИ
-        </span>
-        <div class="asideItem">
+        <div :class="{ asideItem: true, activeTab: activeTab === 'Monetization' }" @click="changeActiveTab('Monetization')">
             <span class="material-icons-outlined asideElement">
-                music_note
+                monetization_on
             </span>
             <span class="asideElement">
-                Музыка
+                Монетизация
             </span>
         </div>
-        <div class="asideItem">
+        <div :class="{ asideItem: true, activeTab: activeTab === 'ChannelEdit' }" @click="changeActiveTab('ChannelEdit')">
             <span class="material-icons-outlined asideElement">
-                emoji_events
+                auto_fix_high
             </span>
             <span class="asideElement">
-                Спорт
+                Настройка канала
             </span>
         </div>
-        <div class="asideItem">
+        <div :class="{ asideItem: true, activeTab: activeTab === 'SoundLibrary' }" @click="changeActiveTab('SoundLibrary')">
             <span class="material-icons-outlined asideElement">
-                sports_esports
+                library_music
             </span>
             <span class="asideElement">
-                Видеоигры
-            </span>
-        </div>
-        <div class="asideItem">
-            <span class="material-icons-outlined asideElement">
-                theaters
-            </span>
-            <span class="asideElement">
-                Фильмы
+                Фонотека
             </span>
         </div>
         <div class="separator"></div>
-        <span class="asideHeader asideItem">
-            ДРУГИЕ ВОЗМОЖНОСТИ
-        </span>
         <div class="asideItem">
             <span class="material-icons-outlined asideElement">
-                smart_display
+                play_circle
             </span>
             <span class="asideElement">
-                YouTube Premium
-            </span>
-        </div>        
-        <div class="asideItem">
-            <span class="material-icons-outlined asideElement">
-                theaters
-            </span>
-            <span class="asideElement">
-                Фильмы
+                Ежедневные идеи
             </span>
         </div>
         <div class="asideItem">
             <span class="material-icons-outlined asideElement">
-                sports_esports
+                play_circle
             </span>
             <span class="asideElement">
-                Видеоигры
+                Инспектор тегов
             </span>
         </div>
         <div class="asideItem">
             <span class="material-icons-outlined asideElement">
-                stream
+                play_circle
             </span>
             <span class="asideElement">
-                Трансляции
+                Конекуренты
             </span>
         </div>
         <div class="asideItem">
             <span class="material-icons-outlined asideElement">
-                emoji_events
+                play_circle
             </span>
-            <span class="asideElement">                
-                Спорт
+            <span class="asideElement">
+                Уведомления о трендах
+            </span>
+        </div>
+        <div class="asideItem">
+            <span class="material-icons-outlined asideElement">
+                play_circle
+            </span>
+            <span class="asideElement">
+                Наиболле просматриваемое
+            </span>
+        </div>
+        <div class="asideItem">
+            <span class="material-icons-outlined asideElement">
+                play_circle
+            </span>
+            <span class="asideElement">
+                Аудит канала
+            </span>
+        </div>
+        <div class="asideItem">
+            <span class="material-icons-outlined asideElement">
+                play_circle
+            </span>
+            <span class="asideElement">
+                Достижения
+            </span>
+        </div>
+        <div class="asideItem">
+            <span class="material-icons-outlined asideElement">
+                play_circle
+            </span>
+            <span class="asideElement">
+                Академия vidlQ
             </span>
         </div>
         <div class="separator"></div>
@@ -148,29 +156,12 @@
         </div>
         <div class="asideItem">
             <span class="material-icons-outlined asideElement">
-                flag
-            </span>
-            <span class="asideElement">
-                Жалобы
-            </span>
-        </div>
-        <div class="asideItem">
-            <span class="material-icons-outlined asideElement">
-                help_outline
-            </span>
-            <span class="asideElement">
-                Справка
-            </span>
-        </div>
-        <div class="asideItem">
-            <span class="material-icons-outlined asideElement">
                 announcement
             </span>
             <span class="asideElement">
                 Отправить отзыв
             </span>
         </div>
-        <div class="separator"></div>
         <div class="agreement">
             <span class="agreementItem">
                 О сервисеПрессеАвторские праваСвязаться с намиАвторамРекламодателямРазработчикам
@@ -234,7 +225,7 @@ export default {
         },
         'activeTab': {
             type: String,
-            default: 'Home'
+            default: 'Main'
         }
     },
     emits: [
@@ -321,6 +312,10 @@ export default {
 
     .asideHeader {
         font-weight: bold;
+    }
+
+    .activeTab {
+        color: rgb(255, 0, 0);
     }
 
 </style>

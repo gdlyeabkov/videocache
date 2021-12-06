@@ -13,10 +13,14 @@
                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Logo_of_YouTube_%282015-2017%29.svg/1280px-Logo_of_YouTube_%282015-2017%29.svg.png" alt="" width="60px" class="channelInfoItem" />
                             <div class="channelInfoTextContent">
                                 <span class="channelInfoItem channelName">
-                                    KarasGames - разработчик игр
+                                    {{
+                                        channel.name
+                                    }}
                                 </span>
                                 <span class="channelInfoItem channelFollowers">
-                                    25 подписчиков
+                                    {{
+                                        channel.followers.length
+                                    }} подписчиков
                                 </span>
                             </div>
                         </div>

@@ -53,9 +53,85 @@ const BlogerSchema = new mongoose.Schema({
   password: String,
   channels: [mongoose.Schema.Types.Map],
   playlists: [mongoose.Schema.Types.Map],
+  isFastPurchases: {
+    type: Boolean,
+    default: false
+  },
+  isHideCacheInfoForPlayLists: {
+    type: Boolean,
+    default: true
+  },
+  isHideInfoForMySubs: {
+    type: Boolean,
+    default: true
+  },
+  isShowAnnotationsForVideo: {
+    type: Boolean,
+    default: true
+  },
+  isShowSubtitlesAlways: {
+    type: Boolean,
+    default: true
+  },
+  isShowAutoCreatedSubtitles: {
+    type: Boolean,
+    default: false
+  },
+  codec: {
+    type: String,
+    default: 'auto'
+  },
+  isSubs: {
+    type: Boolean,
+    default: true
+  },
+  isRecomendedVideo: {
+    type: Boolean,
+    default: true
+  },
+  isActionsForComments: {
+    type: Boolean,
+    default: true
+  },
+  isActionsForChannel: {
+    type: Boolean,
+    default: true
+  },
+  isAnswersForComments: {
+    type: Boolean,
+    default: true
+  },
+  isRecords: {
+    type: Boolean,
+    default: true
+  },
+  isMailing: {
+    type: Boolean,
+    default: false
+  },
+  isPermission: {
+    type: Boolean,
+    default: true
+  },
+  isGeneralVideoCacheNews: {
+    type: Boolean,
+    default: false
+  },
+  isNewsForVideoCachePremium: {
+    type: Boolean,
+    default: false
+  },
+  isNewsForAuthors: {
+    type: Boolean,
+    default: false
+  },
+  language: {
+    type: String,
+    default: 'Русский'
+  },
   created: {
-      type: Date,
-      default: Date.now
+    type: Date,
+    default: Date.now
   },
 }, { collection : 'myblogers' })
 
@@ -128,11 +204,11 @@ app.get('/api/blogers/create', async (req, res) => {
           let salt = bcrypt.genSalt(saltRounds)
           encodedPassword = bcrypt.hashSync(req.query.blogerpassword, saltRounds)
           let newBloger = new BlogerModel({ login: req.query.blogerlogin, password: encodedPassword })
-          newBloger.save(function (err) {
+          newBloger.save(function (err, bloger) {
               if (err) {
                   return res.json({ "status": "Error" })
               } else {
-                  return res.json({ status: 'OK' })
+                  return res.json({ status: 'OK', bloger: bloger })
               }
           })
       }
@@ -394,6 +470,460 @@ app.get('/api/video/get', (req, res) => {
     }
   })
 
+})
+
+app.get('/api/channels/delete', async (req, res) => {
+  
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  mongoose.connection.collection("myblogers").updateOne(
+    { login: req.query.blogerlogin },
+    { $pull: { 'channels': { id: req.query.channelid } } }
+  )
+  await VideoModel.deleteMany({ channel: req.query.channelid  })
+  await ChannelModel.deleteMany({ _id: req.query.channelid  })
+  return res.json({ status: 'OK' })
+
+})
+
+app.get('/api/blogers/isfastpurchases/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
+    if (err) {
+        return res.json({ "status": "Error" })
+    } else {
+      BlogerModel.updateOne({ login: req.query.blogerlogin }, { isFastPurchases: req.query.value }, (err, bloger) => {
+        if (err) {
+            return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+})
+
+app.get('/api/blogers/ishidecacheinfoforplaylists/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
+    if (err) {
+        return res.json({ "status": "Error" })
+    } else {
+      BlogerModel.updateOne({ login: req.query.blogerlogin }, { isHideCacheInfoForPlayLists: req.query.value }, (err, bloger) => {
+        if (err) {
+            return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+})
+
+app.get('/api/blogers/ishideinfoformysubs/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
+    if (err) {
+        return res.json({ "status": "Error" })
+    } else {
+      BlogerModel.updateOne({ login: req.query.blogerlogin }, { isHideInfoForMySubs: req.query.value }, (err, bloger) => {
+        if (err) {
+          return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+})
+
+app.get('/api/blogers/isshowannotationsforvideo/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
+    if (err) {
+        return res.json({ "status": "Error" })
+    } else {
+      BlogerModel.updateOne({ login: req.query.blogerlogin }, { isShowAnnotationsForVideo: req.query.value }, (err, bloger) => {
+        if (err) {
+          return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+
+})
+
+app.get('/api/blogers/isshowsubtitlesalways/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
+    if (err) {
+        return res.json({ "status": "Error" })
+    } else {
+      BlogerModel.updateOne({ login: req.query.blogerlogin }, { isShowSubtitlesAlways: req.query.value }, (err, bloger) => {
+        if (err) {
+          return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+  
+})
+
+app.get('/api/blogers/isshowAutocreatedsubtitles/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
+    if (err) {
+        return res.json({ "status": "Error" })
+    } else {
+      BlogerModel.updateOne({ login: req.query.blogerlogin }, { isShowAutoCreatedSubtitles: req.query.value }, (err, bloger) => {
+        if (err) {
+          return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+  
+})
+
+app.get('/api/blogers/codec/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      BlogerModel.updateOne({ login: req.query.blogerlogin }, { codec: req.query.value }, (err, bloger) => {
+        if (err) {
+          return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+  
+})
+
+app.get('/api/blogers/language/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      BlogerModel.updateOne({ login: req.query.blogerlogin }, { language: req.query.value }, (err, bloger) => {
+        if (err) {
+          return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+  
+})
+
+app.get('/api/blogers/isnewsforauthors/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      BlogerModel.updateOne({ login: req.query.blogerlogin }, { isNewsForAuthors: req.query.value }, (err, bloger) => {
+        if (err) {
+          return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+  
+})
+
+app.get('/api/blogers/isnewsforvideocachepremium/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      BlogerModel.updateOne({ login: req.query.blogerlogin }, { isNewsForVideoCachePremium: req.query.value }, (err, bloger) => {
+        if (err) {
+          return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+  
+})
+
+app.get('/api/blogers/isgeneralvideocachenews/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      BlogerModel.updateOne({ login: req.query.blogerlogin }, { isGeneralVideoCacheNews: req.query.value }, (err, bloger) => {
+        if (err) {
+          return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+  
+})
+
+app.get('/api/blogers/ispermission/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      BlogerModel.updateOne({ login: req.query.blogerlogin }, { isPermission: req.query.value }, (err, bloger) => {
+        if (err) {
+          return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+  
+})
+
+app.get('/api/blogers/ismailing/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      BlogerModel.updateOne({ login: req.query.blogerlogin }, { isMailing: req.query.value }, (err, bloger) => {
+        if (err) {
+          return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+  
+})
+
+app.get('/api/blogers/isrecords/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      BlogerModel.updateOne({ login: req.query.blogerlogin }, { isRecords: req.query.value }, (err, bloger) => {
+        if (err) {
+          return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+  
+})
+
+app.get('/api/blogers/ismentions/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      BlogerModel.updateOne({ login: req.query.blogerlogin }, { isMentions: req.query.value }, (err, bloger) => {
+        if (err) {
+          return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+  
+})
+
+app.get('/api/blogers/isanswersforcomments/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      BlogerModel.updateOne({ login: req.query.blogerlogin }, { isAnswersForComments: req.query.value }, (err, bloger) => {
+        if (err) {
+          return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+  
+})
+
+app.get('/api/blogers/isactionsforchannel/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      BlogerModel.updateOne({ login: req.query.blogerlogin }, { isActionsForChannel: req.query.value }, (err, bloger) => {
+        if (err) {
+          return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+  
+})
+
+app.get('/api/blogers/isactionsforcomments/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      BlogerModel.updateOne({ login: req.query.blogerlogin }, { isActionsForComments: req.query.value }, (err, bloger) => {
+        if (err) {
+          return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+  
+})
+
+app.get('/api/blogers/isrecomendedvideo/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      BlogerModel.updateOne({ login: req.query.blogerlogin }, { isRecomendedVideo: req.query.value }, (err, bloger) => {
+        if (err) {
+          return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+  
+})
+
+app.get('/api/blogers/issubs/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      BlogerModel.updateOne({ login: req.query.blogerlogin }, { isSubs: req.query.value }, (err, bloger) => {
+        if (err) {
+          return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+  
 })
 
 app.get('**', (req, res) => { 
