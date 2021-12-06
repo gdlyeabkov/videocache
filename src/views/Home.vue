@@ -132,10 +132,181 @@
           </div>
         </div>
         <div v-else-if="activeTab === 'Explore'">
-          B
+          <div class="exploreHeader">
+            <div class="exploreHeaderItem">
+              <div class="exploreElement">
+                <span class="material-icons exploreElementItem exploreElementIcon exploreElementIconTrand">
+                  whatshot
+                </span>
+                <span class="exploreElementItem exploreElemenContent">
+                  В тренде
+                </span>
+              </div>
+              <div class="exploreElement">
+                <span class="material-icons exploreElementItem exploreElementIcon exploreElementIconMusic">
+                  music_note
+                </span>
+                <span class="exploreElementItem exploreElemenContent">
+                  Музыка
+                </span>
+              </div>
+              <div class="exploreElement">
+                <span class="material-icons exploreElementItem exploreElementIcon exploreElementIconFilms">
+                  theaters
+                </span>
+                <span class="exploreElementItem exploreElemenContent">
+                  Фильмы
+                </span>
+              </div>
+              <div class="exploreElement">
+                <span class="material-icons exploreElementItem exploreElementIcon exploreElementIconTrand">
+                  stream
+                </span>
+                <span class="exploreElementItem exploreElemenContent">
+                  Трансляции
+                </span>
+              </div>
+              <div class="exploreElement">
+                <span class="material-icons exploreElementItem exploreElementIcon exploreElementIconVideoGames">
+                  sports_esports
+                </span>
+                <span class="exploreElementItem exploreElemenContent">
+                  Спорт
+                </span>
+              </div>
+            </div>
+            <div class="exploreHeaderItem">
+              <div class="exploreElement">
+                <span class="material-icons exploreElementItem exploreElementIcon exploreElementIconSport">
+                  emoji_events
+                </span>
+                <span class="exploreElementItem exploreElemenContent">
+                  Спорт
+                </span>
+              </div>
+              <div class="exploreElement exploreMockElement">
+                <span class="material-icons exploreElementItem exploreElementIcon exploreElementIconTrand">
+                  
+                </span>
+                <span class="exploreElementItem exploreElemenContent">
+                  
+                </span>
+              </div>
+              <div class="exploreElement exploreMockElement">
+                <span class="material-icons exploreElementItem exploreElementIcon exploreElementIconTrand">
+                  
+                </span>
+                <span class="exploreElementItem exploreElemenContent">
+                  
+                </span>
+              </div>
+              <div class="exploreElement exploreMockElement">
+                <span class="material-icons exploreElementItem exploreElementIcon exploreElementIconTrand">
+                  
+                </span>
+                <span class="exploreElementItem exploreElemenContent">
+                  
+                </span>
+              </div>
+              <div class="exploreElement exploreMockElement">
+                <span class="material-icons exploreElementItem exploreElementIcon exploreElementIconTrand">
+                  
+                </span>
+                <span class="exploreElementItem exploreElemenContent">
+                  
+                </span>
+              </div>
+            </div>
+          </div>
+          <span class="popularVideosHeader">
+            Популярные видео
+          </span>
+          <div class="popularVideos">
+            <div class="popularVideo">
+              <video controls width="250px">
+                <source />
+              </video>
+              <div class="popularVideoInfo">
+                <span class="popularVideoInfoItem popularVideoInfoItemHeader">
+                  Новогоднее наступление 2022: Арнольд Шварценеггер и много подарков! [World of Tanks]
+                </span>
+                <div class="popularVideoInfoContainer popularVideoInfoItem">
+                  <span class="popularVideoInfoContainerItem">
+                    World of Tanks. Официальный видеоканал
+                  </span>
+                  <span class="popularVideoInfoContainerItem">
+                    184 тыс. просмотров 6 часов назад
+                  </span>
+                </div>
+                <span class="popularVideoInfoItem">
+                  В World of Tanks начинается Новогоднее наступление 2022! В этом году тебя ждет еще больше подарков и сюрпризов, давн...
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
         <div v-else-if="activeTab === 'Subscriptions'">
-          C
+          <div class="subscriptionsHeader">
+            <span class="lastDownloadsLabel">
+              Последние загрузки
+            </span>
+            <div class="subscriptionsHeaderItem">
+              <span class="subscriptionsHeaderElement subsControlLabel">
+                УПРАВЛЕНИЕ ПОДПИСКАМИ
+              </span>
+              <span class="material-icons subscriptionsHeaderElement">
+                view_module
+              </span>
+              <span class="material-icons subscriptionsHeaderElement">
+                list
+              </span>
+            </div>
+          </div>
+          <div v-if="videos.length <= 0" class="notFoundVideo">
+            <span>
+              Нет загрузок
+            </span>
+          </div>
+          <div v-else class="videos">
+            <div class="videosColum">
+              <div v-for="video in videos" :key="video" class="video" @click="$router.push({ name: 'Video', query: { videoid: video._id } })">
+                <video class="videoHeader" controls  :id="`videoElement${video._id}Id`" @mouseenter="videoHoverHandler(`videoElement${video._id}Id`)" @mouseleave="videoHoutHandler(`videoElement${video._id}Id`)">
+                  <source :src="`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`" />
+                </video>
+                <div class="videoFooter">
+                  <div :style="`background-image: url('${`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`}');`" class="videoAvatar videoItem">
+                    
+                  </div>
+                  <div class="aboutVideo videoItem">
+                    <span class="videoName">
+                      {{
+                        video.name
+                      }}
+                    </span>
+                    <span>
+                      {{
+                        video.channelName
+                      }}
+                    </span>
+                    <span>
+                      {{
+                        video.views
+                      }} просмотров
+                    </span>
+                    <span>
+                      {{
+                        `${video.created.split('T')[0].split('-')[2]}/${video.created.split('T')[0].split('-')[1]}/${video.created.split('T')[0].split('-')[0]}`
+                      }}
+                      2 недели назад
+                    </span>
+                  </div>
+                  <span class="material-icons videoItem">
+                    more_vert
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -386,6 +557,129 @@ export default {
     display: flex;
     justify-content: center;
     margin: 50px 0px;
+  }
+
+  .exploreHeader {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .exploreHeaderItem {
+    display: flex;
+    margin: 15px 0px;
+  }
+
+  .exploreElement {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 20%;
+    height: 150px;
+    box-sizing: border-box;
+    padding: 15px;
+    background-color: rgb(255, 255, 255);
+    margin: 0px 15px;
+  }
+
+  .exploreElementItem {
+    margin: 15px 0px;
+  }
+
+  .exploreElementIcon {
+    font-size: 48px;
+  }
+
+  .exploreElementIconTrand {
+    color: rgb(255, 0, 0);
+  }
+
+  .exploreElementIconSport {
+    color: rgb(0, 100, 255);
+  }
+
+  .exploreElementIconVideoGames {
+    color: rgb(230, 0, 0);
+  }
+
+  .exploreElementIconFilms {
+    color: rgb(150, 10, 255);
+  }
+
+  .exploreElementIconMusic {
+    color: rgb(255, 225, 0);
+  }
+
+  .exploreElemenContent {
+    font-weight: bolder;
+  }
+
+  .exploreMockElement {
+    background-color: transparent;
+  }
+
+  .popularVideos {
+    margin: 25px 0px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .popularVideo {
+    display: flex;
+  }
+
+  .popularVideoInfo {
+    margin: 0px 50px;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .popularVideoInfoContainer {
+    display: flex;
+    align-items: center;
+  }
+
+  .popularVideoInfoContainerItem {
+    margin: 0px 5px;
+  }
+
+  .popularVideosHeader {
+    font-weight: bolder;
+  }
+
+  .popularVideoInfoItem {
+    margin: 3px 0px;
+  }
+
+  .popularVideoInfoItemHeader {
+    font-weight: bolder;
+    font-size: 18px;
+  }
+
+  .subscriptionsHeader {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .subscriptionsHeaderItem {
+    display: flex;
+    align-items: center;
+  }
+
+  .subscriptionsHeaderElement {
+    margin: 0px 5px;
+  }
+
+  .subsControlLabel {
+   cursor: pointer;
+   font-weight: bolder;
+   color: rgb(0, 100, 255); 
+  }
+
+  .lastDownloadsLabel {
+    font-weight: bolder;
   }
 
 </style>

@@ -193,12 +193,12 @@
                     
                 </span>
             </div>
-            <div class="avatarContextMenuItem">
+            <div class="avatarContextMenuItem" @click="isFastKeysDialog = true">
                 <div class="avatarContextMenuElement">
                     <span class="material-icons-outlined avatarContextMenuElementIcon">
                         keyboard
                     </span>
-                    <span @click="$router.push({ name: 'Home' })">
+                    <span>
                         Быстрые клавиши
                     </span>
                 </div>
@@ -206,10 +206,16 @@
                     
                 </span>
             </div>
-            <div class="avatarContextMenuItem">
+            <div class="avatarContextMenuItem" @click="setIsSecurityMode">
                 <div class="avatarContextMenuElement">
-                    <span @click="$router.push({ name: 'Home' })">
-                        Безопасный режим: откл.
+                    <span>
+                        Безопасный режим:
+                        {{
+                            bloger.isSecurityMode ?
+                                'откл.'
+                            :
+                                'вкл.'
+                        }}
                     </span>
                 </div>
                 <span class="material-icons">
@@ -362,6 +368,353 @@
                 </form>
             </div>
         </div>
+        <div v-if="isFastKeysDialog" class="backdrop">
+            <div class="fastKeys">
+                <span class="fastKeysHeader">
+                    Быстрые клавиши
+                </span>
+                <div class="fastKeysRow">
+                    <div class="fastKeysColumn">
+                        <div class="fastKeysContainer">
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Воспроизведение
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Приостановить или продолжить воспроизведение
+                                </span>
+                                <span>
+                                    k
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Перемотать ролик на 10 секунд назад
+                                </span>
+                                <span>
+                                    j
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Перемотать ролик на 10 секунд вперед
+                                </span>
+                                <span>
+                                    l
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Перейти к предыдущему видео
+                                </span>
+                                <span>
+                                    P (Shift + p)
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Перейти к следующему видео
+                                </span>
+                                <span>
+                                    N (Shift + n)
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Перейти к следующему кадру (когда воспроизведение приостановлено)
+                                </span>
+                                <span>
+                                    ,
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Перейти к следующему кадру (когда воспроизведение приостановлено)
+                                </span>
+                                <span>
+                                    .
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Уменьшить скорость воспроизведения
+                                </span>
+                                <span>
+                                    < (SHIFT+,)
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Увеличить скорость воспроизведения
+                                </span>
+                                <span>
+                                    > (SHIFT+.)
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Перейти к определенному моменту видео (например, при нажатии на цифру "7" ролик будет перемотан до временной отметки, которая соответствует 70% от длительности видео)
+                                </span>
+                                <span>
+                                    0..9
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Перейти к предыдущему эпизоду
+                                </span>
+                                <span>
+                                    Control + Стрелка влево
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Перейти к следующему эпизоду
+                                </span>
+                                <span>
+                                    Control + Стрелка вправо
+                                </span>
+                            </div>
+                        </div>
+                        <div class="fastKeysContainer">
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemHeader">
+                                    Субтитры
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Включить или отключить субтитры
+                                </span>
+                                <span>
+                                    c
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Настроить прозрачность текста
+                                </span>
+                                <span>
+                                    o
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Настроить прозрачность окна
+                                </span>
+                                <span>
+                                    w
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Увеличить размер шрифта
+                                </span>
+                                <span>
+                                    +
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Уменьшить размер шрифта
+                                </span>
+                                <span>
+                                    -
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fastKeysColumn">
+                        <div class="fastKeysContainer">
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemHeader">
+                                    Общие
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Включить или выключить полноэкранный режим
+                                </span>
+                                <span>
+                                    f
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Увеличить/уменьшить окно проигрывателя
+                                </span>
+                                <span>
+                                    t
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Включить или отключить мини-проигрыватель
+                                </span>
+                                <span>
+                                    i
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Закрыть мини-проигрыватель или текущее диалоговое окно
+                                </span>
+                                <span>
+                                    Esc
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Включить или отключить звук
+                                </span>
+                                <span>
+                                    m
+                                </span>
+                            </div>
+                        </div>
+                        <div class="fastKeysContainer fastKeysMockContainer">
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemHeader">
+                                    Субтитры
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Включить или отключить субтитры
+                                </span>
+                                <span>
+                                    c
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Настроить прозрачность текста
+                                </span>
+                                <span>
+                                    o
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Настроить прозрачность окна
+                                </span>
+                                <span>
+                                    w
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Увеличить размер шрифта
+                                </span>
+                                <span>
+                                    +
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Уменьшить размер шрифта
+                                </span>
+                                <span>
+                                    -
+                                </span>
+                            </div>
+                        </div>
+                        <div class="fastKeysContainer">
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemHeader">
+                                    Панорамные видео
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Передвинуть вверх
+                                </span>
+                                <span>
+                                    w
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Посмотреть влево
+                                </span>
+                                <span>
+                                    a
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Передвинуть вниз
+                                </span>
+                                <span>
+                                    s
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Передвинуть вправо
+                                </span>
+                                <span>
+                                    d
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Приблизить
+                                </span>
+                                <span>
+                                    Плюс (+) на цифровой клавиатуре или ]
+                                </span>
+                            </div>
+                            <div class="fastKeysContainerItem">
+                                <span class="fastKeysContainerItemContent">
+                                    Отдалить
+                                </span>
+                                <span>
+                                    Минус (-) на цифровой клавиатуре или [
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="fastKeysFooter">
+                    <span class="fastKeysFooterCloseBtn" @click="isFastKeysDialog = false">
+                        ЗАКРЫТЬ
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="backdrop">
+            <div class="sendCommentDialog">
+                <div class="sendCommentHeader">
+                    <span>
+                        Отправить отзыв
+                    </span>
+                </div>
+                <div class="sendCommentBody">
+                    <textarea placeholder="Не включайте в отзыв конфиденциальную информацию. Если у нас есть вопросы, в том числе." v-model="feedback" type="text" class="sendCommentBodyHeader form-control">
+                    </textarea>
+                    <div class="attachScreenshotContainer">
+                        <input type="checkbox" />
+                        <span class="attachScreenshot">
+                            Прикрепить скриншот
+                        </span>
+                    </div>
+                    <span>
+                        Некоторая информация об аккаунте и системе может быть отправлена в Google. Это помогает нам устранять неполадки и улучшать наши сервисы. Ваши данные будут обрабатываться в соответствии с Политикой конфиденциальности и Условиями использования. Мы можем запрашивать у вас дополнительные сведения или сообщать вам об обновлениях по электронной почте. Подать запрос на изменение контента в связи с нарушением законодательства можно на этой странице.
+                    </span>
+                </div>
+                <div class="sendCommentFooter">
+                    <span class="sendCommentFooterBtn sendCommentFooterCancelBtn">
+                        ОТМЕНА
+                    </span>
+                    <span class="sendCommentFooterBtn sendCommentFooterSendBtn">
+                        ОТПРАВИТЬ
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -385,9 +738,13 @@ export default {
             bloger: {
                 login: '',
                 password: '',
-                channels: []
+                channels: [],
+                isSecurityMode: ''
             },
             filesList: [],
+            isFastKeysDialog: false,
+            isSendCommentDialog: false,
+            feedback: '',
             token: window.localStorage.getItem("videocachetoken")
         }
     },
@@ -411,6 +768,43 @@ export default {
         })
     },
     methods: {
+        setIsSecurityMode() {
+            
+            fetch(`http://localhost:4000/api/blogers/issecuritymode/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isSecurityMode}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    this.bloger.isSecurityMode = !this.bloger.isSecurityMode
+                    alert('Обновил безопасный режим')
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить безопасный режим')
+                }
+            })
+
+        },
         FileListItems(files){
             var b = new ClipboardEvent("").clipboardData || new DataTransfer()
             for (var i = 0, len = files.length; i<len; i++){
@@ -480,6 +874,7 @@ export default {
                     alert('Не могу получить блогера')
                 }
             })
+
         },
         toChannel() {
             if (this.bloger.channels.length <= 0) {
@@ -805,6 +1200,149 @@ export default {
 
     .videoCacheLogo {
         cursor: pointer;
+    }
+
+    .fastKeys {
+        overflow: hidden;
+        position: fixed;
+        top: 5%;
+        left: 5%;
+        border-radius: 8px;
+        width: 90%;
+        height: 90%;
+        background-color: rgb(255, 255, 255);
+        box-sizing: border-box;
+        padding: 25px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .fastKeysHeader {
+        font-weight: bolder;
+        font-size: 22px;
+    }
+
+    .fastKeysRow {
+        height: 85%;
+        display: flex;
+        justify-content: space-between;
+        overflow-y: scroll;
+        height: 100%;
+    }
+
+    .fastKeysColumn {
+        width: 49%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .fastKeysContainer {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .fastKeysContainerItem {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid rgb(150, 150, 150);
+        padding: 10px 0px;
+    }
+
+    .fastKeysContainerItemHeader {
+        font-weight: bolder;
+        color: rgb(150, 150, 150);
+    }
+
+    .fastKeysContainerItemContent {
+        color: rgb(115, 115, 115);
+    }
+
+    .fastKeysMockContainer {
+        color: transparent;
+        user-select: none;
+        opacity: 0;
+    }
+
+    .fastKeysFooter {
+        display: flex;
+        height: 50px;
+        align-items: flex-end;
+        justify-content: flex-end;
+    }
+
+    .fastKeysFooterCloseBtn {
+        color: rgb(0, 100, 255);
+        font-weight: bolder;
+        cursor: pointer;
+    }
+
+    .sendCommentDialog {
+        position: fixed;
+        top: 10%;
+        left: 35%;
+        background-color: rgb(255, 255, 255);
+        display: flex;
+        flex-direction: column;
+        width: 30%;
+        height: 80%;
+    }
+
+    .sendCommentHeader {
+        color: rgb(255, 255, 255);
+        background-color: rgb(85, 85, 85);
+        height: 75px;
+        font-weight: bolder;
+        font-size: 20px;
+        box-sizing: border-box;
+        padding: 10px 15px;
+    }
+
+    .sendCommentBody {
+        box-sizing: border-box;
+        padding: 10px 15px;
+    }
+
+    .sendCommentFooter {
+        height: 50px;
+        border-top: 1px solid rgb(200, 200, 200);
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        box-sizing: border-box;
+        padding: 0px 15px;
+    }
+
+    .sendCommentFooterBtn {
+        cursor: pointer;
+        font-weight: bolder;
+        color: rgb(0, 100, 255);
+        margin: 0px 5px;
+    }
+
+    .sendCommentFooterCancelBtn {
+        color: rgb(100, 100, 100);
+    }
+
+    .sendCommentFooterSendBtn {
+        color: rgb(0, 100, 255);
+    }
+
+    .attachScreenshot {
+        font-weight: bolder;
+        margin: 0px 10px;
+    }
+
+    .attachScreenshotContainer {
+        display: flex;
+        align-items: center;
+        margin: 15px 0px;
+    }
+
+    .sendCommentBodyHeader {
+        color: rgb(125, 125, 125);
+        font-weight: bolder;
+        border: none;
     }
 
 </style>
