@@ -137,6 +137,18 @@ const BlogerSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
+  country: {
+    type: String,
+    default: 'Russia'
+  },
+  language: {
+    type: String,
+    default: 'Russian'
+  },
+  theme: {
+    type: String,
+    default: 'Light'
+  }
 }, { collection : 'myblogers' })
 
 const BlogerModel = mongoose.model('BlogerModel', BlogerSchema)
@@ -942,6 +954,72 @@ app.get('/api/blogers/issecuritymode/set', (req, res) => {
       return res.json({ "status": "Error" })
     } else {
       BlogerModel.updateOne({ login: req.query.blogerlogin }, { isSecurityMode: req.query.value }, (err, bloger) => {
+        if (err) {
+          return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+  
+})
+
+app.get('/api/blogers/language/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      BlogerModel.updateOne({ login: req.query.blogerlogin }, { language: req.query.value }, (err, bloger) => {
+        if (err) {
+          return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+  
+})
+
+app.get('/api/blogers/country/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      BlogerModel.updateOne({ login: req.query.blogerlogin }, { country: req.query.value }, (err, bloger) => {
+        if (err) {
+          return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+  
+})
+
+app.get('/api/blogers/theme/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      BlogerModel.updateOne({ login: req.query.blogerlogin }, { theme: req.query.value }, (err, bloger) => {
         if (err) {
           return res.json({ status: 'Error' })        
         }

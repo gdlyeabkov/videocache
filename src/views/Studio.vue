@@ -297,16 +297,61 @@
 
                 </div>
                 <div v-else-if="activeTab === 'Analytics'">
-
+                    <div class="analyticsHeader">
+                        <span class="analyticsHeaderTitle">
+                            Аналитика по каналу
+                        </span>
+                        <span class="analyticsExtendModeBtn">
+                            Расширенный режим
+                        </span>
+                    </div>
+                    <div class="analyticsHeader">
+                        <div class="analyticsTabs">
+                            <div :class="{ analyticsTab: true, activeAnalyticsTab: activeAnalyticsTab === 'Scope' }" @click="activeAnalyticsTab = 'Scope'">
+                                <span>
+                                    Обзор
+                                </span>
+                            </div>
+                            <div :class="{ analyticsTab: true, activeAnalyticsTab: activeAnalyticsTab === 'Views' }" @click="activeAnalyticsTab = 'Views'">
+                                <span>
+                                    Просмотры
+                                </span>
+                            </div>
+                            <div :class="{ analyticsTab: true, activeAnalyticsTab: activeAnalyticsTab === 'Interaction' }" @click="activeAnalyticsTab = 'Interaction'">
+                                <span>
+                                    Взаимодействие
+                                </span>
+                            </div>
+                            <div :class="{ analyticsTab: true, activeAnalyticsTab: activeAnalyticsTab === 'Audition' }" @click="activeAnalyticsTab = 'Audition'">
+                                <span>
+                                    Аудитория
+                                </span>
+                            </div>
+                        </div>
+                        <div class="analyticsHeaderItemColumn">
+                            <span class="analyticsHeaderItemColumnElement">
+                                8 нояб. – 5 дек. 2021 г.
+                            </span>
+                            <span class="analyticsHeaderItemColumnElement">
+                                Последние 28 дней
+                            </span>
+                        </div>
+                    </div>
                 </div>
                 <div v-else-if="activeTab === 'Comments'">
-
+                    <span class="commentsTitle">
+                        Комментарии и упоминания
+                    </span>
                 </div>
                 <div v-else-if="activeTab === 'Subtitles'">
-
+                    <span class="subtitlesTitle">
+                        Субтитры к роликам на канале
+                    </span>
                 </div>
                 <div v-else-if="activeTab === 'DRM'">
-
+                    <span class="drmTitle">
+                        Авторские права канала
+                    </span>
                 </div>
                 <div v-else-if="activeTab === 'Monetization'" class="monetization">
                     <span class="monetizationHeader">
@@ -406,7 +451,8 @@ export default {
     name: 'Studio',
     data() {
         return {
-            activeTab: 'Main'
+            activeTab: 'Main',
+            activeAnalyticsTab: 'Scope'
         }
     },
     methods: {
@@ -687,5 +733,54 @@ export default {
         text-align: left;
     }
 
+    .analyticsHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 15px 0px;
+    }
+
+    .analyticsTabs {
+        display: flex;
+    }
+
+    .analyticsExtendModeBtn {
+        cursor: pointer;
+        font-weight: bolder;
+        color: rgb(0, 100, 255)
+    }
+
+    .analyticsHeaderItemColumn {
+        display: flex;
+        flex-direction: column
+    }
+
+    .analyticsHeaderItemColumnElement {
+        margin: 3px 0px;
+    }
+
+    .analyticsTab {
+        cursor: pointer;
+        font-weight: bolder;
+        margin: 0px 10px;
+    }
+    
+    .activeAnalyticsTab {
+        color: rgb(0, 100, 255);
+        text-decoration: underline;
+        text-underline-offset: 10px;
+        text-decoration-thickness: 3px;
+    }
+
+    .analyticsHeaderTitle {
+        font-weight: bolder;
+        font-size: 20px;
+    }
+
+    .commentsTitle, .subtitlesTitle, .drmTitle {
+        font-weight: bolder;
+        font-size: 20px;
+    }
+    
     
 </style>

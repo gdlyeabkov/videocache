@@ -31,7 +31,196 @@
 
             </div>
         </div>
-        <div v-if="avatarContextMenu && isAuth" class="avatarContextMenu">
+        <div v-if="avatarContextMenu && isCountrySwitchDialog" class="avatarContextMenu">
+            <div class="avatarContextMenuItem">
+                <div class="avatarContextMenuElement">
+                    <span class="material-icons-outlined avatarContextMenuElementIcon" @click="isCountrySwitchDialog = false">
+                        arrow_back    
+                    </span>
+                    <span>
+                        Выберите страну
+                    </span>
+                </div>
+                <span>
+                    
+                </span>
+            </div>
+            <div class="avatarContextMenuItem" @click="switchCountry('Russia')">
+                <div class="avatarContextMenuElement">
+                    <span :class="{ 'material-icons-outlined': bloger.country === 'Russia', avatarContextMenuElementIcon: true }">
+                        {{
+                            bloger.country === 'Russia' ?
+                                'done'
+                            :
+                                ''
+                        }}
+                    </span>
+                    <span>
+                        Россия
+                    </span>
+                </div>
+                <span>
+                    
+                </span>
+            </div>
+            <div class="avatarContextMenuItem" @click="switchCountry('USA')">
+                <div class="avatarContextMenuElement">
+                    <span :class="{ 'material-icons-outlined': bloger.country === 'USA', avatarContextMenuElementIcon: true }">
+                        {{
+                            bloger.country === 'USA' ?
+                                'done'
+                            :
+                                ''
+                        }}
+                    </span>
+                    <span>
+                        Америка
+                    </span>
+                </div>
+                <span>
+                    
+                </span>
+            </div>
+            <div class="avatarContextMenuItem" @click="switchCountry('China')">
+                <div class="avatarContextMenuElement">
+                    <span :class="{ 'material-icons-outlined': bloger.country === 'China', avatarContextMenuElementIcon: true }">
+                        {{
+                            bloger.country === 'China' ?
+                                'done'
+                            :
+                                ''
+                        }}
+                    </span>
+                    <span>
+                        中国
+                    </span>
+                </div>
+                <span>
+                    
+                </span>
+            </div>
+        </div>
+        <div v-else-if="avatarContextMenu && isLanguageSwitchDialog" class="avatarContextMenu">
+            <div class="avatarContextMenuItem">
+                <div class="avatarContextMenuElement">
+                    <span class="material-icons-outlined avatarContextMenuElementIcon" @click="isLanguageSwitchDialog = false">
+                        arrow_back    
+                    </span>
+                    <span>
+                        Выберите язык
+                    </span>
+                </div>
+                <span>
+                    
+                </span>
+            </div>
+            <div class="avatarContextMenuItem" @click="switchLanguage('Russian')">
+                <div class="avatarContextMenuElement">
+                    <span :class="{ 'material-icons-outlined': bloger.language === 'Russian', avatarContextMenuElementIcon: true }">
+                        {{
+                            bloger.language === 'Russian' ?
+                                'done'
+                            :
+                                ''
+                        }}
+                    </span>
+                    <span>
+                        Русский
+                    </span>
+                </div>
+                <span>
+                    
+                </span>
+            </div>
+            <div class="avatarContextMenuItem" @click="switchLanguage('English')">
+                <div class="avatarContextMenuElement">
+                    <span :class="{ 'material-icons-outlined': bloger.language === 'English', avatarContextMenuElementIcon: true }">
+                        {{
+                            bloger.language === 'English' ?
+                                'done'
+                            :
+                                ''
+                        }}
+                    </span>
+                    <span>
+                        English
+                    </span>
+                </div>
+                <span>
+                    
+                </span>
+            </div>
+            <div class="avatarContextMenuItem" @click="switchLanguage('Chinese')">
+                <div class="avatarContextMenuElement">
+                    <span :class="{ 'material-icons-outlined': bloger.language === 'Chinese', avatarContextMenuElementIcon: true }">
+                        {{
+                            bloger.language === 'Chinese' ?
+                                'done'
+                            :
+                                ''
+                        }}
+                    </span>
+                    <span>
+                        中国人
+                    </span>
+                </div>
+                <span>
+                    
+                </span>
+            </div>
+        </div>
+        <div v-else-if="avatarContextMenu && isThemeSwitchDialog" class="avatarContextMenu">
+            <div class="avatarContextMenuItem">
+                <div class="avatarContextMenuElement">
+                    <span class="material-icons-outlined avatarContextMenuElementIcon" @click="isThemeSwitchDialog = false">
+                        arrow_back    
+                    </span>
+                    <span>
+                        Выберите тему
+                    </span>
+                </div>
+                <span>
+                    
+                </span>
+            </div>
+            <div class="avatarContextMenuItem" @click="switchTheme('Light')">
+                <div class="avatarContextMenuElement">
+                    <span :class="{ 'material-icons-outlined': bloger.theme === 'Light', avatarContextMenuElementIcon: true }">
+                        {{
+                            bloger.theme === 'Light' ?
+                                'done'
+                            :
+                                ''
+                        }}
+                    </span>
+                    <span>
+                        Светлая
+                    </span>
+                </div>
+                <span>
+                    
+                </span>
+            </div>
+            <div class="avatarContextMenuItem" @click="switchTheme('Dark')">
+                <div class="avatarContextMenuElement">
+                    <span :class="{ 'material-icons-outlined': bloger.theme === 'Dark', avatarContextMenuElementIcon: true }">
+                        {{
+                            bloger.theme === 'Dark' ?
+                                'done'
+                            :
+                                ''
+                        }}
+                    </span>
+                    <span>
+                        Темная
+                    </span>
+                </div>
+                <span>
+                    
+                </span>
+            </div>
+        </div>
+        <div v-else-if="avatarContextMenu && isAuth" class="avatarContextMenu">
             <div class="avatarContextMenuItem" @click="toChannel">
                 <div class="avatarContextMenuElement">
                     <span class="material-icons-outlined avatarContextMenuElementIcon">
@@ -63,12 +252,12 @@
                     
                 </span>
             </div>
-            <div class="avatarContextMenuItem">
+            <div class="avatarContextMenuItem" @click="$router.push({ name: 'Studio' })">
                 <div class="avatarContextMenuElement">
                     <span class="material-icons-outlined avatarContextMenuElementIcon">
                         settings
                     </span>
-                    <span @click="$router.push({ name: 'Home' })">
+                    <span>
                         Творческая студия VideoCache
                     </span>
                 </div>
@@ -89,12 +278,12 @@
                     chevron_right
                 </span>
             </div>
-            <div class="avatarContextMenuItem">
+            <div class="avatarContextMenuItem" @click="logout">
                 <div class="avatarContextMenuElement">
                     <span class="material-icons-outlined avatarContextMenuElementIcon">
                         logout
                     </span>
-                    <span @click="logout">
+                    <span>
                         Выйти
                     </span>
                 </div>
@@ -102,12 +291,12 @@
                     
                 </span>
             </div>
-            <div class="avatarContextMenuItem">
+            <div class="avatarContextMenuItem" @click="isThemeSwitchDialog = true">
                 <div class="avatarContextMenuElement">
                     <span class="material-icons-outlined avatarContextMenuElementIcon">
                         brightness_3
                     </span>
-                    <span @click="$router.push({ name: 'Home' })">
+                    <span>
                         Тема: Как на устройстве
                     </span>
                 </div>
@@ -115,26 +304,35 @@
                     chevron_right
                 </span>
             </div>
-            <div class="avatarContextMenuItem">
+            <div class="avatarContextMenuItem" @click="isLanguageSwitchDialog = true">
                 <div class="avatarContextMenuElement">
                     <span class="material-icons-outlined avatarContextMenuElementIcon">
                         translate
                     </span>
-                    <span @click="$router.push({ name: 'Home' })">
-                        Язык: Русский
+                    <span>
+                        {{
+                            bloger.language === 'Russian' ?
+                                'Язык: Русский'
+                            : bloger.language === 'English' ?
+                                'English language'
+                            : bloger.language === 'Chinese' ?
+                                '语言：中文'
+                            :
+                                'Язык: Русский'
+                        }}
                     </span>
                 </div>
                 <span class="material-icons">
                     chevron_right
                 </span>
             </div>
-            <div class="avatarContextMenuItem">
+            <div class="avatarContextMenuItem" @click="isCountrySwitchDialog = true">
                 <div class="avatarContextMenuElement">
                     <span class="material-icons-outlined avatarContextMenuElementIcon">
                         language
                     </span>
-                    <span @click="$router.push({ name: 'Home' })">
-                        Страна: Россия
+                    <span>
+                        Страна: {{ bloger.country }}
                     </span>
                 </div>
                 <span class="material-icons">
@@ -172,7 +370,7 @@
                     <span class="material-icons-outlined avatarContextMenuElementIcon">
                         help_outline
                     </span>
-                    <span @click="$router.push({ name: 'Home' })">
+                    <span @click="avatarContextMenu = false; isHelpDialog = true">
                         Справка
                     </span>
                 </div>
@@ -185,7 +383,7 @@
                     <span class="material-icons-outlined avatarContextMenuElementIcon">
                         announcement
                     </span>
-                    <span @click="$router.push({ name: 'Home' })">
+                    <span @click="isSendCommentDialog = true">
                         Отправить отзыв
                     </span>
                 </div>
@@ -685,7 +883,7 @@
                 </div>
             </div>
         </div>
-        <div class="backdrop">
+        <div v-if="isSendCommentDialog" class="backdrop">
             <div class="sendCommentDialog">
                 <div class="sendCommentHeader">
                     <span>
@@ -706,13 +904,26 @@
                     </span>
                 </div>
                 <div class="sendCommentFooter">
-                    <span class="sendCommentFooterBtn sendCommentFooterCancelBtn">
+                    <span class="sendCommentFooterBtn sendCommentFooterCancelBtn" @click="isSendCommentDialog = false">
                         ОТМЕНА
                     </span>
                     <span class="sendCommentFooterBtn sendCommentFooterSendBtn">
                         ОТПРАВИТЬ
                     </span>
                 </div>
+            </div>
+        </div>
+        <div v-if="isHelpDialog" class="help">
+            <div class="helpHeader">
+                <span>
+
+                </span>
+                <span class="helpHeaderItemHeader">
+                    Справка
+                </span>
+                <span class="material-icons helpHeaderItemCloseBtn" @click="isHelpDialog = false">
+                    close
+                </span>
             </div>
         </div>
     </div>
@@ -745,6 +956,11 @@ export default {
             isFastKeysDialog: false,
             isSendCommentDialog: false,
             feedback: '',
+            isHelpDialog: false,
+            helpKeywords: '',
+            isCountrySwitchDialog: false,
+            isLanguageSwitchDialog: false,
+            isThemeSwitchDialog: false,
             token: window.localStorage.getItem("videocachetoken")
         }
     },
@@ -768,6 +984,120 @@ export default {
         })
     },
     methods: {
+        switchTheme(theme) {
+            
+            fetch(`http://localhost:4000/api/blogers/theme/set/?blogerlogin=${this.bloger.login}&value=${theme}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    this.bloger.theme = theme
+                    this.isThemeSwitchDialog = false
+                    alert('Обновил тему')
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить тему')
+                }
+            })
+
+        },
+        switchCountry(country) {
+            
+            fetch(`http://localhost:4000/api/blogers/country/set/?blogerlogin=${this.bloger.login}&value=${country}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    this.bloger.country = country
+                    this.isCountrySwitchDialog = false     
+                    alert('Обновил страну')
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить страну')
+                }
+            })
+
+        },
+        switchLanguage(language) {
+            
+            fetch(`http://localhost:4000/api/blogers/language/set/?blogerlogin=${this.bloger.login}&value=${language}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    this.bloger.language = language
+                    this.isLanguageSwitchDialog = false
+                    alert('Обновил язык')
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить язык')
+                }
+            })
+
+        },
         setIsSecurityMode() {
             
             fetch(`http://localhost:4000/api/blogers/issecuritymode/set/?blogerlogin=${this.bloger.login}&value=${!this.bloger.isSecurityMode}`, {
@@ -1343,6 +1673,33 @@ export default {
         color: rgb(125, 125, 125);
         font-weight: bolder;
         border: none;
+    }
+
+    .help {
+        position: fixed;
+        top: 35%;
+        left: 65%;
+        background-color: rgb(255, 255, 255);
+        width: 350px;
+        height: 400px;
+        box-shadow: 0px 0px 5px rgb(150, 150, 150);
+        border-radius: 8px;
+        box-sizing: border-box;
+        padding: 15px;
+    }
+
+    .helpHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .helpHeaderItemHeader {
+        font-size: 20px;
+    }
+
+    .helpHeaderItemCloseBtn {
+        cursor: pointer;
     }
 
 </style>
