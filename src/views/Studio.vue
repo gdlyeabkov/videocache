@@ -347,11 +347,44 @@
                     <span class="subtitlesTitle">
                         Субтитры к роликам на канале
                     </span>
+                    <div class="subtitles">
+
+                    </div>
                 </div>
                 <div v-else-if="activeTab === 'DRM'">
                     <span class="drmTitle">
                         Авторские права канала
                     </span>
+                    <div class="drmHeader">
+                        <div class="drmTabs">
+                            <div class="drmTab drmActiveTab">
+                                <span>
+                                    Запросы на удаление         
+                                </span>
+                            </div>
+                        </div>
+                        <span class="removeRequestLabel">
+                            ЗАПРОСИТЬ УДАЛЕНИЕ
+                        </span>
+                    </div>
+                    <div class="drmBody">
+                        <img src="https://www.gstatic.com/youtube/img/creator/no_content_illustration_v3.svg" alt="" />
+                        <span class="drmNotFound">
+                            Пока ничего нет
+                        </span>
+                        <span>
+                            Вы не отправляли 
+                            <span class="link">
+                                запросов на удаление
+                            </span>.
+                        </span>
+                        <span>
+                            Хотите проверить, не заявлены ли права на какие-либо из ваших видео? Ознакомьтесь с 
+                            <span class="link">
+                                этим списком
+                            </span>.
+                        </span>
+                    </div>
                 </div>
                 <div v-else-if="activeTab === 'Monetization'" class="monetization">
                     <span class="monetizationHeader">
@@ -432,10 +465,73 @@
                     </div>
                 </div>
                 <div v-else-if="activeTab === 'ChannelEdit'">
-
+                    <span class="channelEditSubheader">
+                        Настройки канала
+                    </span>
+                    <div class="channelEditHeader">
+                        <div class="channelEditHeaderItem">
+                            <span :class="{ activeChannelEditTab: activeChannelEditTab === 'Главная страница', channelEditTab: true,  }" @click="activeChannelEditTab = 'Главная страница'">
+                                Главная страница
+                            </span>
+                            <span :class="{ activeChannelEditTab: activeChannelEditTab === 'Брендинг', channelEditTab: true,  }" @click="activeChannelEditTab = 'Брендинг'">
+                                Брендинг
+                            </span>
+                            <span :class="{ activeChannelEditTab: activeChannelEditTab === 'Основные сведения', channelEditTab: true,  }" @click="activeChannelEditTab = 'Основные сведения'">
+                                Основные сведения
+                            </span>
+                        </div>
+                        <div class="channelEditHeaderItem">
+                            <span class="channelEditHeaderItemBtn channelEditHeaderItemBtnGoToChannel">
+                                ПЕРЕЙТИ НА КАНАЛ
+                            </span>
+                            <span class="channelEditHeaderItemBtn">
+                                ОТМЕНА
+                            </span>
+                            <button class="btn btn-secondary">
+                                Опубликовать
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <div v-else-if="activeTab === 'SoundLibrary'">
-
+                    <span class="soundLibraryHeader">
+                        Фонотека
+                    </span>
+                    <div class="soundLibrarySubheader">
+                        <div class="soundLibrarySubheaderItem">
+                            <span class="soundLibrarySubheaderElement material-icons-outlined">
+                                info
+                            </span>
+                            <span class="soundLibrarySubheaderElement">
+                                Пользуясь этим разделом, вы принимаете Условия использования фонотеки YouTube.
+                            </span>
+                        </div>
+                        <div class="soundLibrarySubheaderItem">
+                            <span class="soundLibrarySubheaderElement soundLibrarySubheaderItemBtn">
+                                ПОДРОБНЕЕ
+                            </span>
+                            <span class="soundLibrarySubheaderElement soundLibrarySubheaderItemBtn">
+                                ОК
+                            </span>
+                        </div>
+                    </div>
+                    <div class="soundLibraryTabs">
+                        <div :class="{ soundLibraryTab: true, activeSoundLibraryTab: activeSoundLibraryTab === 'Бесплатаная музыка' }" @click="activeSoundLibraryTab = 'Бесплатаная музыка'">
+                            <span>
+                                Бесплатаная музыка
+                            </span>
+                        </div>
+                        <div :class="{ soundLibraryTab: true, activeSoundLibraryTab: activeSoundLibraryTab === 'Звуковые эффекты' }" @click="activeSoundLibraryTab = 'Звуковые эффекты'">
+                            <span>
+                                Звуковые эффекты
+                            </span>
+                        </div>
+                        <div :class="{ soundLibraryTab: true, activeSoundLibraryTab: activeSoundLibraryTab === 'Помеченные' }" @click="activeSoundLibraryTab = 'Помеченные'">
+                            <span>
+                                Помеченные
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -452,7 +548,9 @@ export default {
     data() {
         return {
             activeTab: 'Main',
-            activeAnalyticsTab: 'Scope'
+            activeAnalyticsTab: 'Scope',
+            activeChannelEditTab: 'Главная страница',
+            activeSoundLibraryTab: 'Бесплатаная музыка'
         }
     },
     methods: {
@@ -781,6 +879,128 @@ export default {
         font-weight: bolder;
         font-size: 20px;
     }
+
+    .soundLibraryHeader {
+        font-size: 24px;
+    }
+
+    .soundLibrarySubheader {
+        height: 50px;
+        background-color: rgb(235, 235, 235);
+        margin: 25px 0px;
+        justify-content: space-between;
+        display: flex;
+        align-items: center;
+    }
+
+    .soundLibrarySubheaderItem {
+        display: flex;
+        align-items: center;
+    }
     
+    .soundLibrarySubheaderElement {
+        margin: 0px 5px;
+    }
+    .soundLibrarySubheaderItemBtn {
+        font-weight: bolder;
+    }
+
+    .soundLibraryTabs {
+        display: flex;
+    }
+
+    .soundLibraryTab {
+        cursor: pointer;
+        font-weight: bolder;
+        margin: 0px 10px;
+    }
+
+    .activeSoundLibraryTab {
+        color: rgb(0, 100, 255);
+        text-decoration: underline;
+        text-underline-offset: 10px;
+        text-decoration-thickness: 3px;
+    }
+
+    .channelEditSubheader {
+        font-size: 20px;
+        font-weight: bolder;
+    }
+
+    .channelEditHeader {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .channelEditHeaderItem {
+        display: flex;
+        align-items: center;
+    }
+
+    .channelEditHeaderItemBtn {
+        font-weight: bolder;
+        margin: 0px 10px;
+    }
     
+    .channelEditHeaderItemBtnGoToChannel {
+        color: rgb(0, 100, 255);
+    }
+
+    .channelEditTab {
+        font-weight: bolder;
+        color: rgb(150, 150, 150);
+        margin: 0px 15px;
+        cursor: pointer;
+    }
+
+    .activeChannelEditTab {
+        color: rgb(0, 100, 255);
+        text-decoration: underline;
+        text-decoration-thickness: 3px;
+        text-underline-offset: 10px;
+    }
+
+    .drmTabs {
+        display: flex;
+    }
+
+    .drmTab {
+        font-weight: bolder;
+        cursor: pointer;
+    }
+
+    .drmActiveTab {
+        color: rgb(0, 100, 255);
+        text-decoration: underline;
+        text-underline-offset: 10px;
+        text-decoration-thickness: 3px;
+    }
+
+    .removeRequestLabel {
+        color: rgb(0, 100, 255);
+        cursor: pointer;
+        font-weight: bolder;
+    }
+
+    .drmHeader {
+        margin: 25px 0px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .drmBody {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .link {
+        cursor: pointer;
+        color: rgb(0, 100, 255);
+    }
+
+    .drmNotFound {
+        font-weight: bolder;
+    }
+
 </style>

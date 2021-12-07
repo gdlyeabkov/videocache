@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header :burger="burger" @toggleBurger="toggleBurgerHandler" />
+    <Header :burger="burger" @toggleBurger="toggleBurgerHandler" @changeActiveTab="changeActiveTabHandler" />
     <div clas="main">
       <Aside :burger="burger" :activeTab="activeTab" @changeActiveTab="changeActiveTabHandler" />
       <div class="article" :style="`left: ${burger ? '20%' : '10%'}`">
@@ -305,6 +305,33 @@
                   </span>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+        <div v-else-if="activeTab === 'Purchases'">
+          <span class="offersLabel">
+            Специальные предложения VideoCache
+          </span>
+          <div class="offers">
+            <div class="offer">
+              <img src="https://www.gstatic.com/youtube/img/unlimited/ytu_desktop_premium_offer_450x254.png" alt="" />
+              <span>
+                Бесплатная пробная подписка YouTube Premium на месяц                
+              </span>
+              <span class="offerDesc">
+                Оформите подписку YouTube Premium и смотрите видео без рекламы, в фоновом режиме и офлайн.
+              </span>
+              <span class="offerDetail">Подробнее</span>
+            </div>
+            <div class="offer">
+              <img src="https://www.gstatic.com/youtube/img/unlimited/ytu_desktop_music_offer_450x254.png" alt="" />
+              <span>
+                Бесплатная пробная подписка YouTube Premium на месяц                
+              </span>
+              <span class="offerDesc">
+                Оформите подписку YouTube Premium и смотрите видео без рекламы, в фоновом режиме и офлайн.
+              </span>
+              <span class="offerDetail">Подробнее</span>
             </div>
           </div>
         </div>
@@ -680,6 +707,36 @@ export default {
 
   .lastDownloadsLabel {
     font-weight: bolder;
+  }
+
+  .offersLabel {
+    font-size: 24px;
+  }
+
+  .offers {
+    display: flex;
+    margin: 15px;
+  }
+
+  .offer {
+    box-sizing: border-box;
+    padding: 15px;
+    margin: 0px 25px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgb(150, 150, 150);
+    width: 275px;
+    height: 300px;
+  }
+
+  .offerDesc {
+    font-size: 12px;
+  }
+
+  .offerDetail {
+    cursor: pointer;
+    font-weight: bolder;
+    color: rgb(0, 100, 255);
   }
 
 </style>

@@ -239,12 +239,12 @@
                     
                 </span>
             </div>
-            <div class="avatarContextMenuItem">
+            <div class="avatarContextMenuItem" @click="changeActiveTab('Purchases')">
                 <div class="avatarContextMenuElement">
                     <span class="material-icons-outlined avatarContextMenuElementIcon">
                         paid
                     </span>
-                    <span @click="$router.push({ name: 'Home' })">
+                    <span>
                         Покупки и платные подписки
                     </span>
                 </div>
@@ -971,7 +971,8 @@ export default {
         }
     },
     emits: [
-        'toggleBurger'
+        'toggleBurger',
+        'changeActiveTab'
     ],
     mounted() {
         jwt.verify(this.token, 'videocachesecret', (err, decoded) => {
@@ -984,6 +985,9 @@ export default {
         })
     },
     methods: {
+        changeActiveTab(tab) {
+            this.$emit('changeActiveTab', tab)
+        },
         switchTheme(theme) {
             
             fetch(`http://localhost:4000/api/blogers/theme/set/?blogerlogin=${this.bloger.login}&value=${theme}`, {
