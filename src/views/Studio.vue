@@ -342,13 +342,503 @@
                     <span class="commentsTitle">
                         Комментарии и упоминания
                     </span>
+                    <div class="commentsTypes">
+                        <div class="commentsType">
+                            <span>
+                                Опубликованные
+                            </span>
+                        </div>
+                        <div class="commentsType">
+                            <span>
+                                На проверке
+                            </span>
+                        </div>
+                    </div>
+                    <div class="commentsFilterBlock">
+                        <span class="material-icons commentsFilterBlockItem">
+                            filter_list
+                        </span>
+                        <div class="commentsFilterBlockContainer">
+                            <span class="commentsFilterBlockContainerItem">
+                                Без моего ответа
+                            </span>
+                            <span class="commentsFilterBlockContainerItem material-icons">
+                                cancel
+                            </span>
+                        </div>
+                    </div>
+                    <div class="commentsList">
+                        <div class="commentList">
+                            <div class="commentListAside">
+                                <img class="commentListAsideItem" src="https://yt3.ggpht.com/vZ5f4p6HG9FhmCv0zkY4Cc-8Ma405_gtS3COgxhCxiXNyhxFKUQHuqif4hoWbAludibzLAtTqw=s48-c-k-c0x00ffffff-no-rj" alt="" />
+                                <div class="commentListAsideItem commentListAsideInfo">
+                                    <div class="commentListAsideInfoItem commentListAsideInfoHeader">
+                                        <span class="commentListAsideInfoHeaderItem">
+                                            Coolinar Coolinar • 
+                                        </span>
+                                        <span class="commentListAsideInfoHeaderItem">
+                                            2 месяца назад 56 подписчики
+                                        </span>
+                                    </div>
+                                    <div class="commentListAsideInfoItem commentListAsideInfoMain">
+                                        для того чтобы делать много уровней не надо делать много сцен, просто делаешь настройки игры в скриптбл объектах и потому применяешь их к сцене (количесвто врагов их тип задний фон и тд)
+                                    </div>
+                                    <div class="commentListAsideInfoItem commentListAsideFooter">
+                                        <span class="commentListAsideInfElement commentListAsideInfElementAnswer">
+                                            ОТВЕТИТЬ
+                                        </span>
+                                        <span class="commentListAsideInfElement">
+                                            Нет ответов
+                                        </span>
+                                        <span class="commentListAsideInfElement material-icons">
+                                            expand_more
+                                        </span>
+                                        <span class="commentListAsideInfElement material-icons">
+                                            thumb_up
+                                        </span>
+                                        <span class="commentListAsideInfElement material-icons">
+                                            thumb_down
+                                        </span>
+                                        <span class="commentListAsideInfElement material-icons">
+                                            favorite
+                                        </span>
+                                        <span class="commentListAsideInfElement material-icons">
+                                            more_vert
+                                        </span>
+                                        <span class="commentListAsideInfElement material-icons">
+                                            play_circle
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="commentArticle">
+                                <img src="https://i.ytimg.com/vi_webp/a7VuEDl71k4/mqdefault.webp" alt="" width="100px" />
+                                <span>
+                                    Сделал
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div v-else-if="activeTab === 'Subtitles'">
                     <span class="subtitlesTitle">
                         Субтитры к роликам на канале
                     </span>
-                    <div class="subtitles">
-
+                    <div class="subtitlesTabs">
+                        <div :class="{ subtitlesTab: true, activeSubtitlesTab: activeSubtitlesTab === 'All' }" @click="activeSubtitlesTab = 'All'">
+                            <span>
+                                &nbsp;&nbsp;Все&nbsp;&nbsp;
+                            </span>
+                        </div>
+                        <div :class="{ subtitlesTab: true, activeSubtitlesTab: activeSubtitlesTab === 'Drafts' }" @click="activeSubtitlesTab = 'Drafts'">
+                            <span>
+                                &nbsp;&nbsp;Черновики&nbsp;&nbsp;
+                            </span>
+                        </div>
+                        <div :class="{ subtitlesTab: true, activeSubtitlesTab: activeSubtitlesTab === 'Published' }" @click="activeSubtitlesTab = 'Published'">
+                            <span>
+                                &nbsp;&nbsp;Опубликованные&nbsp;&nbsp;
+                            </span>
+                        </div>
+                    </div>
+                    <div v-if="activeSubtitlesTab === 'All'" class="subtitlesTable">
+                        <div class="subtitlesTableColumn subtitlesTablePrimaryColumn">
+                            <div class="subtitlesTableColumnHeader">
+                                <span>
+                                    Видео
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <video controls height="115px">
+                                    <source />
+                                </video>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <video controls height="115px">
+                                    <source />
+                                </video>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <video controls height="115px">
+                                    <source />
+                                </video>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <video controls height="115px">
+                                    <source />
+                                </video>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <video controls height="115px">
+                                    <source />
+                                </video>
+                            </div>
+                        </div>
+                        <div class="subtitlesTableColumn subtitlesTableSecondaryColumn">
+                            <div class="subtitlesTableColumnHeader">
+                                <span>
+                                    Языки
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    1
+                                </span>
+                                <span class="material-icons subtitlesTableColumnContentItem">
+                                    expand_more
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    1
+                                </span>
+                                <span class="material-icons subtitlesTableColumnContentItem">
+                                    expand_more
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    1
+                                </span>
+                                <span class="material-icons subtitlesTableColumnContentItem">
+                                    expand_more
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    1
+                                </span>
+                                <span class="material-icons subtitlesTableColumnContentItem">
+                                    expand_more
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    1
+                                </span>
+                                <span class="material-icons subtitlesTableColumnContentItem">
+                                    expand_more
+                                </span>
+                            </div>
+                        </div>
+                        <div class="subtitlesTableColumn subtitlesTableSecondaryColumn">
+                            <div class="subtitlesTableColumnHeader">
+                                <span>
+                                    Дата изменения
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    16 окт. 2021 г.
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    16 окт. 2021 г.
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    16 окт. 2021 г.
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    16 окт. 2021 г.
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    16 окт. 2021 г.
+                                </span>
+                            </div>
+                        </div>
+                        <div class="subtitlesTableColumn subtitlesTableSecondaryColumn">
+                            <div class="subtitlesTableColumnHeader">
+                                <span>
+                                    Название и описание
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    -
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    -
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    -
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    -
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    -
+                                </span>
+                            </div>
+                        </div>
+                        <div class="subtitlesTableColumn subtitlesTableSecondaryColumn">
+                            <div class="subtitlesTableColumnHeader">
+                                <span>
+                                    Субтитры
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    -
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    -
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    -
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    -
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    -
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="activeSubtitlesTab === 'Draft'" class="subtitlesTable">
+                        <div class="subtitlesTableColumn subtitlesTablePrimaryColumn">
+                            <div class="subtitlesTableColumnHeader">
+                                <span>
+                                    Видео
+                                </span>
+                            </div>
+                        </div>
+                        <div class="subtitlesTableColumn subtitlesTableSecondaryColumn">
+                            <div class="subtitlesTableColumnHeader">
+                                <span>
+                                    Языки
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    1
+                                </span>
+                                <span class="material-icons subtitlesTableColumnContentItem">
+                                    expand_more
+                                </span>
+                            </div>
+                        </div>
+                        <div class="subtitlesTableColumn subtitlesTableSecondaryColumn">
+                            <div class="subtitlesTableColumnHeader">
+                                <span>
+                                    Дата изменения
+                                </span>
+                            </div>
+                        </div>
+                        <div class="subtitlesTableColumn subtitlesTableSecondaryColumn">
+                            <div class="subtitlesTableColumnHeader">
+                                <span>
+                                    Название и описание
+                                </span>
+                            </div>
+                        </div>
+                        <div class="subtitlesTableColumn subtitlesTableSecondaryColumn">
+                            <div class="subtitlesTableColumnHeader">
+                                <span>
+                                    Субтитры
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="activeSubtitlesTab === 'Published'" class="subtitlesTable">
+                        <div class="subtitlesTableColumn subtitlesTablePrimaryColumn">
+                            <div class="subtitlesTableColumnHeader">
+                                <span>
+                                    Видео
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <video controls height="115px">
+                                    <source />
+                                </video>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <video controls height="115px">
+                                    <source />
+                                </video>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <video controls height="115px">
+                                    <source />
+                                </video>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <video controls height="115px">
+                                    <source />
+                                </video>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <video controls height="115px">
+                                    <source />
+                                </video>
+                            </div>
+                        </div>
+                        <div class="subtitlesTableColumn subtitlesTableSecondaryColumn">
+                            <div class="subtitlesTableColumnHeader">
+                                <span>
+                                    Языки
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    1
+                                </span>
+                                <span class="material-icons subtitlesTableColumnContentItem">
+                                    expand_more
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    1
+                                </span>
+                                <span class="material-icons subtitlesTableColumnContentItem">
+                                    expand_more
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    1
+                                </span>
+                                <span class="material-icons subtitlesTableColumnContentItem">
+                                    expand_more
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    1
+                                </span>
+                                <span class="material-icons subtitlesTableColumnContentItem">
+                                    expand_more
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    1
+                                </span>
+                                <span class="material-icons subtitlesTableColumnContentItem">
+                                    expand_more
+                                </span>
+                            </div>
+                        </div>
+                        <div class="subtitlesTableColumn subtitlesTableSecondaryColumn">
+                            <div class="subtitlesTableColumnHeader">
+                                <span>
+                                    Дата изменения
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    16 окт. 2021 г.
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    16 окт. 2021 г.
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    16 окт. 2021 г.
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    16 окт. 2021 г.
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    16 окт. 2021 г.
+                                </span>
+                            </div>
+                        </div>
+                        <div class="subtitlesTableColumn subtitlesTableSecondaryColumn">
+                            <div class="subtitlesTableColumnHeader">
+                                <span>
+                                    Название и описание
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    -
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    -
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    -
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    -
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    -
+                                </span>
+                            </div>
+                        </div>
+                        <div class="subtitlesTableColumn subtitlesTableSecondaryColumn">
+                            <div class="subtitlesTableColumnHeader">
+                                <span>
+                                    Субтитры
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    -
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    -
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    -
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    -
+                                </span>
+                            </div>
+                            <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    -
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div v-else-if="activeTab === 'DRM'">
@@ -549,6 +1039,7 @@ export default {
         return {
             activeTab: 'Main',
             activeAnalyticsTab: 'Scope',
+            activeSubtitlesTab: 'All',
             activeChannelEditTab: 'Главная страница',
             activeSoundLibraryTab: 'Бесплатаная музыка'
         }
@@ -1000,6 +1491,139 @@ export default {
     }
 
     .drmNotFound {
+        font-weight: bolder;
+    }
+
+    .subtitlesTabs {
+        margin: 25px 0px;
+        display: flex;
+    }
+
+    .subtitlesTab {
+        margin: 0px 25px;
+        cursor: pointer;
+        font-weight: bolder;
+    }
+
+    .activeSubtitlesTab {
+        color: rgb(0, 100, 255);
+        text-decoration: underline;
+        text-underline-offset: 10px;
+        text-decoration-thickness: 3px;
+    }
+
+    .subtitlesTable {
+        display: flex;
+        border-top: 1px solid rgb(115, 115, 115);
+    }
+    
+    .subtitlesTableColumn {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .subtitlesTablePrimaryColumn {
+        width: 32%;
+    }
+
+    .subtitlesTableSecondaryColumn {
+        width: 17%;
+    }
+
+    .subtitlesTableColumnHeader {
+        padding: 15px 0px;
+        border-top: 1px solid rgb(115, 115, 115);
+        border-bottom: 1px solid rgb(115, 115, 115);
+        color: rgb(115, 115, 115);
+        font-weight: bolder;
+    }
+
+    .subtitlesTableColumnContent {
+        height: 100px;
+        margin: 15px 0px;
+        display: flex;
+        align-items: center;
+    }
+
+    .subtitlesTableColumnContentItem {
+        margin: 0px 5px;
+    }
+
+    .commentsType {
+        border-radius: 35px;
+        width: 200px;
+        height: 35px;
+        background-color: rgb(215, 215, 235);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0px 15px;
+    }
+
+    .commentsTypes {
+        display: flex;
+        margin: 25px 0px;
+    }
+
+    .commentsFilterBlock {
+        display: flex;
+        align-items: center;
+    }
+
+    .commentsFilterBlockContainer {
+        border-radius: 35px;
+        width: 200px;
+        height: 35px;
+        background-color: rgb(215, 215, 235);
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        margin: 0px 15px;
+    }
+
+    .commentsFilterBlockContainerItem {
+        margin: 0px 5px;
+    }
+
+    .commentsList {
+        margin: 25px 0px;
+        flex-direction: column;
+        display: flex;
+    }
+
+    .commentList {
+        display: flex;
+    }
+
+    .commentListAside {
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .commentListAsideItem {
+        margin: 0px 5px;
+    }
+
+    .commentListAsideInfo {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .commentListAsideInfoItem {
+        display: flex;
+        margin: 5px 0px;
+    }
+
+    .commentListAsideInfElement {
+        margin: 0px 5px;
+        color: rgb(125, 125, 125);
+    }
+
+    .commentListAsideInfoHeaderItem {
+        margin: 0px 5px;
+    }
+
+    .commentListAsideInfElementAnswer {
         font-weight: bolder;
     }
 
