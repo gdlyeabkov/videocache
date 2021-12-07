@@ -332,9 +332,13 @@
                             <span class="analyticsHeaderItemColumnElement">
                                 8 нояб. – 5 дек. 2021 г.
                             </span>
-                            <span class="analyticsHeaderItemColumnElement">
-                                Последние 28 дней
-                            </span>
+                            <select v-model="analyticsPeriod" class="analyticsHeaderItemColumnElement form-select">
+                                <option value="Последние 7 дней">Последние 7 дней</option>
+                                <option value="Последние 28 дней">Последние 28 дней</option>
+                                <option value="Последние 90 дней">Последние 90 дней</option>
+                                <option value="Последние 365 дней">Последние 365 дней</option>
+                                <option value="Все время">Все время</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -1039,6 +1043,7 @@ export default {
         return {
             activeTab: 'Main',
             activeAnalyticsTab: 'Scope',
+            analyticsPeriod: 'Последние 28 дней',
             activeSubtitlesTab: 'All',
             activeChannelEditTab: 'Главная страница',
             activeSoundLibraryTab: 'Бесплатаная музыка'

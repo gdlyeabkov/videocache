@@ -26,14 +26,21 @@
                         <span class="material-icons videoFooterElement">
                             more_horiz
                         </span>
-                        <span class="material-icons videoFooterElement">
+                        <span class="material-icons videoFooterElement videoInteractionBtn" @click="addLike">
                             thumb_up
                         </span>
                         <span class="videoFooterElement">
-                            10
+                            {{
+                                video.likes.length
+                            }}
                         </span>
-                        <span class="material-icons-outlined videoFooterElement">
+                        <span class="material-icons-outlined videoFooterElement videoInteractionBtn" @click="addDisLike">
                             thumb_down
+                        </span>
+                        <span class="videoFooterElement">
+                            {{
+                                video.dislikes.length
+                            }}
                         </span>
                         <span class="videoFooterElement">
                             Не нравится
@@ -101,6 +108,62 @@
                         </span>
                     </div>
                 </div>
+                <div class="createPostContainer">
+                    <div class="blogerAvatar createPostContainerItem">
+
+                    </div>
+                    <input placeholder="Оставьте комментарий" v-model="post" type="text" class="createPostContainerItem form-control" @keyup.enter="sendPost" />
+                </div>
+                <div class="posts">
+                    <div v-for="post in video.posts" :key="post.id" class="post">
+                        <img src="https://yt3.ggpht.com/ytc/AKedOLTKZYe0FvM7mciXj4wO72lvzeEmCTBq7MeSMKCv=s48-c-k-c0x00ffffff-no-rj" class="blogerAvatar" />
+                        <div class="postArticle">
+                            <div class="postArticleItem postArticleHeader">
+                                <span class="postArticleHeader">
+                                    {{
+                                        post.bloger
+                                    }}
+                                </span>
+                                <span class="postArticleHeader">
+                                    2 года назад
+                                </span>
+                                <span class="postArticleHeader">
+                                    29 подписчики
+                                </span>
+                            </div>
+                            <span class="postArticleItem">
+                                {{
+                                    post.message
+                                }}
+                            </span>
+                            <div class="postArticleItem postArticleFooter">
+                                <span class="postArticleFooterItem material-icons">
+                                    thumb_up
+                                </span>
+                                <span class="postArticleFooterItem">
+                                    117
+                                </span>
+                                <span class="postArticleFooterItem material-icons">
+                                    thumb_down
+                                </span>
+                                <span class="postArticleFooterItem">
+                                    ОТВЕТИТЬ
+                                </span>
+                                <span class="postArticleFooterItem material-icons">
+                                    play_circle
+                                </span>
+                            </div>
+                            <div class="postAnswers">
+                                <span class="postAnswersItem material-icons">
+                                    arrow_drop_down
+                                </span>
+                                <span class="postAnswersItem">
+                                    Показать 22 ответа
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="article">
                 <div class="otherVideos">
@@ -141,21 +204,200 @@
 
 import Header from '@/components/Header.vue'
 
+import * as jwt from 'jsonwebtoken'
+
 export default {
     name: 'Video',
     data() {
         return {
             video: {
-                name: ''
+                name: '',
+                posts: [],
+                likes: [],
+                dislikes: []
             },
             otherVideos: [],
+            bloger: {
+                login: ''
+            },
+            post: '',
+            token: window.localStorage.getItem("videocachetoken")
         }
     },
     mounted() {
+        jwt.verify(this.token, 'videocachesecret', (err, decoded) => {
+            if (err) {
+                alert('Не могу получить блогера')
+                this.$router.push({ name: 'Home' })
+            } else {
+                this.getBloger(decoded.bloger)
+            }
+        })
         this.getVideo()
         this.getVideos()
     },
     methods: {
+        addDisLike() {
+            
+            fetch(`http://localhost:4000/api/videos/dislikes/add/?videoid=${this.$route.query.videoid}&blogerlogin=${this.bloger.login}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    this.video.dislikes.push({
+                        id: Math.floor(Math.random() * 5000),
+                        bloger: this.bloger.login                        
+                    })
+                    alert('Добавил дизлайк')
+                    this.post = ''
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу добавить дизлайк')
+                }
+            })
+
+        },
+        addLike() {
+            
+            fetch(`http://localhost:4000/api/videos/likes/add/?videoid=${this.$route.query.videoid}&blogerlogin=${this.bloger.login}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    this.video.likes.push({
+                        id: Math.floor(Math.random() * 5000),
+                        bloger: this.bloger.login                        
+                    })
+                    alert('Добавил лайк')
+                    this.post = ''
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу добавить лайк')
+                }
+            })
+
+        },
+        getBloger(login) {
+            
+            fetch(`http://localhost:4000/api/blogers/get/?blogerlogin=${login}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    this.isAuth = true
+                    this.bloger = JSON.parse(result).bloger
+                    alert(`Получил блогера: ${this.bloger.login}`)
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу получить блогера')
+                }
+            })
+
+        },
+        sendPost() {
+            fetch(`http://localhost:4000/api/videos/posts/add/?videoid=${this.$route.query.videoid}&blogerlogin=${this.bloger.login}&blogermessage=${this.post}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    this.video.posts.push({
+                        id: Math.floor(Math.random() * 5000),
+                        bloger: this.bloger.login,
+                        message: this.post
+                    })
+                    alert('Добавил пост')
+                    this.post = ''
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу добавить пост')
+                }
+            })
+
+        },
         getVideos() {
             fetch(`http://localhost:4000/api/videos/all/`, {
                 mode: 'cors',
@@ -372,6 +614,72 @@ export default {
 
     .commentsHeader {
         display: flex;
+    }
+
+    .createPostContainer {
+        display: flex;
+        align-items: center;
+    }
+
+    .blogerAvatar {
+        border-radius: 100%;
+        background-color: rgb(0, 150, 0);
+        width: 75px;
+        height: 75px;
+    }
+    
+    .createPostContainerItem {
+        margin: 0px 5px;
+    }
+
+    .posts {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .post {
+        margin: 25px 0px;
+        display: flex;
+    }
+
+    .postAside {
+        
+    }
+
+    .postArticle {
+        display: flex;
+        flex-direction: column;
+        margin: 0px 15px;
+    }
+
+    .postArticleItem {
+        margin: 5px 0px;
+    }
+
+    .postArticleHeader {
+        display: flex;
+    }
+
+    .postArticleFooter {
+        display: flex;
+        align-items: center;
+    }
+
+    .postAnswers {
+        display: flex;
+        align-items: center;
+    }
+
+    .postAnswersItem, .postArticleFooterItem, .postArticleHeader {
+        margin: 0px 5px;
+    }
+
+    .postArticleFooterItem {
+        font-size: 14px;
+    }
+
+    .videoInteractionBtn {
+        cursor: pointer;
     }
 
 </style>
