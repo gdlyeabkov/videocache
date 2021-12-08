@@ -1225,6 +1225,9 @@ export default {
             localStorage.removeItem('videocachetoken')
             this.isAuth = false
             this.avatarContextMenu = false
+            if (this.$route.path !== '/') {
+                this.$router.push({ name: 'Home' })
+            }
         },
         checkBloger() {
 

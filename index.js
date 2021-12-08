@@ -1113,6 +1113,53 @@ app.get('/api/videos/dislikes/add', (req, res) => {
 
 })
 
+app.get('/api/channels/followers/add', (req, res) => {
+
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  ChannelModel.updateOne({ _id: req.query.channelid },
+    { $push: 
+      {
+        followers: [
+          {
+            bloger: req.query.blogerlogin,
+          }
+        ] 
+      }
+  }, (err, channel) => {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      return res.json({ status: 'OK' })
+    }
+  })
+
+})
+
+app.get('/api/videos/views/add', (req, res) => {
+
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  VideoModel.updateOne({ _id: req.query.videoid },
+    {
+      "$inc": { "views": 1 },
+    }, (err, video) => {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      return res.json({ status: 'OK' })
+    }
+  })
+
+})
+
+
 app.get('**', (req, res) => { 
   
   res.setHeader('Access-Control-Allow-Origin', '*');

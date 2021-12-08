@@ -16,7 +16,7 @@
                 <div class="videoFooter">
                     <div class="videoFooterItem videoFooterAside">
                         <span class="videoFooterElement">
-                            281 просмотр
+                            {{ video.views }} просмотр
                         </span>
                         <span class="videoFooterElement">
                             16 окт. 2021 г.
@@ -75,12 +75,17 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="aboutVideoHeaderItem aboutVideoHeaderBtns">
+                        <div v-if="bloger.channels.map(channel => channel.id).includes($route.query.channelid)" class="aboutVideoHeaderItem aboutVideoHeaderBtns">
                             <button class="btn btn-primary aboutVideoHeaderBtn">
                                 ПОСМОТРЕТЬ АНАЛИТИКУ
                             </button>
                             <button class="btn btn-primary aboutVideoHeaderBtn">
                                 ИЗМЕНИТЬ ВИДЕО
+                            </button>
+                        </div>
+                        <div v-else>
+                            <button :disabled="channel.followers.map(follower => follower.bloger).includes(bloger.login)" class="btn btn-danger aboutVideoHeaderBtn" @click="follow">
+                                ПОДПИСАТЬСЯ
                             </button>
                         </div>
                     </div>
@@ -214,13 +219,18 @@ export default {
                 name: '',
                 posts: [],
                 likes: [],
-                dislikes: []
+                dislikes: [],
+                views: 0
             },
             otherVideos: [],
             bloger: {
-                login: ''
+                login: '',
+                channels: []
             },
             post: '',
+            channel: {
+                followers: []
+            },
             token: window.localStorage.getItem("videocachetoken")
         }
     },
@@ -235,8 +245,124 @@ export default {
         })
         this.getVideo()
         this.getVideos()
+        this.getChannel()
+        this.addView()
     },
     methods: {
+        addView() {
+            
+            fetch(`http://localhost:4000/api/videos/views/add/?videoid=${this.$route.query.videoid}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('добавил просмотр')
+                    this.video.views++
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу добавить просмотр')
+                }
+            })
+
+        },
+        getChannel() {
+            
+            fetch(`http://localhost:4000/api/channels/get/?channelid=${this.$route.query.channelid}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('получил канал')
+                    this.channel = JSON.parse(result).channel
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу получить канал')
+                }
+            })
+
+        },
+        follow() {
+            
+            fetch(`http://localhost:4000/api/channels/followers/add/?channelid=${this.$route.query.channelid}&blogerlogin=${this.bloger.login}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    this.channel.followers.push({
+                        bloger: this.bloger.login
+                    })
+                    alert('Подписался')
+                    this.post = ''
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу подписаться')
+                }
+            })
+
+        },
         addDisLike() {
             
             fetch(`http://localhost:4000/api/videos/dislikes/add/?videoid=${this.$route.query.videoid}&blogerlogin=${this.bloger.login}`, {

@@ -92,7 +92,7 @@
           </div>
           <div v-else class="videos">
             <div class="videosColum">
-              <div v-for="video in videos" :key="video" class="video" @click="$router.push({ name: 'Video', query: { videoid: video._id } })">
+              <div v-for="video in videos" :key="video" class="video" @click="$router.push({ name: 'Video', query: { videoid: video._id, channelid: video.channel } })">
                 <video class="videoHeader" controls  :id="`videoElement${video._id}Id`" @mouseenter="videoHoverHandler(`videoElement${video._id}Id`)" @mouseleave="videoHoutHandler(`videoElement${video._id}Id`)">
                   <source :src="`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`" />
                 </video>
@@ -305,6 +305,100 @@
                   </span>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+        <div v-else-if="activeTab === 'Library'" class="library">
+          <div class="libraryAside">
+            <div class="libraryAsideHeader">
+              <div class="libraryAsideHeaderHistory">
+                <span class="libraryAsideHeaderHistoryItem material-icons">
+                  history
+                </span>
+                <span class="libraryAsideHeaderHistoryItem">
+                  История
+                </span>
+              </div>
+              <span class="libraryAsideHeaderMore">
+                ЕЩЕ
+              </span>
+            </div>
+            
+            <div v-if="videos.length <= 0" class="notFoundVideo">
+            <span>
+              Нет опубликованных видео
+            </span>
+          </div>
+          <div v-else class="videos">
+            <div class="videosColum">
+              <div v-for="video in videos" :key="video" class="video" @click="$router.push({ name: 'Video', query: { videoid: video._id } })">
+                <video class="videoHeader" controls  :id="`videoElement${video._id}Id`" @mouseenter="videoHoverHandler(`videoElement${video._id}Id`)" @mouseleave="videoHoutHandler(`videoElement${video._id}Id`)">
+                  <source :src="`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`" />
+                </video>
+                <div class="videoFooter">
+                  <div :style="`background-image: url('${`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`}');`" class="videoAvatar videoItem">
+                    
+                  </div>
+                  <div class="aboutVideo videoItem">
+                    <span class="videoName">
+                      {{
+                        video.name
+                      }}
+                    </span>
+                    <span>
+                      {{
+                        video.channelName
+                      }}
+                    </span>
+                    <span>
+                      {{
+                        video.views
+                      }} просмотров
+                    </span>
+                    <span>
+                      {{
+                        `${video.created.split('T')[0].split('-')[2]}/${video.created.split('T')[0].split('-')[1]}/${video.created.split('T')[0].split('-')[0]}`
+                      }}
+                      2 недели назад
+                    </span>
+                  </div>
+                  <span class="material-icons videoItem">
+                    more_vert
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          </div>
+          <div classs="libraryArticle">
+            <img class="libraryArticleItem" width="75px" src="https://yt3.ggpht.com/UhjsV-ihiyEBav8xnrM6Ud2ARTYiiPs8o71LsPDfPunxrtFumlSUc1ydpBice0Z4WOLDcDOboA=s160-c-k-c0x00ffffff-no-rj" alt="" />
+            <span class="libraryArticleItem">
+              KarasGames - разработчик игр
+            </span>
+            <div class="libraryArticleItem libraryArticleContainer">
+              <span>
+                Подписки
+              </span>
+              <span>
+                1
+              </span>
+            </div>
+            <div class="libraryArticleItem libraryArticleContainer">
+              <span>
+                Загрузки
+              </span>
+              <span>
+                4
+              </span>
+            </div>
+            <div class="libraryArticleItem libraryArticleContainer">
+              <span>
+                Отметки "Нравится"
+              </span>
+              <span>
+                3
+              </span>
             </div>
           </div>
         </div>
@@ -737,6 +831,53 @@ export default {
     cursor: pointer;
     font-weight: bolder;
     color: rgb(0, 100, 255);
+  }
+
+  .library {
+    display: flex;
+  }
+
+  .libraryAside {
+    width: 75%;
+    /* display: flex; */
+  }
+
+  .libraryArticle {
+    align-items: center;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .libraryArticleContainer {
+    padding: 10px 0px;
+    border-top: 1px solid rgb(175, 175, 175);
+    border-bottom: 1px solid rgb(175, 175, 175);
+    justify-content: space-between;
+  }
+
+  .libraryArticleItem {
+    display: flex;
+  }
+
+  .libraryAsideHeader {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .libraryAsideHeaderMore {
+    color: rgb(0, 100, 255);
+    font-weight: bolder;
+    cursor: pointer;
+  }
+
+  .libraryAsideHeaderHistory {
+    display: flex;
+    align-items: center;
+  }
+
+  .libraryAsideHeaderHistoryItem {
+    margin: 0px 5px;
   }
 
 </style>
