@@ -907,7 +907,7 @@
                         </div>
                     </div>
                     <div v-else-if="activeAnalyticsTab === 'Views'" class="analyticsScope">
-                        <div class="analyticsScopePrimaryItem analyticsScopeItem">
+                        <div class="analyticsScopeMainItem analyticsScopePrimaryItem analyticsScopeItem">
                             <div class="analyticsScopeChart">
                                 <div class="analyticsScopeChartTabs">
                                     <div class="analyticsScopeChartTabAnother analyticsScopeChartTab">
@@ -950,247 +950,264 @@
                                     ПОДРОБНЕЕ
                                 </span>
                             </div>
-                            <span class="analyticsScopeItemHeader">
-                                Лучшие видео за выбранный период
-                            </span>
-                            <div class="analyticsScopeItemTable">
-                                <div class="analyticsScopeItemColumn analyticsScopeItemPrimaryColumn">
-                                    <span class="analyticsScopeRow">
-                                        Видео
-                                    </span>
-                                    <div class="analyticsScopeRow">
-                                        <video class="analyticsScopeRowVideo" width="150px" controls>
-                                            <source src="" />
-                                        </video>
-                                        <div class="videoInfo">
-                                            <span>
-                                                Создание анимации для 2D персонажей
-                                            </span>
-                                            <span>
-                                                16 окт. 2021 г.
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="analyticsScopeRow">
-                                        <video class="analyticsScopeRowVideo" width="150px" controls>
-                                            <source src="" />
-                                        </video>
-                                        <div class="videoInfo">
-                                            <span>
-                                                Создание анимации для 2D персонажей
-                                            </span>
-                                            <span>
-                                                16 окт. 2021 г.
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="analyticsScopeRow">
-                                        <video class="analyticsScopeRowVideo" width="150px" controls>
-                                            <source src="" />
-                                        </video>
-                                        <div class="videoInfo">
-                                            <span>
-                                                Создание анимации для 2D персонажей
-                                            </span>
-                                            <span>
-                                                16 окт. 2021 г.
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="analyticsScopeRow">
-                                        <video class="analyticsScopeRowVideo" width="150px" controls>
-                                            <source src="" />
-                                        </video>
-                                        <div class="videoInfo">
-                                            <span>
-                                                Создание анимации для 2D персонажей
-                                            </span>
-                                            <span>
-                                                16 окт. 2021 г.
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="analyticsScopeRow">
-                                        <video class="analyticsScopeRowVideo" width="150px" controls>
-                                            <source src="" />
-                                        </video>
-                                        <div class="videoInfo">
-                                            <span>
-                                                Создание анимации для 2D персонажей
-                                            </span>
-                                            <span>
-                                                16 окт. 2021 г.
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="analyticsScopeItemColumn analyticsScopeItemSecondaryColumn">
-                                    <span class="analyticsScopeRow">
-                                        Средняя<br />продолжительность<br />просмотра
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        1:33(84,9%)
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        1:33(84,9%)
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        1:33(84,9%)
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        1:33(84,9%)
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        1:33(84,9%)
-                                    </span>
-                                </div>
-                                <div class="analyticsScopeItemColumn analyticsScopeItemSecondaryColumn">
-                                    <span class="analyticsScopeRow">
-                                        Просмотры
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        78
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        78
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        78
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        78
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        78
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="analyticsScopeSecondaryItem analyticsScopeItem">
-                            <div class="analyticsScopeSecondaryElement">
-                                <span>
-                                    В режиме реального времени
-                                </span>
-                                <span>
-                                    В реальном времени
-                                </span>
-                                <span>
-                                    25
-                                </span>
-                                <span>
-                                    Подписчики
-                                </span>
-                                <span>
-                                    ТЕКУЩАЯ СТАТИСТИКА
-                                </span>
-                                <span>
-                                    3
-                                </span>
-                                <span>
-                                    Просмотры · Последние 48 часов
-                                </span>
-                                <div class="analyticsScopeSecondaryElementTable">
-                                    <div class="analyticsScopeSecondaryElementColumn">
-                                        <span class="analyticsScopeSecondaryElementColumnItem">
-                                            Лучшие видео
+                            <div class="analyticsViewsColumns">
+                                <div class="analyticsViewsColumn">
+                                    <div class="analyticsViewsColumnItem">
+                                        <span class="analyticsViewsColumnItemHeader">
+                                            Типы источников трафика
                                         </span>
-                                        <div class="analyticsScopeSecondaryElementColumnItem">
-                                            <video height="40px" controls>
-                                                <source src="" />
-                                            </video>
+                                        <span>
+                                            Просмотры · Последние 28 дней
+                                        </span>
+                                        <div class="typesTarrifsSource">
+                                            <span>                                                    
+                                                Внешние источники
+                                            </span>
                                             <span>
-                                                Создание анимации
+                                                64,1 %
                                             </span>
                                         </div>
-                                        <div class="analyticsScopeSecondaryElementColumnItem">
-                                            <video height="40px" controls>
-                                                <source src="" />
-                                            </video>
+                                        <div class="typesTarrifsSource">
                                             <span>
-                                                Создание анимации
+                                                Поиск на YouTube
+                                            </span>
+                                            <span>
+                                                22,1 %
                                             </span>
                                         </div>
-                                        <div class="analyticsScopeSecondaryElementColumnItem">
-                                            <video height="40px" controls>
-                                                <source src="" />
-                                            </video>
+                                        <div class="typesTarrifsSource">
                                             <span>
-                                                Создание анимации
+                                                Страницы канала
+                                            </span>
+                                            <span>
+                                                12,2 %
                                             </span>
                                         </div>
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                Функции выбора контента
+                                            </span>
+                                            <span>
+                                                1,5 %
+                                            </span>
+                                        </div>
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                Адресная строка, закладки, неизвестные источники
+                                            </span>
+                                            <span>
+                                                0,0 % 
+                                            </span>
+                                        </div>
+                                        <span class="analyticsViewsColumnItemDetail">
+                                            ПОДРОБНЕЕ
+                                        </span>
                                     </div>
-                                    <div class="analyticsScopeSecondaryElementColumn">
-                                        <span class="analyticsScopeSecondaryElementColumnItem">
-                                            Просмотры
+                                    <div class="analyticsViewsColumnItem">
+                                        <span class="analyticsViewsColumnItemHeader">
+                                            Источник трафика: внешний
                                         </span>
-                                        <span class="analyticsScopeSecondaryElementColumnItem">
-                                            1
+                                        <span>
+                                            Просмотры · Последние 28 дней
                                         </span>
-                                        <span class="analyticsScopeSecondaryElementColumnItem">
-                                            1
+                                        <div class="typesTarrifsSource">
+                                            <span>	
+                                                ВКонтакте
+                                            </span>
+                                            <span>
+                                                79,8 %
+                                            </span>
+                                        </div>
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                YouTube
+                                            </span>
+                                            <span>
+                                                9,5 %
+                                            </span>
+                                        </div>
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                Google Search
+                                            </span>
+                                            <span>
+                                                1,2 %
+                                            </span>
+                                        </div>
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                com.huawei.android.internal.app
+                                            </span>
+                                            <span>
+                                                1,2 %
+                                            </span>
+                                        </div>
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                com.perm.kate_new_6
+                                            </span>
+                                            <span>
+                                                1,2 %
+                                            </span>
+                                        </div>
+                                        <span class="analyticsViewsColumnItemDetail">
+                                            ПОДРОБНЕЕ
                                         </span>
-                                        <span class="analyticsScopeSecondaryElementColumnItem">
-                                            1
+                                    </div>
+                                    <div class="analyticsViewsColumnItem">
+                                        <span class="analyticsViewsColumnItemHeader">
+                                            Источник трафика: рекомендуемые видео
+                                        </span>
+                                        <span>
+                                            Просмотры · Последние 28 дней
+                                        </span>
+                                        <span>
+                                            Недостаточно данных о трафике.
+                                        </span>
+                                        <span class="analyticsViewsColumnItemDetail">
+                                            ПОДРОБНЕЕ
                                         </span>
                                     </div>
                                 </div>
-                                <span>
-                                    ПОДРОБНЕЕ
-                                </span>
-                            </div>
-                            <div class="analyticsScopeSecondaryElement">
-                                <span>
-                                    НОВЫЕ ВИДЕО
-                                </span>
-                                <div>
-                                    <img width="100%" src="https://i9.ytimg.com/vi/0pZWYKEIdNQ/sddefault.jpg?v=616ae74f&sqp=CMCmwY0G&rs=AOn4CLCvRGwELSAefldivD7XlbT7yPzJeA" alt="" />
-                                </div>
-                                <span>
-                                    52 дня 15 часов после публикации: 
-                                </span>
-                                <div class="analyticsScopeSecondarySecondElementTable">
-                                    <div class="analyticsScopeSecondarySecondElementColumn">
-                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
-                                            Просмотры
+                                <div class="analyticsViewsColumn">
+                                    <div class="analyticsViewsColumnItem">
+                                        <span class="analyticsViewsColumnItemHeader">
+                                            Показы значков и время просмотра роликов
                                         </span>
-                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
-                                            CTR для значков видео
+                                        <span>
+                                            Данные за период 10 нояб. – 7 дек. 2021 г. (28 дн.)
                                         </span>
-                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
-                                            Средняя продолжительность просмотра
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                Показы
+                                            </span>
+                                            <span>
+                                                749
+                                            </span>
+                                        </div>
+                                        <span>
+                                            В 8,0 % случаев значки были показаны в рекомендациях
+                                        </span>
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                Показатель CTR – 
+                                            </span>
+                                            <span>
+                                                4,9 %
+                                            </span>
+                                        </div>
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                Просмотры по показам значков
+                                            </span>
+                                            <span>
+                                                37
+                                            </span>
+                                        </div>
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                Среднее время просмотра – 
+                                            </span>
+                                            <span>
+                                                1:20
+                                            </span>
+                                        </div>
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                Время просмотра, связанное с показами значков (часы)
+                                            </span>
+                                            <span>
+                                                0,83
+                                            </span>
+                                        </div>
+                                        <span class="analyticsViewsColumnItemDetail">
+                                            ПОДРОБНЕЕ
                                         </span>
                                     </div>
-                                    <div class="analyticsScopeSecondarySecondElementColumn">
-                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
-                                            289
+                                    <div class="analyticsViewsColumnItem">
+                                        <span class="analyticsViewsColumnItemHeader">
+                                            Источник трафика: плейлисты
                                         </span>
-                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
-                                            5,4 %
+                                        <span>
+                                            Просмотры · Последние 28 дней  
                                         </span>
-                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
-                                            1:22
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                Фид "Смотреть позже"
+                                            </span>
+                                            <span>
+                                                0,0 %
+                                            </span>
+                                        </div>
+                                        <span class="analyticsViewsColumnItemDetail">
+                                            ПОДРОБНЕЕ
                                         </span>
                                     </div>
-                                </div>
-                                <span>
-                                    ПОСМОТРЕТЬ АНАЛИТИКУ ДЛЯ ВИДЕО
-                                </span>
-                                <div class="analyticsScopeSecondarySecondElementFooter">
-                                    <span class="material-icons">
-                                        chevron_left
-                                    </span>
-                                    <span>
-                                        1 из 4
-                                    </span>
-                                    <span class="material-icons">
-                                        chevron_right
-                                    </span>
+                                    <div class="analyticsViewsColumnItem">
+                                        <span class="analyticsViewsColumnItemHeader">
+                                            Источник трафика: поиск на YouTube
+                                        </span>
+                                        <span>
+                                            Просмотры · Последние 28 дней
+                                        </span>
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                Доля в общем объеме трафика на канале:
+                                            </span>
+                                            <span>
+                                                22,1 %
+                                            </span>
+                                        </div>
+                                        <div class="typesTarrifsSource">
+                                            <span>                                                
+                                                swamp attack  
+                                            </span>
+                                            <span>
+                                                3,5 %
+                                            </span>
+                                        </div>
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                moho спрайты для игры
+                                            </span>
+                                            <span>
+                                                0,0 %
+                                            </span>
+                                        </div>
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                геймдев
+                                            </span>
+                                            <span>
+                                                0,0 %
+                                            </span>
+                                        </div>
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                игры похожие на swamp attack
+                                            </span>
+                                            <span>
+                                                0,0 %
+                                            </span>
+                                        </div>
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                как импортировать анимацыии из фотошоп в юнити
+                                            </span>
+                                            <span>
+                                                0,0 %
+                                            </span>
+                                        </div>
+                                        <span class="analyticsViewsColumnItemDetail">
+                                            ПОДРОБНЕЕ
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div v-else-if="activeAnalyticsTab === 'Interaction'" class="analyticsScope">
-                        <div class="analyticsScopePrimaryItem analyticsScopeItem">
+                        <div class="analyticsScopeMainItem analyticsScopePrimaryItem analyticsScopeItem">
                             <div class="analyticsScopeChart">
                                 <div class="analyticsScopeChartTabs">
                                     <div class="analyticsScopeChartTab analyticsScopeChartTabOther">
@@ -1217,247 +1234,167 @@
                                     ПОДРОБНЕЕ
                                 </span>
                             </div>
-                            <span class="analyticsScopeItemHeader">
-                                Лучшие видео за выбранный период
-                            </span>
-                            <div class="analyticsScopeItemTable">
-                                <div class="analyticsScopeItemColumn analyticsScopeItemPrimaryColumn">
-                                    <span class="analyticsScopeRow">
-                                        Видео
-                                    </span>
-                                    <div class="analyticsScopeRow">
-                                        <video class="analyticsScopeRowVideo" width="150px" controls>
-                                            <source src="" />
-                                        </video>
-                                        <div class="videoInfo">
-                                            <span>
-                                                Создание анимации для 2D персонажей
-                                            </span>
-                                            <span>
-                                                16 окт. 2021 г.
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="analyticsScopeRow">
-                                        <video class="analyticsScopeRowVideo" width="150px" controls>
-                                            <source src="" />
-                                        </video>
-                                        <div class="videoInfo">
-                                            <span>
-                                                Создание анимации для 2D персонажей
-                                            </span>
-                                            <span>
-                                                16 окт. 2021 г.
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="analyticsScopeRow">
-                                        <video class="analyticsScopeRowVideo" width="150px" controls>
-                                            <source src="" />
-                                        </video>
-                                        <div class="videoInfo">
-                                            <span>
-                                                Создание анимации для 2D персонажей
-                                            </span>
-                                            <span>
-                                                16 окт. 2021 г.
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="analyticsScopeRow">
-                                        <video class="analyticsScopeRowVideo" width="150px" controls>
-                                            <source src="" />
-                                        </video>
-                                        <div class="videoInfo">
-                                            <span>
-                                                Создание анимации для 2D персонажей
-                                            </span>
-                                            <span>
-                                                16 окт. 2021 г.
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="analyticsScopeRow">
-                                        <video class="analyticsScopeRowVideo" width="150px" controls>
-                                            <source src="" />
-                                        </video>
-                                        <div class="videoInfo">
-                                            <span>
-                                                Создание анимации для 2D персонажей
-                                            </span>
-                                            <span>
-                                                16 окт. 2021 г.
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="analyticsScopeItemColumn analyticsScopeItemSecondaryColumn">
-                                    <span class="analyticsScopeRow">
-                                        Средняя<br />продолжительность<br />просмотра
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        1:33(84,9%)
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        1:33(84,9%)
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        1:33(84,9%)
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        1:33(84,9%)
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        1:33(84,9%)
-                                    </span>
-                                </div>
-                                <div class="analyticsScopeItemColumn analyticsScopeItemSecondaryColumn">
-                                    <span class="analyticsScopeRow">
-                                        Просмотры
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        78
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        78
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        78
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        78
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        78
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="analyticsScopeSecondaryItem analyticsScopeItem">
-                            <div class="analyticsScopeSecondaryElement">
-                                <span>
-                                    В режиме реального времени
-                                </span>
-                                <span>
-                                    В реальном времени
-                                </span>
-                                <span>
-                                    25
-                                </span>
-                                <span>
-                                    Подписчики
-                                </span>
-                                <span>
-                                    ТЕКУЩАЯ СТАТИСТИКА
-                                </span>
-                                <span>
-                                    3
-                                </span>
-                                <span>
-                                    Просмотры · Последние 48 часов
-                                </span>
-                                <div class="analyticsScopeSecondaryElementTable">
-                                    <div class="analyticsScopeSecondaryElementColumn">
-                                        <span class="analyticsScopeSecondaryElementColumnItem">
+                            <div class="analyticsViewsColumns">
+                                <div class="analyticsViewsColumn">
+                                    <div class="analyticsViewsColumnItem">
+                                        <span class="analyticsViewsColumnItemHeader">
                                             Лучшие видео
                                         </span>
-                                        <div class="analyticsScopeSecondaryElementColumnItem">
-                                            <video height="40px" controls>
-                                                <source src="" />
-                                            </video>
+                                        <span>
+                                            Время просмотра (часы) · Последние 28 дней  
+                                        </span>
+                                        <div class="typesTarrifsSource">
                                             <span>
-                                                Создание анимации
+                                                СОЗДАНИЕ АНИМАЦИИ ДЛЯ 2D ПЕРСОНАЖЕЙ | ИМПОРТ АНИМАЦИИ В UNITY
+                                            </span>
+                                            <span>
+                                                2,03
                                             </span>
                                         </div>
-                                        <div class="analyticsScopeSecondaryElementColumnItem">
-                                            <video height="40px" controls>
-                                                <source src="" />
-                                            </video>
+                                        <div class="typesTarrifsSource">
                                             <span>
-                                                Создание анимации
+                                                Сделал клон игры swamp attack
+                                            </span>
+                                            <span>
+                                                0,67
+                                            </span>
+                                        </div>        
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                Как я начал делать игры или мой путь в геймдев
+                                            </span>
+                                            <span>
+                                                0,35
                                             </span>
                                         </div>
-                                        <div class="analyticsScopeSecondaryElementColumnItem">
-                                            <video height="40px" controls>
-                                                <source src="" />
-                                            </video>
+                                        <div class="typesTarrifsSource">
                                             <span>
-                                                Создание анимации
+                                                АНИМАЦИЯ И РИГГИНГ 2D ПЕРСОНАЖА | РИГГИНГ В MOHO
+                                            </span>
+                                            <span>
+                                                0,06 
                                             </span>
                                         </div>
+                                        <span class="analyticsViewsColumnItemDetail">
+                                            ПОДРОБНЕЕ
+                                        </span>
                                     </div>
-                                    <div class="analyticsScopeSecondaryElementColumn">
-                                        <span class="analyticsScopeSecondaryElementColumnItem">
-                                            Просмотры
+                                    <div class="analyticsViewsColumnItem">
+                                        <span class="analyticsViewsColumnItemHeader">                                            
+                                            Самые популярные плейлисты
                                         </span>
-                                        <span class="analyticsScopeSecondaryElementColumnItem">
-                                            1
+                                        <span>
+                                            Время просмотра · Последние 28 дней
                                         </span>
-                                        <span class="analyticsScopeSecondaryElementColumnItem">
-                                            1
+                                        <span>
+                                            Нет данных за выбранный диапазон дат.
                                         </span>
-                                        <span class="analyticsScopeSecondaryElementColumnItem">
-                                            1
+                                    </div>
+                                    <div class="analyticsViewsColumnItem">
+                                        <span class="analyticsViewsColumnItemHeader">
+                                            Самые популярные подсказки 
+                                        </span>
+                                        <span>
+                                            Клики по подсказке · Последние 28 дней
+                                        </span>
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                Как я начал делать игры или мой путь в геймдев
+                                            </span>
+                                            <span>
+                                                0
+                                            </span>
+                                        </div>
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                Как я начал делать игры или мой путь в геймдев
+                                            </span>
+                                            <span>                                                
+                                                0
+                                            </span>
+                                        </div>
+                                        <span class="analyticsViewsColumnItemDetail">
+                                            ПОДРОБНЕЕ
                                         </span>
                                     </div>
                                 </div>
-                                <span>
-                                    ПОДРОБНЕЕ
-                                </span>
-                            </div>
-                            <div class="analyticsScopeSecondaryElement">
-                                <span>
-                                    НОВЫЕ ВИДЕО
-                                </span>
-                                <div>
-                                    <img width="100%" src="https://i9.ytimg.com/vi/0pZWYKEIdNQ/sddefault.jpg?v=616ae74f&sqp=CMCmwY0G&rs=AOn4CLCvRGwELSAefldivD7XlbT7yPzJeA" alt="" />
-                                </div>
-                                <span>
-                                    52 дня 15 часов после публикации: 
-                                </span>
-                                <div class="analyticsScopeSecondarySecondElementTable">
-                                    <div class="analyticsScopeSecondarySecondElementColumn">
-                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
-                                            Просмотры
+                                <div class="analyticsViewsColumn">
+                                    <div class="analyticsViewsColumnItem">
+                                        <span class="analyticsViewsColumnItemHeader">
+                                            Топ видео с кликами по конечным заставкам
                                         </span>
-                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
-                                            CTR для значков видео
+                                        <span>
+                                            Клики по элементам конечной заставки · Последние 28 дней
                                         </span>
-                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
-                                            Средняя продолжительность просмотра
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                СОЗДАНИЕ АНИМАЦИИ ДЛЯ 2D ПЕРСОНАЖЕЙ | ИМПОРТ АНИМАЦИИ В UNITY
+                                            </span>
+                                            <span>                                                                                                
+                                                0
+                                            </span>
+                                        </div>
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                Сделал клон игры swamp attack
+                                            </span>
+                                            <span>                                                                                                
+                                                0
+                                            </span>
+                                        </div>
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                Как я начал делать игры или мой путь в геймдев
+                                            </span>
+                                            <span>                                                                                                
+                                                0
+                                            </span>
+                                        </div>
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                АНИМАЦИЯ И РИГГИНГ 2D ПЕРСОНАЖА | РИГГИНГ В MOHO
+                                            </span>
+                                            <span>                                                                                                
+                                                0
+                                            </span>
+                                        </div>
+                                        <span class="analyticsViewsColumnItemDetail">
+                                            ПОДРОБНЕЕ
                                         </span>
                                     </div>
-                                    <div class="analyticsScopeSecondarySecondElementColumn">
-                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
-                                            289
+                                    <div class="analyticsViewsColumnItem">
+                                        <span class="analyticsViewsColumnItemHeader">
+                                            Самые эффективные элементы конечных заставок
                                         </span>
-                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
-                                            5,4 %
+                                        <span>
+                                            Кликов на число показов элемента конечной заставки · Последние 28 дней
                                         </span>
-                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
-                                            1:22
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                Подписка
+                                            </span>
+                                            <span>
+                                                0,0 %
+                                            </span>
+                                        </div>
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                Самое подходящее
+                                            </span>
+                                            <span>
+                                                0,0 %
+                                            </span>
+                                        </div>
+                                        <span class="analyticsViewsColumnItemDetail">
+                                            ПОДРОБНЕЕ
                                         </span>
                                     </div>
-                                </div>
-                                <span>
-                                    ПОСМОТРЕТЬ АНАЛИТИКУ ДЛЯ ВИДЕО
-                                </span>
-                                <div class="analyticsScopeSecondarySecondElementFooter">
-                                    <span class="material-icons">
-                                        chevron_left
-                                    </span>
-                                    <span>
-                                        1 из 4
-                                    </span>
-                                    <span class="material-icons">
-                                        chevron_right
-                                    </span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div v-else-if="activeAnalyticsTab === 'Audition'" class="analyticsScope">
-                        <div class="analyticsScopePrimaryItem analyticsScopeItem">
+                        <div class="analyticsScopeMainItem analyticsScopePrimaryItem analyticsScopeItem">
                             <div class="analyticsScopeChart">
                                 <div class="analyticsScopeChartTabs">
                                     <div class="analyticsScopeChartTab">
@@ -1491,242 +1428,138 @@
                                 <span class="analyticsScopeChartDetail">
                                     ПОДРОБНЕЕ
                                 </span>
-                            </div>
-                            <span class="analyticsScopeItemHeader">
-                                Лучшие видео за выбранный период
-                            </span>
-                            <div class="analyticsScopeItemTable">
-                                <div class="analyticsScopeItemColumn analyticsScopeItemPrimaryColumn">
-                                    <span class="analyticsScopeRow">
-                                        Видео
-                                    </span>
-                                    <div class="analyticsScopeRow">
-                                        <video class="analyticsScopeRowVideo" width="150px" controls>
-                                            <source src="" />
-                                        </video>
-                                        <div class="videoInfo">
-                                            <span>
-                                                Создание анимации для 2D персонажей
-                                            </span>
-                                            <span>
-                                                16 окт. 2021 г.
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="analyticsScopeRow">
-                                        <video class="analyticsScopeRowVideo" width="150px" controls>
-                                            <source src="" />
-                                        </video>
-                                        <div class="videoInfo">
-                                            <span>
-                                                Создание анимации для 2D персонажей
-                                            </span>
-                                            <span>
-                                                16 окт. 2021 г.
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="analyticsScopeRow">
-                                        <video class="analyticsScopeRowVideo" width="150px" controls>
-                                            <source src="" />
-                                        </video>
-                                        <div class="videoInfo">
-                                            <span>
-                                                Создание анимации для 2D персонажей
-                                            </span>
-                                            <span>
-                                                16 окт. 2021 г.
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="analyticsScopeRow">
-                                        <video class="analyticsScopeRowVideo" width="150px" controls>
-                                            <source src="" />
-                                        </video>
-                                        <div class="videoInfo">
-                                            <span>
-                                                Создание анимации для 2D персонажей
-                                            </span>
-                                            <span>
-                                                16 окт. 2021 г.
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="analyticsScopeRow">
-                                        <video class="analyticsScopeRowVideo" width="150px" controls>
-                                            <source src="" />
-                                        </video>
-                                        <div class="videoInfo">
-                                            <span>
-                                                Создание анимации для 2D персонажей
-                                            </span>
-                                            <span>
-                                                16 окт. 2021 г.
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="analyticsScopeItemColumn analyticsScopeItemSecondaryColumn">
-                                    <span class="analyticsScopeRow">
-                                        Средняя<br />продолжительность<br />просмотра
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        1:33(84,9%)
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        1:33(84,9%)
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        1:33(84,9%)
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        1:33(84,9%)
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        1:33(84,9%)
-                                    </span>
-                                </div>
-                                <div class="analyticsScopeItemColumn analyticsScopeItemSecondaryColumn">
-                                    <span class="analyticsScopeRow">
-                                        Просмотры
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        78
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        78
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        78
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        78
-                                    </span>
-                                    <span class="analyticsScopeRow">
-                                        78
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="analyticsScopeSecondaryItem analyticsScopeItem">
-                            <div class="analyticsScopeSecondaryElement">
-                                <span>
-                                    В режиме реального времени
-                                </span>
-                                <span>
-                                    В реальном времени
-                                </span>
-                                <span>
-                                    25
-                                </span>
-                                <span>
-                                    Подписчики
-                                </span>
-                                <span>
-                                    ТЕКУЩАЯ СТАТИСТИКА
-                                </span>
-                                <span>
-                                    3
-                                </span>
-                                <span>
-                                    Просмотры · Последние 48 часов
-                                </span>
-                                <div class="analyticsScopeSecondaryElementTable">
-                                    <div class="analyticsScopeSecondaryElementColumn">
-                                        <span class="analyticsScopeSecondaryElementColumnItem">
-                                            Лучшие видео
-                                        </span>
-                                        <div class="analyticsScopeSecondaryElementColumnItem">
-                                            <video height="40px" controls>
-                                                <source src="" />
-                                            </video>
-                                            <span>
-                                                Создание анимации
-                                            </span>
-                                        </div>
-                                        <div class="analyticsScopeSecondaryElementColumnItem">
-                                            <video height="40px" controls>
-                                                <source src="" />
-                                            </video>
-                                            <span>
-                                                Создание анимации
-                                            </span>
-                                        </div>
-                                        <div class="analyticsScopeSecondaryElementColumnItem">
-                                            <video height="40px" controls>
-                                                <source src="" />
-                                            </video>
-                                            <span>
-                                                Создание анимации
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="analyticsScopeSecondaryElementColumn">
-                                        <span class="analyticsScopeSecondaryElementColumnItem">
-                                            Просмотры
-                                        </span>
-                                        <span class="analyticsScopeSecondaryElementColumnItem">
-                                            1
-                                        </span>
-                                        <span class="analyticsScopeSecondaryElementColumnItem">
-                                            1
-                                        </span>
-                                        <span class="analyticsScopeSecondaryElementColumnItem">
-                                            1
-                                        </span>
-                                    </div>
-                                </div>
-                                <span>
-                                    ПОДРОБНЕЕ
+                                <span class="analyticsScopeChartDetail">
+                                    ОЧИСТИТЬ СПРАВКУ
                                 </span>
                             </div>
-                            <div class="analyticsScopeSecondaryElement">
-                                <span>
-                                    НОВЫЕ ВИДЕО
-                                </span>
-                                <div>
-                                    <img width="100%" src="https://i9.ytimg.com/vi/0pZWYKEIdNQ/sddefault.jpg?v=616ae74f&sqp=CMCmwY0G&rs=AOn4CLCvRGwELSAefldivD7XlbT7yPzJeA" alt="" />
-                                </div>
-                                <span>
-                                    52 дня 15 часов после публикации: 
-                                </span>
-                                <div class="analyticsScopeSecondarySecondElementTable">
-                                    <div class="analyticsScopeSecondarySecondElementColumn">
-                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
-                                            Просмотры
+                            <div class="analyticsViewsColumns">
+                                <div class="analyticsViewsColumn">
+                                    <div class="analyticsViewsColumnItem">
+                                        <span class="analyticsViewsColumnItemHeader">
+                                            Когда ваши зрители смотрят видео на YouTube
                                         </span>
-                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
-                                            CTR для значков видео
+                                        <span>
+                                            Местное время (GMT +0300) · Последние 28 дней
                                         </span>
-                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
-                                            Средняя продолжительность просмотра
+                                        <span class="analyticsViewsColumnItemDetail">
+                                            Недостаточно данных.
                                         </span>
                                     </div>
-                                    <div class="analyticsScopeSecondarySecondElementColumn">
-                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
-                                            289
+                                    <div class="analyticsViewsColumnItem">
+                                        <span class="analyticsViewsColumnItemHeader">
+                                            Время просмотра подписчиками
                                         </span>
-                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
-                                            5,4 %
+                                        <span>
+                                            Время просмотра · Последние 28 дней
                                         </span>
-                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
-                                            1:22
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                Без подписки
+                                            </span>
+                                            <span>
+                                                94,4 %
+                                            </span>
+                                        </div>
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                С подпиской
+                                            </span>
+                                            <span>                                                
+                                                5,7 %
+                                            </span>
+                                        </div>
+                                        <span class="analyticsViewsColumnItemDetail">
+                                            ПОДРОБНЕЕ
+                                        </span>
+                                    </div>
+                                    <div class="analyticsViewsColumnItem">
+                                        <span class="analyticsViewsColumnItemHeader">
+                                            Возраст и пол
+                                        </span>
+                                        <span>
+                                            Просмотры · Последние 28 дней
+                                        </span>
+                                        <span>                                        
+                                            Недостаточно демографических данных.
+                                        </span>
+                                        <span class="analyticsViewsColumnItemDetail">
+                                            ПОДРОБНЕЕ
                                         </span>
                                     </div>
                                 </div>
-                                <span>
-                                    ПОСМОТРЕТЬ АНАЛИТИКУ ДЛЯ ВИДЕО
-                                </span>
-                                <div class="analyticsScopeSecondarySecondElementFooter">
-                                    <span class="material-icons">
-                                        chevron_left
-                                    </span>
-                                    <span>
-                                        1 из 4
-                                    </span>
-                                    <span class="material-icons">
-                                        chevron_right
-                                    </span>
+                                <div class="analyticsViewsColumn">
+                                    <div class="analyticsViewsColumnItem">
+                                        <span class="analyticsViewsColumnItemHeader">
+                                            Другие каналы, которые смотрят ваши зрители
+                                        </span>
+                                        <span>
+                                            Последние 28 дней
+                                        </span>
+                                        <span>
+                                            Недостаточно данных. Подробнее…
+                                        </span>
+                                        
+                                        <span class="analyticsViewsColumnItemDetail">
+                                            Недостаточно данных. Подробнее...
+                                        </span>
+                                    </div>
+                                    <div class="analyticsViewsColumnItem">
+                                        <span class="analyticsViewsColumnItemHeader">
+                                            Другие видео, интересные вашим зрителям
+                                        </span>
+                                        <span>
+                                            Последние 7 дней
+                                        </span>
+                                        <span class="analyticsViewsColumnItemDetail">
+                                            Недостаточно данных. Подробнее...
+                                        </span>
+                                    </div>
+                                    <div class="analyticsViewsColumnItem">
+                                        <span class="analyticsViewsColumnItemHeader">                                            
+                                            Самые популярные регионы
+                                        </span>
+                                        <span>
+                                            Просмотры · Последние 28 дней
+                                        </span>
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                Россия
+                                            </span>
+                                            <span>                                                
+                                                9,2 %
+                                            </span>
+                                        </div>
+                                        <span class="analyticsViewsColumnItemDetail">
+                                            ПОДРОБНЕЕ
+                                        </span>
+                                    </div>
+                                    <div class="analyticsViewsColumnItem">
+                                        <span class="analyticsViewsColumnItemHeader">                                            
+                                            Самые популярные языки субтитров
+                                        </span>
+                                        <span>
+                                            Просмотры · Последние 28 дней
+                                        </span>
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                Без субтитров
+                                            </span>
+                                            <span>
+                                                97,0 %
+                                            </span>
+                                        </div>
+                                        <div class="typesTarrifsSource">
+                                            <span>
+                                                русский
+                                            </span>
+                                            <span>
+                                                3,1 %
+                                            </span>
+                                        </div>
+                                        <span class="analyticsViewsColumnItemDetail">
+                                            ПОДРОБНЕЕ
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -3646,6 +3479,7 @@ export default {
     .analyticsScopeItem {
         display: flex;
         flex-direction: column;
+        margin: 0px 15px;
     }
 
     .analyticsScopePrimaryItem {
@@ -3809,5 +3643,44 @@ export default {
         width: 25%;
     }
 
+    .analyticsScopeMainItem {
+        width: 100%;
+    }
+
+    .analyticsViewsColumns {
+        display: flex;
+    }
+
+    .analyticsViewsColumn {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+    }
+
+    .analyticsViewsColumnItem {
+        margin: 25px;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        padding: 15px;
+        border: 1px solid rgb(150, 150, 150);
+        border-radius: 8px;
+        background-color: rgb(255, 255, 255);
+    }
+
+    .analyticsViewsColumnItemDetail {
+        color: rgb(0, 100, 255);
+        cursor: pointer;
+        font-weight: bolder;
+    }
+
+    .typesTarrifsSource {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .analyticsViewsColumnItemHeader {
+        font-weight: bolder;
+    }
 
 </style>
