@@ -3,8 +3,8 @@
         <Header />
         <div class="main">
             <div class="aside">
-                <video height="465px" width="100%" controls>
-                    <source :src="`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`" />
+                <video ref="mainVideoSource" height="465px" width="100%" controls>
+                    <source />
                 </video>
                 <div class="videoHeader">
                     <span class="videoHeaderItem">
@@ -462,6 +462,7 @@ export default {
             .then(result => {
                 if (JSON.parse(result).status === 'OK') {
                     this.video = JSON.parse(result).video
+                    this.$refs.mainVideoSource.src = `http://localhost:4000/api/videos/source/get/?videoname=${this.video.name}`
                     alert(`Получил видео: ${this.video.name}`)
                 } else if (JSON.parse(result).status === 'Error') {
                     alert('Не могу получить видео')

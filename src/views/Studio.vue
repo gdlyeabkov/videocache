@@ -233,7 +233,293 @@
                     </div>
                 </div>
                 <div v-else-if="activeTab === 'Content'">
+                    <span class="contentHeader">
+                        Контент на канале
+                    </span>
+                    <div class="contentTabs">
+                        <div :class="{ contentTab: true, activeContentTab: activeContentTab === 'Downloads' }" @click="activeContentTab = 'Downloads'">
+                            <span>
+                                Загрузки
+                            </span>
+                        </div>
+                        <div :class="{ contentTab: true, activeContentTab: activeContentTab === 'Streams' }" @click="activeContentTab = 'Streams'">
+                            <span>
+                                Трансляции
+                            </span>
+                        </div>
+                    </div>
+                    <div v-if="activeContentTab === 'Downloads'" class="downloads">
+                        <div class="splitter">
 
+                        </div>
+                        <div class="filterRow">
+                            <span class="material-icons">
+                                filter_list
+                            </span>
+                            <input placeholder="Фильтр" type="text" class="form-control filterInputField" />
+                        </div>
+                        <div class="splitter">
+
+                        </div>  
+                        <div class="contentTable">
+                            <div class="contentColumn primaryContentColumn">
+                                <input class="contentRow" type="checkbox" />
+                                <input class="contentRow" type="checkbox" />
+                                <input class="contentRow" type="checkbox" />
+                                <input class="contentRow" type="checkbox" />
+                                <input class="contentRow" type="checkbox" />
+                                <input class="contentRow" type="checkbox" />
+                            </div>
+                            <div class="contentColumn secondaryContentColumn">
+                                <span class="contentRow">
+                                    Видео
+                                </span>
+                                <div class="contentRow">
+                                    <video width="150px" controls>
+                                        <source />
+                                    </video>
+                                </div>
+                                <div class="contentRow">
+                                    <video width="150px" controls>
+                                        <source />
+                                    </video>
+                                </div>
+                                <div class="contentRow">
+                                    <video width="150px" controls>
+                                        <source />
+                                    </video>
+                                </div>
+                                <div class="contentRow">
+                                    <video width="150px" controls>
+                                        <source />
+                                    </video>
+                                </div>
+                                <div class="contentRow">
+                                    <video width="150px" controls>
+                                        <source />
+                                    </video>
+                                </div>
+                            </div>
+                            <div class="contentColumn thirdaryContentColumn">
+                                <span class="contentRow">
+                                    Параметры доступа
+                                </span>
+                                <div class="contentRow contentColumnDateField">
+                                    <span class="material-icons contentColumnDateFieldItem">
+                                        visibility
+                                    </span>
+                                    <span class="contentColumnDateFieldItem">
+                                        Открытый
+                                    </span>
+                                </div>
+                                <div class="contentRow contentColumnDateField">
+                                    <span class="material-icons contentColumnDateFieldItem">
+                                        visibility
+                                    </span>
+                                    <span class="contentColumnDateFieldItem">
+                                        Открытый
+                                    </span>
+                                </div>
+                                <div class="contentRow contentColumnDateField">
+                                    <span class="material-icons contentColumnDateFieldItem">
+                                        visibility
+                                    </span>
+                                    <span class="contentColumnDateFieldItem">
+                                        Открытый
+                                    </span>
+                                </div>
+                                <div class="contentRow contentColumnDateField">
+                                    <span class="material-icons contentColumnDateFieldItem">
+                                        visibility
+                                    </span>
+                                    <span class="contentColumnDateFieldItem">
+                                        Открытый
+                                    </span>
+                                </div>
+                                <div class="contentRow contentColumnDateField">
+                                    <span class="material-icons contentColumnDateFieldItem">
+                                        visibility
+                                    </span>
+                                    <span class="contentColumnDateFieldItem">
+                                        Открытый
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="contentColumn thirdaryContentColumn">
+                                <span class="contentRow">
+                                    Ограничения
+                                </span>
+                                 <span class="contentRow">
+                                    Нет
+                                 </span>
+                                 <span class="contentRow">
+                                    Нет
+                                 </span>
+                                 <span class="contentRow">
+                                    Нет
+                                 </span>
+                                 <span class="contentRow">
+                                    Нет
+                                 </span>
+                                 <span class="contentRow">
+                                    Нет
+                                 </span>
+                            </div>
+                            <div class="contentColumn thirdaryContentColumn">
+                                <div class="contentRow contentColumnDateField">
+                                    <span class="contentColumnDateFieldItem">
+                                        Дата
+                                    </span>
+                                    <span class="material-icons contentColumnDateFieldItem">
+                                        expand_more
+                                    </span>
+                                </div>
+                                <span class="contentRow">
+                                    13 сент. 2021 г.
+                                </span>
+                                <span class="contentRow">
+                                    13 сент. 2021 г.
+                                </span>
+                                <span class="contentRow">
+                                    13 сент. 2021 г.
+                                </span>
+                                <span class="contentRow">
+                                    13 сент. 2021 г.
+                                </span>
+                                <span class="contentRow">
+                                    13 сент. 2021 г.
+                                </span>
+                            </div>
+                            <div class="contentColumn thirdaryContentColumn">
+                                <span class="contentRow">
+                                    Просмотры
+                                </span>
+                                <span class="contentRow">
+                                    289
+                                </span>
+                                <span class="contentRow">
+                                    289
+                                </span>
+                                <span class="contentRow">
+                                    289
+                                </span>
+                                <span class="contentRow">
+                                    289
+                                </span>
+                                <span class="contentRow">
+                                    289
+                                </span>
+                            </div>
+                            <div class="contentColumn thirdaryContentColumn">
+                                <span class="contentRow">
+                                    Комментарии
+                                </span>
+                                <span class="contentRow">
+                                    1
+                                </span>
+                                <span class="contentRow">
+                                    1
+                                </span>
+                                <span class="contentRow">
+                                    1
+                                </span>
+                                <span class="contentRow">
+                                    1
+                                </span>
+                                <span class="contentRow">
+                                    1
+                                </span>
+                            </div>
+                            <div class="contentColumn thirdaryContentColumn">
+                                <span class="contentRow">
+                                    %'Нравиться'
+                                </span>
+                                <span class="contentRow">
+                                    90%
+                                </span>
+                                <span class="contentRow">
+                                    90%
+                                </span>
+                                <span class="contentRow">
+                                    90%
+                                </span>
+                                <span class="contentRow">
+                                    90%
+                                </span>
+                                <span class="contentRow">
+                                    90%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="activeContentTab === 'Streams'" class="downloads">
+                        <div class="splitter">
+
+                        </div>
+                        <div class="filterRow">
+                            <span class="material-icons">
+                                filter_list
+                            </span>
+                            <input placeholder="Фильтр" type="text" class="form-control filterInputField" />
+                        </div>
+                        <div class="splitter">
+
+                        </div>  
+                        <div class="contentTable">
+                            <div class="contentColumn primaryContentColumn">
+                                <input class="contentRow" type="checkbox" />
+                            </div>
+                            <div class="contentColumn secondaryContentColumn">
+                                <span class="contentRow">
+                                    Видео
+                                </span>
+                            </div>
+                            <div class="contentColumn thirdaryContentColumn">
+                                <span class="contentRow">
+                                    Параметры доступа
+                                </span>
+                            </div>
+                            <div class="contentColumn thirdaryContentColumn">
+                                <span class="contentRow">
+                                    Ограничения
+                                </span>
+                            </div>
+                            <div class="contentColumn thirdaryContentColumn">
+                                <div class="contentRow contentColumnDateField">
+                                    <span class="contentColumnDateFieldItem">
+                                        Дата
+                                    </span>
+                                    <span class="material-icons contentColumnDateFieldItem">
+                                        expand_more
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="contentColumn thirdaryContentColumn">
+                                <span class="contentRow">
+                                    Просмотры
+                                </span>
+                            </div>
+                            <div class="contentColumn thirdaryContentColumn">
+                                <span class="contentRow">
+                                    Комментарии
+                                </span>
+                            </div>
+                            <div class="contentColumn thirdaryContentColumn">
+                                <span class="contentRow">
+                                    %'Нравиться'
+                                </span>
+                            </div>
+                        </div>
+                        <div class="notFoundStreams">
+                            <img width="250px" src="https://www.gstatic.com/youtube/img/creator/live_streaming/no_content_illustration_v2.svg" alt="" />
+                            <span class="notFoundStreamsLabel">
+                                Здесь будут собраны ваши прямые трансляции.
+                            </span>
+                            <span class="beginStream">
+                                Начать
+                            </span>
+                        </div>
+                    </div>
                 </div>
                 <div v-else-if="activeTab === 'PlayLists'">
                     <div class="playListsHeader">
@@ -296,7 +582,7 @@
                     </div>
 
                 </div>
-                <div v-else-if="activeTab === 'Analytics'">
+                <div v-else-if="activeTab === 'Analytics'" class="analytics">
                     <div class="analyticsHeader">
                         <span class="analyticsHeaderTitle">
                             Аналитика по каналу
@@ -340,6 +626,1110 @@
                                 <option value="Все время">Все время</option>
                             </select>
                         </div>
+                        
+                    </div>
+                    <div v-if="activeAnalyticsTab === 'Scope'" class="analyticsScope">
+                        <div class="analyticsScopePrimaryItem analyticsScopeItem">
+                            <span class="analyticsScopeItemHeader">
+                                За последние 28 дней ваши видео набрали 129 просмотров
+                            </span>
+                            <div class="analyticsScopeChart">
+                                <div class="analyticsScopeChartTabs">
+                                    <div class="analyticsScopeChartTab">
+                                        <span class="analyticsScopeChartTabHeader">
+                                            Просмотры
+                                        </span>
+                                        <span class="analyticsScopeChartTabContent">
+                                            129
+                                        </span>
+                                    </div>
+                                    <div class="analyticsScopeChartTab">
+                                        <span class="analyticsScopeChartTabHeader">
+                                            Время просмотра (часы)
+                                        </span>
+                                        <span class="analyticsScopeChartTabContent">
+                                            3,0
+                                        </span>
+                                    </div>
+                                    <div class="analyticsScopeChartTab">
+                                        <span class="analyticsScopeChartTabHeader">
+                                            Подписчики
+                                        </span>
+                                        <span class="analyticsScopeChartTabContent">
+                                            +2
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="analyticsScopeChartGraph">
+                                    
+                                </div>
+                                <span class="analyticsScopeChartDetail">
+                                    ПОДРОБНЕЕ
+                                </span>
+                            </div>
+                            <span class="analyticsScopeItemHeader">
+                                Лучшие видео за выбранный период
+                            </span>
+                            <div class="analyticsScopeItemTable">
+                                <div class="analyticsScopeItemColumn analyticsScopeItemPrimaryColumn">
+                                    <span class="analyticsScopeRow">
+                                        Видео
+                                    </span>
+                                    <div class="analyticsScopeRow">
+                                        <video class="analyticsScopeRowVideo" width="150px" controls>
+                                            <source src="" />
+                                        </video>
+                                        <div class="videoInfo">
+                                            <span>
+                                                Создание анимации для 2D персонажей
+                                            </span>
+                                            <span>
+                                                16 окт. 2021 г.
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="analyticsScopeRow">
+                                        <video class="analyticsScopeRowVideo" width="150px" controls>
+                                            <source src="" />
+                                        </video>
+                                        <div class="videoInfo">
+                                            <span>
+                                                Создание анимации для 2D персонажей
+                                            </span>
+                                            <span>
+                                                16 окт. 2021 г.
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="analyticsScopeRow">
+                                        <video class="analyticsScopeRowVideo" width="150px" controls>
+                                            <source src="" />
+                                        </video>
+                                        <div class="videoInfo">
+                                            <span>
+                                                Создание анимации для 2D персонажей
+                                            </span>
+                                            <span>
+                                                16 окт. 2021 г.
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="analyticsScopeRow">
+                                        <video class="analyticsScopeRowVideo" width="150px" controls>
+                                            <source src="" />
+                                        </video>
+                                        <div class="videoInfo">
+                                            <span>
+                                                Создание анимации для 2D персонажей
+                                            </span>
+                                            <span>
+                                                16 окт. 2021 г.
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="analyticsScopeRow">
+                                        <video class="analyticsScopeRowVideo" width="150px" controls>
+                                            <source src="" />
+                                        </video>
+                                        <div class="videoInfo">
+                                            <span>
+                                                Создание анимации для 2D персонажей
+                                            </span>
+                                            <span>
+                                                16 окт. 2021 г.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="analyticsScopeItemColumn analyticsScopeItemSecondaryColumn">
+                                    <span class="analyticsScopeRow">
+                                        Средняя<br />продолжительность<br />просмотра
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        1:33(84,9%)
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        1:33(84,9%)
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        1:33(84,9%)
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        1:33(84,9%)
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        1:33(84,9%)
+                                    </span>
+                                </div>
+                                <div class="analyticsScopeItemColumn analyticsScopeItemSecondaryColumn">
+                                    <span class="analyticsScopeRow">
+                                        Просмотры
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        78
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        78
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        78
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        78
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        78
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="analyticsScopeSecondaryItem analyticsScopeItem">
+                            <div class="analyticsScopeSecondaryElement">
+                                <span>
+                                    В режиме реального времени
+                                </span>
+                                <span>
+                                    В реальном времени
+                                </span>
+                                <span>
+                                    25
+                                </span>
+                                <span>
+                                    Подписчики
+                                </span>
+                                <span>
+                                    ТЕКУЩАЯ СТАТИСТИКА
+                                </span>
+                                <span>
+                                    3
+                                </span>
+                                <span>
+                                    Просмотры · Последние 48 часов
+                                </span>
+                                <div class="analyticsScopeSecondaryElementTable">
+                                    <div class="analyticsScopeSecondaryElementColumn">
+                                        <span class="analyticsScopeSecondaryElementColumnItem">
+                                            Лучшие видео
+                                        </span>
+                                        <div class="analyticsScopeSecondaryElementColumnItem">
+                                            <video height="40px" controls>
+                                                <source src="" />
+                                            </video>
+                                            <span>
+                                                Создание анимации
+                                            </span>
+                                        </div>
+                                        <div class="analyticsScopeSecondaryElementColumnItem">
+                                            <video height="40px" controls>
+                                                <source src="" />
+                                            </video>
+                                            <span>
+                                                Создание анимации
+                                            </span>
+                                        </div>
+                                        <div class="analyticsScopeSecondaryElementColumnItem">
+                                            <video height="40px" controls>
+                                                <source src="" />
+                                            </video>
+                                            <span>
+                                                Создание анимации
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="analyticsScopeSecondaryElementColumn">
+                                        <span class="analyticsScopeSecondaryElementColumnItem">
+                                            Просмотры
+                                        </span>
+                                        <span class="analyticsScopeSecondaryElementColumnItem">
+                                            1
+                                        </span>
+                                        <span class="analyticsScopeSecondaryElementColumnItem">
+                                            1
+                                        </span>
+                                        <span class="analyticsScopeSecondaryElementColumnItem">
+                                            1
+                                        </span>
+                                    </div>
+                                </div>
+                                <span>
+                                    ПОДРОБНЕЕ
+                                </span>
+                            </div>
+                            <div class="analyticsScopeSecondaryElement">
+                                <span>
+                                    НОВЫЕ ВИДЕО
+                                </span>
+                                <div>
+                                    <img width="100%" src="https://i9.ytimg.com/vi/0pZWYKEIdNQ/sddefault.jpg?v=616ae74f&sqp=CMCmwY0G&rs=AOn4CLCvRGwELSAefldivD7XlbT7yPzJeA" alt="" />
+                                </div>
+                                <span>
+                                    52 дня 15 часов после публикации: 
+                                </span>
+                                <div class="analyticsScopeSecondarySecondElementTable">
+                                    <div class="analyticsScopeSecondarySecondElementColumn">
+                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
+                                            Просмотры
+                                        </span>
+                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
+                                            CTR для значков видео
+                                        </span>
+                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
+                                            Средняя продолжительность просмотра
+                                        </span>
+                                    </div>
+                                    <div class="analyticsScopeSecondarySecondElementColumn">
+                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
+                                            289
+                                        </span>
+                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
+                                            5,4 %
+                                        </span>
+                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
+                                            1:22
+                                        </span>
+                                    </div>
+                                </div>
+                                <span>
+                                    ПОСМОТРЕТЬ АНАЛИТИКУ ДЛЯ ВИДЕО
+                                </span>
+                                <div class="analyticsScopeSecondarySecondElementFooter">
+                                    <span class="material-icons">
+                                        chevron_left
+                                    </span>
+                                    <span>
+                                        1 из 4
+                                    </span>
+                                    <span class="material-icons">
+                                        chevron_right
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="activeAnalyticsTab === 'Views'" class="analyticsScope">
+                        <div class="analyticsScopePrimaryItem analyticsScopeItem">
+                            <div class="analyticsScopeChart">
+                                <div class="analyticsScopeChartTabs">
+                                    <div class="analyticsScopeChartTabAnother analyticsScopeChartTab">
+                                        <span class="analyticsScopeChartTabHeader">
+                                            Показы
+                                        </span>
+                                        <span class="analyticsScopeChartTabContent">
+                                            742
+                                        </span>
+                                    </div>
+                                    <div class="analyticsScopeChartTabAnother analyticsScopeChartTab">
+                                        <span class="analyticsScopeChartTabHeader">
+                                            CTR для значков видео
+                                        </span>
+                                        <span class="analyticsScopeChartTabContent">
+                                            5,0%
+                                        </span>
+                                    </div>
+                                    <div class="analyticsScopeChartTabAnother analyticsScopeChartTab">
+                                        <span class="analyticsScopeChartTabHeader">
+                                            Просмотры
+                                        </span>
+                                        <span class="analyticsScopeChartTabContent">
+                                            129
+                                        </span>
+                                    </div>
+                                    <div class="analyticsScopeChartTabAnother analyticsScopeChartTab">
+                                        <span class="analyticsScopeChartTabHeader">
+                                            Уникальные зрители
+                                        </span>
+                                        <span class="analyticsScopeChartTabContent">
+                                            100
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="analyticsScopeChartGraph">
+                                    
+                                </div>
+                                <span class="analyticsScopeChartDetail">
+                                    ПОДРОБНЕЕ
+                                </span>
+                            </div>
+                            <span class="analyticsScopeItemHeader">
+                                Лучшие видео за выбранный период
+                            </span>
+                            <div class="analyticsScopeItemTable">
+                                <div class="analyticsScopeItemColumn analyticsScopeItemPrimaryColumn">
+                                    <span class="analyticsScopeRow">
+                                        Видео
+                                    </span>
+                                    <div class="analyticsScopeRow">
+                                        <video class="analyticsScopeRowVideo" width="150px" controls>
+                                            <source src="" />
+                                        </video>
+                                        <div class="videoInfo">
+                                            <span>
+                                                Создание анимации для 2D персонажей
+                                            </span>
+                                            <span>
+                                                16 окт. 2021 г.
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="analyticsScopeRow">
+                                        <video class="analyticsScopeRowVideo" width="150px" controls>
+                                            <source src="" />
+                                        </video>
+                                        <div class="videoInfo">
+                                            <span>
+                                                Создание анимации для 2D персонажей
+                                            </span>
+                                            <span>
+                                                16 окт. 2021 г.
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="analyticsScopeRow">
+                                        <video class="analyticsScopeRowVideo" width="150px" controls>
+                                            <source src="" />
+                                        </video>
+                                        <div class="videoInfo">
+                                            <span>
+                                                Создание анимации для 2D персонажей
+                                            </span>
+                                            <span>
+                                                16 окт. 2021 г.
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="analyticsScopeRow">
+                                        <video class="analyticsScopeRowVideo" width="150px" controls>
+                                            <source src="" />
+                                        </video>
+                                        <div class="videoInfo">
+                                            <span>
+                                                Создание анимации для 2D персонажей
+                                            </span>
+                                            <span>
+                                                16 окт. 2021 г.
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="analyticsScopeRow">
+                                        <video class="analyticsScopeRowVideo" width="150px" controls>
+                                            <source src="" />
+                                        </video>
+                                        <div class="videoInfo">
+                                            <span>
+                                                Создание анимации для 2D персонажей
+                                            </span>
+                                            <span>
+                                                16 окт. 2021 г.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="analyticsScopeItemColumn analyticsScopeItemSecondaryColumn">
+                                    <span class="analyticsScopeRow">
+                                        Средняя<br />продолжительность<br />просмотра
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        1:33(84,9%)
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        1:33(84,9%)
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        1:33(84,9%)
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        1:33(84,9%)
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        1:33(84,9%)
+                                    </span>
+                                </div>
+                                <div class="analyticsScopeItemColumn analyticsScopeItemSecondaryColumn">
+                                    <span class="analyticsScopeRow">
+                                        Просмотры
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        78
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        78
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        78
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        78
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        78
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="analyticsScopeSecondaryItem analyticsScopeItem">
+                            <div class="analyticsScopeSecondaryElement">
+                                <span>
+                                    В режиме реального времени
+                                </span>
+                                <span>
+                                    В реальном времени
+                                </span>
+                                <span>
+                                    25
+                                </span>
+                                <span>
+                                    Подписчики
+                                </span>
+                                <span>
+                                    ТЕКУЩАЯ СТАТИСТИКА
+                                </span>
+                                <span>
+                                    3
+                                </span>
+                                <span>
+                                    Просмотры · Последние 48 часов
+                                </span>
+                                <div class="analyticsScopeSecondaryElementTable">
+                                    <div class="analyticsScopeSecondaryElementColumn">
+                                        <span class="analyticsScopeSecondaryElementColumnItem">
+                                            Лучшие видео
+                                        </span>
+                                        <div class="analyticsScopeSecondaryElementColumnItem">
+                                            <video height="40px" controls>
+                                                <source src="" />
+                                            </video>
+                                            <span>
+                                                Создание анимации
+                                            </span>
+                                        </div>
+                                        <div class="analyticsScopeSecondaryElementColumnItem">
+                                            <video height="40px" controls>
+                                                <source src="" />
+                                            </video>
+                                            <span>
+                                                Создание анимации
+                                            </span>
+                                        </div>
+                                        <div class="analyticsScopeSecondaryElementColumnItem">
+                                            <video height="40px" controls>
+                                                <source src="" />
+                                            </video>
+                                            <span>
+                                                Создание анимации
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="analyticsScopeSecondaryElementColumn">
+                                        <span class="analyticsScopeSecondaryElementColumnItem">
+                                            Просмотры
+                                        </span>
+                                        <span class="analyticsScopeSecondaryElementColumnItem">
+                                            1
+                                        </span>
+                                        <span class="analyticsScopeSecondaryElementColumnItem">
+                                            1
+                                        </span>
+                                        <span class="analyticsScopeSecondaryElementColumnItem">
+                                            1
+                                        </span>
+                                    </div>
+                                </div>
+                                <span>
+                                    ПОДРОБНЕЕ
+                                </span>
+                            </div>
+                            <div class="analyticsScopeSecondaryElement">
+                                <span>
+                                    НОВЫЕ ВИДЕО
+                                </span>
+                                <div>
+                                    <img width="100%" src="https://i9.ytimg.com/vi/0pZWYKEIdNQ/sddefault.jpg?v=616ae74f&sqp=CMCmwY0G&rs=AOn4CLCvRGwELSAefldivD7XlbT7yPzJeA" alt="" />
+                                </div>
+                                <span>
+                                    52 дня 15 часов после публикации: 
+                                </span>
+                                <div class="analyticsScopeSecondarySecondElementTable">
+                                    <div class="analyticsScopeSecondarySecondElementColumn">
+                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
+                                            Просмотры
+                                        </span>
+                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
+                                            CTR для значков видео
+                                        </span>
+                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
+                                            Средняя продолжительность просмотра
+                                        </span>
+                                    </div>
+                                    <div class="analyticsScopeSecondarySecondElementColumn">
+                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
+                                            289
+                                        </span>
+                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
+                                            5,4 %
+                                        </span>
+                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
+                                            1:22
+                                        </span>
+                                    </div>
+                                </div>
+                                <span>
+                                    ПОСМОТРЕТЬ АНАЛИТИКУ ДЛЯ ВИДЕО
+                                </span>
+                                <div class="analyticsScopeSecondarySecondElementFooter">
+                                    <span class="material-icons">
+                                        chevron_left
+                                    </span>
+                                    <span>
+                                        1 из 4
+                                    </span>
+                                    <span class="material-icons">
+                                        chevron_right
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="activeAnalyticsTab === 'Interaction'" class="analyticsScope">
+                        <div class="analyticsScopePrimaryItem analyticsScopeItem">
+                            <div class="analyticsScopeChart">
+                                <div class="analyticsScopeChartTabs">
+                                    <div class="analyticsScopeChartTab analyticsScopeChartTabOther">
+                                        <span class=" analyticsScopeChartTabHeader">
+                                            Время просмотра (часы)
+                                        </span>
+                                        <span class="analyticsScopeChartTabContent">
+                                            3,0
+                                        </span>
+                                    </div>
+                                    <div class="analyticsScopeChartTab analyticsScopeChartTabOther">
+                                        <span class="analyticsScopeChartTabHeader">
+                                            Средняя продолжительность просмотра
+                                        </span>
+                                        <span class="analyticsScopeChartTabContent">
+                                            14%
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="analyticsScopeChartGraph">
+                                    
+                                </div>
+                                <span class="analyticsScopeChartDetail">
+                                    ПОДРОБНЕЕ
+                                </span>
+                            </div>
+                            <span class="analyticsScopeItemHeader">
+                                Лучшие видео за выбранный период
+                            </span>
+                            <div class="analyticsScopeItemTable">
+                                <div class="analyticsScopeItemColumn analyticsScopeItemPrimaryColumn">
+                                    <span class="analyticsScopeRow">
+                                        Видео
+                                    </span>
+                                    <div class="analyticsScopeRow">
+                                        <video class="analyticsScopeRowVideo" width="150px" controls>
+                                            <source src="" />
+                                        </video>
+                                        <div class="videoInfo">
+                                            <span>
+                                                Создание анимации для 2D персонажей
+                                            </span>
+                                            <span>
+                                                16 окт. 2021 г.
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="analyticsScopeRow">
+                                        <video class="analyticsScopeRowVideo" width="150px" controls>
+                                            <source src="" />
+                                        </video>
+                                        <div class="videoInfo">
+                                            <span>
+                                                Создание анимации для 2D персонажей
+                                            </span>
+                                            <span>
+                                                16 окт. 2021 г.
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="analyticsScopeRow">
+                                        <video class="analyticsScopeRowVideo" width="150px" controls>
+                                            <source src="" />
+                                        </video>
+                                        <div class="videoInfo">
+                                            <span>
+                                                Создание анимации для 2D персонажей
+                                            </span>
+                                            <span>
+                                                16 окт. 2021 г.
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="analyticsScopeRow">
+                                        <video class="analyticsScopeRowVideo" width="150px" controls>
+                                            <source src="" />
+                                        </video>
+                                        <div class="videoInfo">
+                                            <span>
+                                                Создание анимации для 2D персонажей
+                                            </span>
+                                            <span>
+                                                16 окт. 2021 г.
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="analyticsScopeRow">
+                                        <video class="analyticsScopeRowVideo" width="150px" controls>
+                                            <source src="" />
+                                        </video>
+                                        <div class="videoInfo">
+                                            <span>
+                                                Создание анимации для 2D персонажей
+                                            </span>
+                                            <span>
+                                                16 окт. 2021 г.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="analyticsScopeItemColumn analyticsScopeItemSecondaryColumn">
+                                    <span class="analyticsScopeRow">
+                                        Средняя<br />продолжительность<br />просмотра
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        1:33(84,9%)
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        1:33(84,9%)
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        1:33(84,9%)
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        1:33(84,9%)
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        1:33(84,9%)
+                                    </span>
+                                </div>
+                                <div class="analyticsScopeItemColumn analyticsScopeItemSecondaryColumn">
+                                    <span class="analyticsScopeRow">
+                                        Просмотры
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        78
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        78
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        78
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        78
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        78
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="analyticsScopeSecondaryItem analyticsScopeItem">
+                            <div class="analyticsScopeSecondaryElement">
+                                <span>
+                                    В режиме реального времени
+                                </span>
+                                <span>
+                                    В реальном времени
+                                </span>
+                                <span>
+                                    25
+                                </span>
+                                <span>
+                                    Подписчики
+                                </span>
+                                <span>
+                                    ТЕКУЩАЯ СТАТИСТИКА
+                                </span>
+                                <span>
+                                    3
+                                </span>
+                                <span>
+                                    Просмотры · Последние 48 часов
+                                </span>
+                                <div class="analyticsScopeSecondaryElementTable">
+                                    <div class="analyticsScopeSecondaryElementColumn">
+                                        <span class="analyticsScopeSecondaryElementColumnItem">
+                                            Лучшие видео
+                                        </span>
+                                        <div class="analyticsScopeSecondaryElementColumnItem">
+                                            <video height="40px" controls>
+                                                <source src="" />
+                                            </video>
+                                            <span>
+                                                Создание анимации
+                                            </span>
+                                        </div>
+                                        <div class="analyticsScopeSecondaryElementColumnItem">
+                                            <video height="40px" controls>
+                                                <source src="" />
+                                            </video>
+                                            <span>
+                                                Создание анимации
+                                            </span>
+                                        </div>
+                                        <div class="analyticsScopeSecondaryElementColumnItem">
+                                            <video height="40px" controls>
+                                                <source src="" />
+                                            </video>
+                                            <span>
+                                                Создание анимации
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="analyticsScopeSecondaryElementColumn">
+                                        <span class="analyticsScopeSecondaryElementColumnItem">
+                                            Просмотры
+                                        </span>
+                                        <span class="analyticsScopeSecondaryElementColumnItem">
+                                            1
+                                        </span>
+                                        <span class="analyticsScopeSecondaryElementColumnItem">
+                                            1
+                                        </span>
+                                        <span class="analyticsScopeSecondaryElementColumnItem">
+                                            1
+                                        </span>
+                                    </div>
+                                </div>
+                                <span>
+                                    ПОДРОБНЕЕ
+                                </span>
+                            </div>
+                            <div class="analyticsScopeSecondaryElement">
+                                <span>
+                                    НОВЫЕ ВИДЕО
+                                </span>
+                                <div>
+                                    <img width="100%" src="https://i9.ytimg.com/vi/0pZWYKEIdNQ/sddefault.jpg?v=616ae74f&sqp=CMCmwY0G&rs=AOn4CLCvRGwELSAefldivD7XlbT7yPzJeA" alt="" />
+                                </div>
+                                <span>
+                                    52 дня 15 часов после публикации: 
+                                </span>
+                                <div class="analyticsScopeSecondarySecondElementTable">
+                                    <div class="analyticsScopeSecondarySecondElementColumn">
+                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
+                                            Просмотры
+                                        </span>
+                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
+                                            CTR для значков видео
+                                        </span>
+                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
+                                            Средняя продолжительность просмотра
+                                        </span>
+                                    </div>
+                                    <div class="analyticsScopeSecondarySecondElementColumn">
+                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
+                                            289
+                                        </span>
+                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
+                                            5,4 %
+                                        </span>
+                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
+                                            1:22
+                                        </span>
+                                    </div>
+                                </div>
+                                <span>
+                                    ПОСМОТРЕТЬ АНАЛИТИКУ ДЛЯ ВИДЕО
+                                </span>
+                                <div class="analyticsScopeSecondarySecondElementFooter">
+                                    <span class="material-icons">
+                                        chevron_left
+                                    </span>
+                                    <span>
+                                        1 из 4
+                                    </span>
+                                    <span class="material-icons">
+                                        chevron_right
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="activeAnalyticsTab === 'Audition'" class="analyticsScope">
+                        <div class="analyticsScopePrimaryItem analyticsScopeItem">
+                            <div class="analyticsScopeChart">
+                                <div class="analyticsScopeChartTabs">
+                                    <div class="analyticsScopeChartTab">
+                                        <span class="analyticsScopeChartTabHeader">
+                                            Постоянные зрители
+                                        </span>
+                                        <span class="analyticsScopeChartTabContent">
+                                            1
+                                        </span>
+                                    </div>
+                                    <div class="analyticsScopeChartTab">
+                                        <span class="analyticsScopeChartTabHeader">
+                                            Уникальные зрители
+                                        </span>
+                                        <span class="analyticsScopeChartTabContent">
+                                            100
+                                        </span>
+                                    </div>
+                                    <div class="analyticsScopeChartTab">
+                                        <span class="analyticsScopeChartTabHeader">
+                                            Подписчики
+                                        </span>
+                                        <span class="analyticsScopeChartTabContent">
+                                            +2
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="analyticsScopeChartGraph">
+                                    
+                                </div>
+                                <span class="analyticsScopeChartDetail">
+                                    ПОДРОБНЕЕ
+                                </span>
+                            </div>
+                            <span class="analyticsScopeItemHeader">
+                                Лучшие видео за выбранный период
+                            </span>
+                            <div class="analyticsScopeItemTable">
+                                <div class="analyticsScopeItemColumn analyticsScopeItemPrimaryColumn">
+                                    <span class="analyticsScopeRow">
+                                        Видео
+                                    </span>
+                                    <div class="analyticsScopeRow">
+                                        <video class="analyticsScopeRowVideo" width="150px" controls>
+                                            <source src="" />
+                                        </video>
+                                        <div class="videoInfo">
+                                            <span>
+                                                Создание анимации для 2D персонажей
+                                            </span>
+                                            <span>
+                                                16 окт. 2021 г.
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="analyticsScopeRow">
+                                        <video class="analyticsScopeRowVideo" width="150px" controls>
+                                            <source src="" />
+                                        </video>
+                                        <div class="videoInfo">
+                                            <span>
+                                                Создание анимации для 2D персонажей
+                                            </span>
+                                            <span>
+                                                16 окт. 2021 г.
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="analyticsScopeRow">
+                                        <video class="analyticsScopeRowVideo" width="150px" controls>
+                                            <source src="" />
+                                        </video>
+                                        <div class="videoInfo">
+                                            <span>
+                                                Создание анимации для 2D персонажей
+                                            </span>
+                                            <span>
+                                                16 окт. 2021 г.
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="analyticsScopeRow">
+                                        <video class="analyticsScopeRowVideo" width="150px" controls>
+                                            <source src="" />
+                                        </video>
+                                        <div class="videoInfo">
+                                            <span>
+                                                Создание анимации для 2D персонажей
+                                            </span>
+                                            <span>
+                                                16 окт. 2021 г.
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="analyticsScopeRow">
+                                        <video class="analyticsScopeRowVideo" width="150px" controls>
+                                            <source src="" />
+                                        </video>
+                                        <div class="videoInfo">
+                                            <span>
+                                                Создание анимации для 2D персонажей
+                                            </span>
+                                            <span>
+                                                16 окт. 2021 г.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="analyticsScopeItemColumn analyticsScopeItemSecondaryColumn">
+                                    <span class="analyticsScopeRow">
+                                        Средняя<br />продолжительность<br />просмотра
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        1:33(84,9%)
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        1:33(84,9%)
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        1:33(84,9%)
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        1:33(84,9%)
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        1:33(84,9%)
+                                    </span>
+                                </div>
+                                <div class="analyticsScopeItemColumn analyticsScopeItemSecondaryColumn">
+                                    <span class="analyticsScopeRow">
+                                        Просмотры
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        78
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        78
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        78
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        78
+                                    </span>
+                                    <span class="analyticsScopeRow">
+                                        78
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="analyticsScopeSecondaryItem analyticsScopeItem">
+                            <div class="analyticsScopeSecondaryElement">
+                                <span>
+                                    В режиме реального времени
+                                </span>
+                                <span>
+                                    В реальном времени
+                                </span>
+                                <span>
+                                    25
+                                </span>
+                                <span>
+                                    Подписчики
+                                </span>
+                                <span>
+                                    ТЕКУЩАЯ СТАТИСТИКА
+                                </span>
+                                <span>
+                                    3
+                                </span>
+                                <span>
+                                    Просмотры · Последние 48 часов
+                                </span>
+                                <div class="analyticsScopeSecondaryElementTable">
+                                    <div class="analyticsScopeSecondaryElementColumn">
+                                        <span class="analyticsScopeSecondaryElementColumnItem">
+                                            Лучшие видео
+                                        </span>
+                                        <div class="analyticsScopeSecondaryElementColumnItem">
+                                            <video height="40px" controls>
+                                                <source src="" />
+                                            </video>
+                                            <span>
+                                                Создание анимации
+                                            </span>
+                                        </div>
+                                        <div class="analyticsScopeSecondaryElementColumnItem">
+                                            <video height="40px" controls>
+                                                <source src="" />
+                                            </video>
+                                            <span>
+                                                Создание анимации
+                                            </span>
+                                        </div>
+                                        <div class="analyticsScopeSecondaryElementColumnItem">
+                                            <video height="40px" controls>
+                                                <source src="" />
+                                            </video>
+                                            <span>
+                                                Создание анимации
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="analyticsScopeSecondaryElementColumn">
+                                        <span class="analyticsScopeSecondaryElementColumnItem">
+                                            Просмотры
+                                        </span>
+                                        <span class="analyticsScopeSecondaryElementColumnItem">
+                                            1
+                                        </span>
+                                        <span class="analyticsScopeSecondaryElementColumnItem">
+                                            1
+                                        </span>
+                                        <span class="analyticsScopeSecondaryElementColumnItem">
+                                            1
+                                        </span>
+                                    </div>
+                                </div>
+                                <span>
+                                    ПОДРОБНЕЕ
+                                </span>
+                            </div>
+                            <div class="analyticsScopeSecondaryElement">
+                                <span>
+                                    НОВЫЕ ВИДЕО
+                                </span>
+                                <div>
+                                    <img width="100%" src="https://i9.ytimg.com/vi/0pZWYKEIdNQ/sddefault.jpg?v=616ae74f&sqp=CMCmwY0G&rs=AOn4CLCvRGwELSAefldivD7XlbT7yPzJeA" alt="" />
+                                </div>
+                                <span>
+                                    52 дня 15 часов после публикации: 
+                                </span>
+                                <div class="analyticsScopeSecondarySecondElementTable">
+                                    <div class="analyticsScopeSecondarySecondElementColumn">
+                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
+                                            Просмотры
+                                        </span>
+                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
+                                            CTR для значков видео
+                                        </span>
+                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
+                                            Средняя продолжительность просмотра
+                                        </span>
+                                    </div>
+                                    <div class="analyticsScopeSecondarySecondElementColumn">
+                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
+                                            289
+                                        </span>
+                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
+                                            5,4 %
+                                        </span>
+                                        <span class="analyticsScopeSecondarySecondElementColumnItem">
+                                            1:22
+                                        </span>
+                                    </div>
+                                </div>
+                                <span>
+                                    ПОСМОТРЕТЬ АНАЛИТИКУ ДЛЯ ВИДЕО
+                                </span>
+                                <div class="analyticsScopeSecondarySecondElementFooter">
+                                    <span class="material-icons">
+                                        chevron_left
+                                    </span>
+                                    <span>
+                                        1 из 4
+                                    </span>
+                                    <span class="material-icons">
+                                        chevron_right
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div v-else-if="activeTab === 'Comments'">
@@ -347,79 +1737,148 @@
                         Комментарии и упоминания
                     </span>
                     <div class="commentsTypes">
-                        <div class="commentsType">
+                        <div :class="{ commentsType: activeCommentsType !== 'Опубликованные', activeCommentsType: activeCommentsType === 'Опубликованные' }" @click="debug('Опубликованные')">
                             <span>
                                 Опубликованные
                             </span>
                         </div>
-                        <div class="commentsType">
+                        <div :class="{ commentsType: activeCommentsType !== 'На проверке', activeCommentsType: activeCommentsType === 'На проверке' }" @click="debug('На проверке')">
                             <span>
                                 На проверке
                             </span>
                         </div>
                     </div>
-                    <div class="commentsFilterBlock">
-                        <span class="material-icons commentsFilterBlockItem">
-                            filter_list
-                        </span>
-                        <div class="commentsFilterBlockContainer">
-                            <span class="commentsFilterBlockContainerItem">
-                                Без моего ответа
+                    <div v-if="activeCommentsType = 'Опубликованные'">
+                        <div class="commentsFilterBlock">
+                            <span class="material-icons commentsFilterBlockItem">
+                                filter_list
                             </span>
-                            <span class="commentsFilterBlockContainerItem material-icons">
-                                cancel
-                            </span>
+                            <div class="commentsFilterBlockContainer">
+                                <span class="commentsFilterBlockContainerItem">
+                                    Без моего ответа
+                                </span>
+                                <span class="commentsFilterBlockContainerItem material-icons">
+                                    cancel
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="commentsList">
-                        <div class="commentList">
-                            <div class="commentListAside">
-                                <img class="commentListAsideItem" src="https://yt3.ggpht.com/vZ5f4p6HG9FhmCv0zkY4Cc-8Ma405_gtS3COgxhCxiXNyhxFKUQHuqif4hoWbAludibzLAtTqw=s48-c-k-c0x00ffffff-no-rj" alt="" />
-                                <div class="commentListAsideItem commentListAsideInfo">
-                                    <div class="commentListAsideInfoItem commentListAsideInfoHeader">
-                                        <span class="commentListAsideInfoHeaderItem">
-                                            Coolinar Coolinar • 
-                                        </span>
-                                        <span class="commentListAsideInfoHeaderItem">
-                                            2 месяца назад 56 подписчики
-                                        </span>
-                                    </div>
-                                    <div class="commentListAsideInfoItem commentListAsideInfoMain">
-                                        для того чтобы делать много уровней не надо делать много сцен, просто делаешь настройки игры в скриптбл объектах и потому применяешь их к сцене (количесвто врагов их тип задний фон и тд)
-                                    </div>
-                                    <div class="commentListAsideInfoItem commentListAsideFooter">
-                                        <span class="commentListAsideInfElement commentListAsideInfElementAnswer">
-                                            ОТВЕТИТЬ
-                                        </span>
-                                        <span class="commentListAsideInfElement">
-                                            Нет ответов
-                                        </span>
-                                        <span class="commentListAsideInfElement material-icons">
-                                            expand_more
-                                        </span>
-                                        <span class="commentListAsideInfElement material-icons">
-                                            thumb_up
-                                        </span>
-                                        <span class="commentListAsideInfElement material-icons">
-                                            thumb_down
-                                        </span>
-                                        <span class="commentListAsideInfElement material-icons">
-                                            favorite
-                                        </span>
-                                        <span class="commentListAsideInfElement material-icons">
-                                            more_vert
-                                        </span>
-                                        <span class="commentListAsideInfElement material-icons">
-                                            play_circle
-                                        </span>
+                        <div class="commentsList">
+                            <div class="commentList">
+                                <div class="commentListAside">
+                                    <img class="commentListAsideItem" src="https://yt3.ggpht.com/vZ5f4p6HG9FhmCv0zkY4Cc-8Ma405_gtS3COgxhCxiXNyhxFKUQHuqif4hoWbAludibzLAtTqw=s48-c-k-c0x00ffffff-no-rj" alt="" />
+                                    <div class="commentListAsideItem commentListAsideInfo">
+                                        <div class="commentListAsideInfoItem commentListAsideInfoHeader">
+                                            <span class="commentListAsideInfoHeaderItem">
+                                                Coolinar Coolinar • 
+                                            </span>
+                                            <span class="commentListAsideInfoHeaderItem">
+                                                2 месяца назад 56 подписчики
+                                            </span>
+                                        </div>
+                                        <div class="commentListAsideInfoItem commentListAsideInfoMain">
+                                            для того чтобы делать много уровней не надо делать много сцен, просто делаешь настройки игры в скриптбл объектах и потому применяешь их к сцене (количесвто врагов их тип задний фон и тд)
+                                        </div>
+                                        <div class="commentListAsideInfoItem commentListAsideFooter">
+                                            <span class="commentListAsideInfElement commentListAsideInfElementAnswer">
+                                                ОТВЕТИТЬ
+                                            </span>
+                                            <span class="commentListAsideInfElement">
+                                                Нет ответов
+                                            </span>
+                                            <span class="commentListAsideInfElement material-icons">
+                                                expand_more
+                                            </span>
+                                            <span class="commentListAsideInfElement material-icons">
+                                                thumb_up
+                                            </span>
+                                            <span class="commentListAsideInfElement material-icons">
+                                                thumb_down
+                                            </span>
+                                            <span class="commentListAsideInfElement material-icons">
+                                                favorite
+                                            </span>
+                                            <span class="commentListAsideInfElement material-icons">
+                                                more_vert
+                                            </span>
+                                            <span class="commentListAsideInfElement material-icons">
+                                                play_circle
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="commentArticle">
+                                    <img src="https://i.ytimg.com/vi_webp/a7VuEDl71k4/mqdefault.webp" alt="" width="100px" />
+                                    <span>
+                                        Сделал
+                                    </span>
+                                </div>
                             </div>
-                            <div class="commentArticle">
-                                <img src="https://i.ytimg.com/vi_webp/a7VuEDl71k4/mqdefault.webp" alt="" width="100px" />
-                                <span>
-                                    Сделал
+                        </div>
+                    </div>
+                    <div v-else-if="activeCommentsType === 'На проверке'">
+                        <div class="commentsFilterBlock">
+                            <span class="material-icons commentsFilterBlockItem">
+                                filter_list
+                            </span>
+                            <div class="commentsFilterBlockContainer">
+                                <span class="commentsFilterBlockContainerItem">
+                                    Без моего ответа
                                 </span>
+                                <span class="commentsFilterBlockContainerItem material-icons">
+                                    cancel
+                                </span>
+                            </div>
+                        </div>
+                        <div class="commentsList">
+                            <div class="commentList">
+                                <div class="commentListAside">
+                                    <img class="commentListAsideItem" src="https://yt3.ggpht.com/vZ5f4p6HG9FhmCv0zkY4Cc-8Ma405_gtS3COgxhCxiXNyhxFKUQHuqif4hoWbAludibzLAtTqw=s48-c-k-c0x00ffffff-no-rj" alt="" />
+                                    <div class="commentListAsideItem commentListAsideInfo">
+                                        <div class="commentListAsideInfoItem commentListAsideInfoHeader">
+                                            <span class="commentListAsideInfoHeaderItem">
+                                                Coolinar Coolinar • 
+                                            </span>
+                                            <span class="commentListAsideInfoHeaderItem">
+                                                2 месяца назад 56 подписчики
+                                            </span>
+                                        </div>
+                                        <div class="commentListAsideInfoItem commentListAsideInfoMain">
+                                            для того чтобы делать много уровней не надо делать много сцен, просто делаешь настройки игры в скриптбл объектах и потому применяешь их к сцене (количесвто врагов их тип задний фон и тд)
+                                        </div>
+                                        <div class="commentListAsideInfoItem commentListAsideFooter">
+                                            <span class="commentListAsideInfElement commentListAsideInfElementAnswer">
+                                                ОТВЕТИТЬ
+                                            </span>
+                                            <span class="commentListAsideInfElement">
+                                                Нет ответов
+                                            </span>
+                                            <span class="commentListAsideInfElement material-icons">
+                                                expand_more
+                                            </span>
+                                            <span class="commentListAsideInfElement material-icons">
+                                                thumb_up
+                                            </span>
+                                            <span class="commentListAsideInfElement material-icons">
+                                                thumb_down
+                                            </span>
+                                            <span class="commentListAsideInfElement material-icons">
+                                                favorite
+                                            </span>
+                                            <span class="commentListAsideInfElement material-icons">
+                                                more_vert
+                                            </span>
+                                            <span class="commentListAsideInfElement material-icons">
+                                                play_circle
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="commentArticle">
+                                    <img src="https://i.ytimg.com/vi_webp/a7VuEDl71k4/mqdefault.webp" alt="" width="100px" />
+                                    <span>
+                                        Сделал
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -622,7 +2081,7 @@
                             </div>
                         </div>
                     </div>
-                    <div v-else-if="activeSubtitlesTab === 'Draft'" class="subtitlesTable">
+                    <div v-else-if="activeSubtitlesTab === 'Drafts'" class="subtitlesTable">
                         <div class="subtitlesTableColumn subtitlesTablePrimaryColumn">
                             <div class="subtitlesTableColumnHeader">
                                 <span>
@@ -634,14 +2093,6 @@
                             <div class="subtitlesTableColumnHeader">
                                 <span>
                                     Языки
-                                </span>
-                            </div>
-                            <div class="subtitlesTableColumnContent">
-                                <span class="subtitlesTableColumnContentItem">
-                                    1
-                                </span>
-                                <span class="material-icons subtitlesTableColumnContentItem">
-                                    expand_more
                                 </span>
                             </div>
                         </div>
@@ -986,6 +2437,291 @@
                             </button>
                         </div>
                     </div>
+                    <div v-if="activeChannelEditTab === 'Главная страница'" class="channelEditMain">
+                        <div class="channelEditSectionHeader">
+                            <div class="channelEditSectionHeaderColumn">
+                                <span class="channelEditSectionHeaderTitle">
+                                    Рекомендованные разделы
+                                </span>
+                                <span>
+                                    Настройте вид главной страницы канала: добавьте до 12 разделов.
+                                </span>
+                            </div>
+                            <span class="addSection">
+                                ДОБАВИТЬ РАЗДЕЛ
+                            </span>
+                        </div>
+                        <div class="channelEditSectionBody">
+                            <div class="channelEditSectionBodyFirst">
+                                <span class="material-icons">
+                                    theaters
+                                </span>
+                                <div class="channelEditSectionBodyFirstItem">
+                                    <div class="channelEditSectionBodyFirstElement">
+                                        <span>
+                                            Трейлер для зрителей, которые ещё не подписались на канал
+                                        </span>
+                                    </div>
+                                    <div class="channelEditSectionBodyFirstElement">
+                                        <span>
+                                            Расскажите о том, какие видео вы предлагаете. Трейлер будет показываться тем, кто ещё не подписался на ваш канал. 
+                                            Подробнее… 
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <span title="Действия" class="addToSection">
+                                ДОБАВИТЬ
+                            </span>
+                        </div>
+                        <div class="channelEditSectionBody">
+                            <div class="channelEditSectionBodyFirst">
+                                <span class="material-icons">
+                                    movie
+                                </span>
+                                <div class="channelEditSectionBodyFirstItem">
+                                    <div class="channelEditSectionBodyFirstElement">
+                                        <span>
+                                            Рекомендованное видео для подписчиков
+                                        </span>
+                                    </div>
+                                    <div class="channelEditSectionBodyFirstElement">
+                                        <span class="channelEditSectionBodyFirstElementItem">
+                                            Продвигайте видео среди подписчиков. Ролик будет показываться в верхней части страницы тем, кто его ещё не посмотрел. 
+                                            Подробнее… 
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <span title="Действия" class="addToSection">
+                                ДОБАВИТЬ
+                            </span>
+                        </div>
+                        <div class="channelEditSectionHeader">
+                            <div class="channelEditSectionHeaderColumn">
+                                <span class="channelEditSectionHeaderTitle">
+                                    Рекомендованные разделы
+                                </span>
+                                <span>
+                                    Настройте вид главной страницы канала: добавьте до 12 разделов.
+                                </span>
+                            </div>
+                            <span class="addSection">
+                                ДОБАВИТЬ РАЗДЕЛ
+                            </span>
+                        </div>
+                        <div class="channelEditSectionBody">
+                            <div class="channelEditSectionBodyFirst">
+                                <span class="material-icons">
+                                    drag_handle
+                                </span>
+                                <div class="channelEditSectionBodyFirstItem">
+                                    <div class="channelEditSectionBodyFirstElement">
+                                        <span>
+                                            Короткое видео
+                                        </span>
+                                        <span>
+                                            (1)
+                                        </span>
+                                    </div>
+                                    <div class="channelEditSectionBodyFirstElement">
+                                        <video width="125px" controls>
+                                            <source src="" />
+                                        </video>
+                                    </div>
+                                </div>
+                            </div>
+                            <span title="Действия" class="material-icons">
+                                more_vert
+                            </span>
+                        </div>
+                        <div class="channelEditSectionBody">
+                            <div class="channelEditSectionBodyFirst">
+                                <span class="material-icons">
+                                    drag_handle
+                                </span>
+                                <div class="channelEditSectionBodyFirstItem">
+                                    <div class="channelEditSectionBodyFirstElement">
+                                        <span>
+                                            Все видео
+                                        </span>
+                                        <span>
+                                            (4)
+                                        </span>
+                                    </div>
+                                    <div class="channelEditSectionBodyFirstElement">
+                                        <video class="channelEditSectionBodyFirstElementItem" width="125px" controls>
+                                            <source src="" />
+                                        </video>
+                                        <video class="channelEditSectionBodyFirstElementItem" width="125px" controls>
+                                            <source src="" />
+                                        </video>
+                                        <video class="channelEditSectionBodyFirstElementItem" width="125px" controls>
+                                            <source src="" />
+                                        </video>
+                                        <video class="channelEditSectionBodyFirstElementItem" width="125px" controls>
+                                            <source src="" />
+                                        </video>
+                                    </div>
+                                </div>
+                            </div>
+                            <span title="Действия" class="material-icons">
+                                more_vert
+                            </span>
+                        </div>
+                    </div>
+                    <div v-else-if="activeChannelEditTab === 'Брендинг'" class="branding">
+                        <div class="brandingItem">
+                            <span class="brandingItemHeader">
+                                Фото профиля
+                            </span>
+                            <span>
+                                Фото профиля показывается, например, рядом с вашими видео или комментариями на YouTube. 
+                            </span>
+                            <div class="brandingItemFooter">
+                                <img width="175px" src="https://yt3.ggpht.com/UhjsV-ihiyEBav8xnrM6Ud2ARTYiiPs8o71LsPDfPunxrtFumlSUc1ydpBice0Z4WOLDcDOboA=s600-c-k-c0x00ffffff-no-rj-rp-mo" alt="" />
+                                <div class="brandingItemFooterArticle">
+                                    <span>
+                                        Рекомендуем использовать изображение размером не менее 98 х 98 пикселей в формате PNG или GIF. Анимированные картинки загружать нельзя. Размер файла – не более 4 МБ. Помните, что изображение должно соответствовать правилам сообщества YouTube. 
+                                        <span class="brandingItemFooterDetail">
+                                            Подробнее…
+                                        </span>
+                                    </span>
+                                    <div class="brandingItemFooterArticleBtns">
+                                        <span class="brandingItemFooterArticleBtn">
+                                            ИЗМЕНИТЬ
+                                        </span>
+                                        <span class="brandingItemFooterArticleBtn">
+                                            УДАЛИТЬ
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="brandingItem">
+                            <span class="brandingItemHeader">
+                                Баннер
+                            </span>
+                            <span>
+                                Это изображение показывается в верхней части страницы канала.
+                            </span>
+                            <div class="brandingItemFooter">
+                                <img width="175px" src="https://yt3.ggpht.com/UhjsV-ihiyEBav8xnrM6Ud2ARTYiiPs8o71LsPDfPunxrtFumlSUc1ydpBice0Z4WOLDcDOboA=s600-c-k-c0x00ffffff-no-rj-rp-mo" alt="" />
+                                <div class="brandingItemFooterArticle">
+                                    <span>
+                                        Чтобы канал выглядел привлекательно на всех устройствах, советуем загрузить изображение размером не менее 2048 x 1152 пикс. Размер файла – не более 6 МБ.
+                                        <span class="brandingItemFooterDetail">
+                                            Подробнее…
+                                        </span>
+                                    </span>
+                                    <div class="brandingItemFooterArticleBtns">
+                                        <span class="brandingItemFooterArticleBtn">
+                                            ИЗМЕНИТЬ
+                                        </span>
+                                        <span class="brandingItemFooterArticleBtn">
+                                            УДАЛИТЬ
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="brandingItem">
+                            <span class="brandingItemHeader">
+                                Логотип канала
+                            </span>
+                            <span>
+                                Логотип канала показывается в правом нижнем углу проигрывателя при просмотре ваших вид
+                            </span>
+                            <div class="brandingItemFooter">
+                                <img width="25px" src="https://yt3.ggpht.com/UhjsV-ihiyEBav8xnrM6Ud2ARTYiiPs8o71LsPDfPunxrtFumlSUc1ydpBice0Z4WOLDcDOboA=s600-c-k-c0x00ffffff-no-rj-rp-mo" alt="" />
+                                <div class="brandingItemFooterArticle">
+                                    <span>
+                                        Когда будет показываться логотип
+                                    </span>
+                                    <div class="whenShowLogoChannel">
+                                        <input class="whenShowLogoChannelItem" :value="'end'" name="whenShowLogoChannel" v-model="whenShowLogoChannel" type="radio" />
+                                        <span class="whenShowLogoChannelItem">
+                                            В конце видео
+                                        </span>
+                                    </div>
+                                    <div class="whenShowLogoChannel">
+                                        <input class="whenShowLogoChannelItem" :value="'moment'" name="whenShowLogoChannel" v-model="whenShowLogoChannel" type="radio" />
+                                        <span class="whenShowLogoChannelItem">
+                                            В заданный момент
+                                        </span>
+                                    </div>
+                                    <div class="whenShowLogoChannel">
+                                        <input class="whenShowLogoChannelItem" :value="'all'" name="whenShowLogoChannel" v-model="whenShowLogoChannel" type="radio" />
+                                        <span class="whenShowLogoChannelItem">
+                                            На протяжении всего видео
+                                        </span>
+                                    </div>
+                                    <div class="brandingItemFooterArticleBtns">
+                                        <span class="brandingItemFooterArticleBtn">
+                                            ИЗМЕНИТЬ
+                                        </span>
+                                        <span class="brandingItemFooterArticleBtn">
+                                            УДАЛИТЬ
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="activeChannelEditTab === 'Основные сведения'" class="channelSection">
+                        <span class="channelNameLabel">
+                            Название и описание канала
+                        </span>
+                        <div class="editChannelNameRow">
+                            <span class="editChannelNameRowItem">
+                                KarasGames - разработчик игр 
+                            </span>
+                            <span class="editChannelNameRowItem material-icons">
+                                edit
+                            </span>
+                        </div>
+                        <textarea class="channelDesc" v-model="channelDesc"></textarea>
+                        <div class="addTranslate">
+                            <span class="addTranslateItem material-icons">
+                                add
+                            </span>
+                            <span class="addTranslateItem">
+                                ДОБАВИТЬ ПЕРЕВОД
+                            </span>
+                        </div>
+                        <span class="sectionHeader">
+                            URL канала
+                        </span>
+                        <span>
+                            Это стандартный веб-адрес вашего канала. Набор цифр и букв в конце ссылки – уникальный идентификатор канала. Подробнее… 
+                        </span>
+                        <div class="editor">
+                            <button class="material-icons editorBtn">content_copy</button>
+                            <p class="editorString">https://www.youtube.com/channel/UCMSYwB_yfWxv6Xj2a_J4YDg</p>
+                        </div>
+
+                        <span class="sectionHeader">
+                            Ссылки
+                        </span>
+                        <span>
+                            Добавьте ссылки на сайты, о которых хотите рассказать зрителям. 
+                        </span>
+                        <div class="addTranslate">
+                            <span class="addTranslateItem material-icons">
+                                add
+                            </span>
+                            <span class="addTranslateItem">
+                                ДОБАВИТЬ ССЫЛКУ
+                            </span>
+                        </div>
+                        <span class="sectionHeader">
+                            Контактная информация
+                        </span>
+                        <span>
+                            Укажите, как связаться с вами по вопросам сотрудничества. Зрители могут увидеть адрес электронной почты на вкладке "О канале". 
+                        </span>
+                        <input v-model="channelContacts" type="text" class="form-control" />
+                    </div>
                 </div>
                 <div v-else-if="activeTab === 'SoundLibrary'">
                     <span class="soundLibraryHeader">
@@ -1042,14 +2778,24 @@ export default {
     data() {
         return {
             activeTab: 'Main',
+            activeContentTab: 'Downloads',
             activeAnalyticsTab: 'Scope',
             analyticsPeriod: 'Последние 28 дней',
+            activeCommentsType: 'Опубликованные',
             activeSubtitlesTab: 'All',
             activeChannelEditTab: 'Главная страница',
+            whenShowLogoChannel: '',
+            channelName: 'карась геймс',
+            channelDesc: 'это канал карась геймс, мой канал о разработке моих инди игр. Также можно следить за разработкой в группе вк https://vk.com/karasgames',
+            channelContacts: '',
             activeSoundLibraryTab: 'Бесплатаная музыка'
         }
     },
     methods: {
+        debug(value) {
+            this.activeCommentsType = value
+            alert(this.activeCommentsType)
+        },
         changeActiveTabHandler(tab) {
             this.activeTab = tab
         }
@@ -1555,10 +3301,12 @@ export default {
     }
 
     .commentsType {
+        cursor: pointer;
         border-radius: 35px;
         width: 200px;
         height: 35px;
-        background-color: rgb(215, 215, 235);
+        background-color: rgb(255, 255, 255);
+        border: 1px solid rgb(200, 200, 200);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1631,5 +3379,435 @@ export default {
     .commentListAsideInfElementAnswer {
         font-weight: bolder;
     }
+
+    .contentHeader {
+        font-weight: bolder;
+        font-size: 24px;
+    }
+
+    .contentTabs {
+        margin: 25px 0px;
+        display: flex;
+    }
+
+    .contentTab {
+        margin: 0px 10px;
+        font-weight: bolder;
+        cursor: pointer;
+    }
+
+    .activeContentTab {
+        text-decoration: underline;
+        color: rgb(0, 100, 255);
+        text-decoration-thickness: 3px;
+        text-underline-offset: 10px;
+    }
+
+    .contentColumnDateField {
+        display: flex;
+    }
+
+    .contentColumnDateFieldItem {
+        margin: 0px 5px;
+    }
+
+    .contentTable {
+        display: flex;
+    }
+
+    .contentColumn {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .primaryContentColumn {
+        width: 3%;
+    }
+    
+    .secondaryContentColumn {
+        width: 25%;
+    }
+
+    .thirdaryContentColumn {
+        width: 12%;
+    }
+    
+    .contentRow {
+        display: flex;
+        align-items: center;
+        height: 100px;
+    }
+
+    .notFoundStreams {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .notFoundStreamsLabel {
+        color: rgb(150, 150, 150);
+    }
+
+    .beginStream {
+        color: rgb(0, 100, 255);
+        cursor: pointer;
+        font-weight: bolder;
+    }
+
+    .channelNameLabel {
+        font-weight: bolder;
+    }
+
+    .editChannelNameRow {
+        display: flex;
+        font-size: 24px;
+        align-items: center;
+    }
+
+    .editChannelNameRowItem {
+        margin: 0px 10px;
+    }
+
+    .addTranslate {
+        color: rgb(0, 100, 255);
+        font-weight: bolder;
+        display: flex;
+    }
+
+    .addTranslateItem {
+        margin: 0px 5px;
+    }
+
+    .sectionHeader {
+        font-weight: bolder;
+    }
+
+    .channelSection {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .editor {
+        border-radius: 15px;
+        margin: 5px;
+        background-color: rgb(235, 235, 235);    
+        
+    }
+
+    
+    .editorString {
+        padding: 5px;
+        width: 500px;
+    }
+
+    .editorBtn {
+        font-size: 12px;
+        float: right;
+        width: 45px;
+        height: 25px;
+    }
+
+    .channelDesc {
+        height: 175px;
+    }
+    
+    .branding {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .brandingItem {
+        display: flex;
+        flex-direction: column;
+        margin: 40px 0px;
+    }
+
+    .brandingItemFooter {
+        display: flex;
+        margin: 25px 0px;
+        align-items: center;
+    }
+
+    .brandingItemFooterArticle {
+        margin: 0px 25px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .brandingItemFooterArticleBtns {
+        margin: 25px 0px;
+        display: flex;
+    }
+
+    .brandingItemFooterArticleBtn {
+        margin: 0px 5px;
+        color: rgb(0, 100, 255);
+        font-weight: bolder;
+        cursor: pointer;
+    }
+
+    .brandingItemHeader {
+        font-weight: bolder;
+        margin: 15px 0px;
+    }
+
+    .brandingItemFooterDetail {
+        cursor: pointer;
+        color: rgb(0, 100, 255)
+    }
+
+    .whenShowLogoChannel {
+        display: flex;
+        align-items: center;
+    }
+
+    .whenShowLogoChannelItem {
+        margin: 0px 5px;
+    }
+
+    .channelEditMain {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .channelEditSectionHeader {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .channelEditSectionHeaderTitle {
+        margin: 5px 0px;
+        font-weight: bolder;
+    }
+
+    .addSection {
+        color: rgb(0, 100, 255);
+        font-weight: bolder;
+        cursor: pointer;
+    }
+
+    .channelEditSectionHeaderColumn {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .channelEditSectionBody {
+        border: 1px solid rgb(200, 200, 200);
+        height: 150px;
+        width: 85%;
+        margin: 15px auto;
+        background-color: rgb(255, 255, 255);
+        display: flex;
+        box-sizing: border-box;
+        padding: 25px;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .channelEditSectionBodyFirst {
+        display: flex;
+    }
+
+    .channelEditSectionBodyFirstItem {
+        margin: 0px 15px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .channelEditSectionBodyFirstElement {
+        margin: 10px 0px;
+        display: flex;
+    }
+
+    .channelEditSectionBodyFirstElementItem {
+        margin: 0px 5px;
+    }
+
+    .addToSection {
+        color: rgb(0, 100, 255);
+        cursor: pointer;
+        font-weight: bolder;
+        
+    }
+
+    .activeCommentsType {
+        background-color: rgb(215, 215, 235) !important;
+        border: none !important;
+    }
+
+    .analyticsScope {
+        display: flex;
+    }
+
+    .analyticsScopeItem {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .analyticsScopePrimaryItem {
+        width: 75%;
+    }
+
+    .analyticsScopeSecondaryItem {
+        width: 25%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .analyticsScopeChart {
+        margin: 25px 0px;
+        border: 1px solid rgb(175, 175, 175);
+        border-radius: 8px;
+        height: 350px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .analyticsScopeChartTabs {
+        display: flex;
+        justify-content: center;
+        height: 25%;
+    }
+
+    .analyticsScopeChartTab {
+        width: 33%;
+        height: 100px;
+        border-left: 1px solid rgb(175, 175, 175);
+        background-color: rgb(225, 225, 225);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+    }
+
+    .analyticsScopeChartGraph {
+        box-sizing: border-box;
+        padding: 0px 25px;
+        height: 70%;
+    }
+
+    .analytics {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .analyticsScopeItemHeader {
+        font-weight: bolder;
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .analyticsScopeChartDetail {
+        color: rgb(0, 100, 255);
+        font-weight: bolder;
+        cursor: pointer;
+    }
+
+    .analyticsScopeChartTabHeader {
+        font-weight: bolder;
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .analyticsScopeChartTabContent {
+        font-weight: bolder;
+        font-size: 28px;
+        text-align: center;
+    }
+
+    .analyticsScopeItemTable {
+        display: flex;
+    }
+
+    .analyticsScopeItemColumn {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .analyticsScopeItemPrimaryColumn {
+        width: 40%;
+    }
+
+    .analyticsScopeItemSecondaryColumn {
+        width: 30%;
+    }
+
+    .videoInfo {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .analyticsScopeRow {
+        height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    .analyticsScopeRowVideo {
+        margin: 0px 10px;
+    }
+
+    .analyticsScopeSecondaryElement {
+        margin: 15px 0px;
+        border-radius: 8px;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        background-color: rgb(255, 255, 255);
+        min-height: 250px;
+        box-shadow: 0px 0px 5px rgb(200, 200, 200);
+    }
+
+    .analyticsScopeSecondarySecondElementFooter {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .analyticsScopeSecondarySecondElementTable {
+        display: flex;
+    }
+
+    .analyticsScopeSecondarySecondElementColumn {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .analyticsScopeSecondarySecondElementColumnItem {
+        height: 75px;
+    }
+
+    .analyticsScopeSecondaryElementTable {
+        display: flex;
+    }
+
+    .analyticsScopeSecondaryElementColumn {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .analyticsScopeSecondaryElementColumnItem {
+        height: 100px;
+        margin: 15px 0px;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .analyticsScopeChartTabOther {
+        width: 50%;
+    }
+
+    .analyticsScopeChartTabAnother {
+        width: 25%;
+    }
+
 
 </style>
