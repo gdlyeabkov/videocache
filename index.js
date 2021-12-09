@@ -1,12 +1,12 @@
 const fs = require('fs')
 const multer  = require('multer')
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, 'uploads')
-    },
-    filename: function (req, file, cb) {
-      cb(null, file.originalname)
-    }
+  destination: function (req, file, cb) {
+    cb(null, 'uploads')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname)
+  }
 })
 const upload = multer({ storage: storage })
 
@@ -20,6 +20,28 @@ const storageForChannels = multer.diskStorage({
   }
 })
 const uploadForChannels = multer({ storage: storageForChannels })
+
+const storageForBlogers = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'blogers')
+  },
+  filename: function (req, file, cb) {
+    // cb(null, file.originalname)
+    cb(null, `${req.query.blogerlogin}.png`)
+  }
+})
+const uploadForBlogers = multer({ storage: storageForBlogers })
+
+const storageForBanners = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'banners')
+  },
+  filename: function (req, file, cb) {
+    // cb(null, file.originalname)
+    cb(null, `${req.query.channelname}.png`)
+  }
+})
+const uploadForBanners = multer({ storage: storageForBanners })
 
 const bcrypt = require('bcrypt')
 const saltRounds = 10
@@ -155,13 +177,25 @@ const BlogerModel = mongoose.model('BlogerModel', BlogerSchema)
 
 const ChannelSchema = new mongoose.Schema({
   name: String,
+  desc: {
+    type: String,
+    default: '...'
+  },
+  contacts: {
+    type: String,
+    default: 'Не указано'
+  },
   bloger: String,
   videos: [mongoose.Schema.Types.Map],
   followers: [mongoose.Schema.Types.Map],
   created: {
-      type: Date,
-      default: Date.now
-  }
+    type: Date,
+    default: Date.now
+  },
+  views: {
+    type: Number,
+    default: 0
+  },
 }, { collection : 'mychannels' })
 
 const ChannelModel = mongoose.model('ChannelModel', ChannelSchema)
@@ -170,8 +204,8 @@ const PlayListSchema = new mongoose.Schema({
   name: String,
   blogger: String,
   created: {
-      type: Date,
-      default: Date.now
+    type: Date,
+    default: Date.now
   }
 }, { collection : 'myplaylists' })
 
@@ -280,7 +314,10 @@ app.get('/api/channels/create', async (req, res) => {
   })
 })
 
-app.post('/api/channels/create', uploadForChannels.single('myFile'), async (req, res) => {
+app.post('/api/channels/create', [
+  uploadForChannels.single('myFile'),
+  uploadForBanners.single('myFile')
+], async (req, res) => {
     
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -395,6 +432,23 @@ app.get('/api/blogers/get', (req, res) => {
       return res.json({ "status": "Error" })
     } else {
       return res.json({ "status": "OK", bloger: bloger })
+    }
+  })
+  
+})
+
+app.get('/api/channels/all', (req, res) => {
+
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  ChannelModel.find({  }, function(err, channels) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      return res.json({ "status": "OK", channels: channels })
     }
   })
   
@@ -1159,6 +1213,114 @@ app.get('/api/videos/views/add', (req, res) => {
 
 })
 
+app.get('/api/channel/desc/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  ChannelModel.findOne({ '_id': req.query.channelid }, function(err, channel) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      ChannelModel.updateOne({ _id: req.query.channelid }, { desc: req.query.channeldesc }, (err, channel) => {
+        if (err) {
+          return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+  
+})
+
+app.get('/api/channel/contacts/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  ChannelModel.findOne({ '_id': req.query.channelid }, function(err, channel) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      ChannelModel.updateOne({ _id: req.query.channelid }, { contacts: req.query.channelcontacts }, (err, channel) => {
+        if (err) {
+          return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+  
+})
+
+app.get('/api/channels/views/add', (req, res) => {
+
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  ChannelModel.updateOne({ _id: req.query.channelid },
+    {
+      "$inc": { "views": 1 },
+    }, (err, channel) => {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      return res.json({ status: 'OK' })
+    }
+  })
+
+})
+
+app.post('/api/channels/logos/bloger', uploadForBlogers.single('myFile'), async (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  if (!req.file) {
+    // return res.json({ "status": "Error" })
+  } else {
+    return res.redirect('http://localhost:8080/')
+  }
+
+})
+
+app.post('/api/channels/logos/banner', uploadForBanners.single('myFile'), async (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  if (!req.file) {
+    // return res.json({ "status": "Error" })
+  } else {
+    return res.redirect('http://localhost:8080/')
+  }
+
+})
+
+app.post('/api/channels/logos/channel', uploadForChannels.single('myFile'), async (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  if (!req.file) {
+    // return res.json({ "status": "Error" })
+  } else {
+    return res.redirect('http://localhost:8080/')
+  }
+
+})
 
 app.get('**', (req, res) => { 
   

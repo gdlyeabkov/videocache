@@ -45,7 +45,9 @@
                                     Подписчики
                                 </span>
                                 <span class="mainBodyItemFollowersCount">
-                                    25
+                                    {{
+                                        channel.followers.length
+                                    }}
                                 </span>
                                 <span>
                                     +2 за последние 28 дней
@@ -2259,7 +2261,7 @@
                             </span>
                         </div>
                         <div class="channelEditHeaderItem">
-                            <span class="channelEditHeaderItemBtn channelEditHeaderItemBtnGoToChannel">
+                            <span class="channelEditHeaderItemBtn channelEditHeaderItemBtnGoToChannel" @click="$router.push({ name: 'Channel', query: { channelid: channel._id } })">
                                 ПЕРЕЙТИ НА КАНАЛ
                             </span>
                             <span class="channelEditHeaderItemBtn">
@@ -2420,14 +2422,23 @@
                                             Подробнее…
                                         </span>
                                     </span>
-                                    <div class="brandingItemFooterArticleBtns">
+                                    <form ref="blogerLogoForm" method="POST" :action="`http://localhost:4000/api/channels/logos/bloger/?blogerlogin=${this.bloger.login}`" enctype="multipart/form-data" class="brandingItemFooterArticleBtns">
+                                        <span class="brandingItemFooterArticleBtn" @click="setBlogerLogo">
+                                            ИЗМЕНИТЬ
+                                        </span>
+                                        <input class="hidenField" ref="blogerFileUploader" type="file" name="myFile" />
                                         <span class="brandingItemFooterArticleBtn">
+                                            УДАЛИТЬ
+                                        </span>
+                                    </form>
+                                    <!-- <div class="brandingItemFooterArticleBtns">
+                                        <span class="brandingItemFooterArticleBtn" @click="setBlogerLogo">
                                             ИЗМЕНИТЬ
                                         </span>
                                         <span class="brandingItemFooterArticleBtn">
                                             УДАЛИТЬ
                                         </span>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -2447,8 +2458,17 @@
                                             Подробнее…
                                         </span>
                                     </span>
-                                    <div class="brandingItemFooterArticleBtns">
+                                    <!-- <form ref="bannerLogoForm" method="POST" :action="`http://localhost:4000/api/channels/logos/banner/?channelname=${this.channel.name}`" enctype="multipart/form-data" class="brandingItemFooterArticleBtns">
+                                        <span class="brandingItemFooterArticleBtn" @click="setBannerLogo">
+                                            ИЗМЕНИТЬ
+                                        </span>
+                                        <input class="hidenField" ref="bannerFileUploader" type="file" name="myFile" />
                                         <span class="brandingItemFooterArticleBtn">
+                                            УДАЛИТЬ
+                                        </span>
+                                    </form> -->
+                                    <div class="brandingItemFooterArticleBtns">
+                                        <span class="brandingItemFooterArticleBtn" @click="setChannelLogo">
                                             ИЗМЕНИТЬ
                                         </span>
                                         <span class="brandingItemFooterArticleBtn">
@@ -2489,14 +2509,23 @@
                                             На протяжении всего видео
                                         </span>
                                     </div>
-                                    <div class="brandingItemFooterArticleBtns">
+                                    <form ref="channelLogoForm" method="POST" :action="`http://localhost:4000/api/channels/logos/channel/?channelname=${this.channel.name}`" enctype="multipart/form-data" class="brandingItemFooterArticleBtns">
+                                        <span class="brandingItemFooterArticleBtn" @click="setChannelLogo">
+                                            ИЗМЕНИТЬ
+                                        </span>
+                                        <input class="hidenField" ref="channelFileUploader" type="file" name="myFile" />
                                         <span class="brandingItemFooterArticleBtn">
+                                            УДАЛИТЬ
+                                        </span>
+                                    </form>
+                                    <!-- <div class="brandingItemFooterArticleBtns">
+                                        <span class="brandingItemFooterArticleBtn" @click="setChannelLogo">
                                             ИЗМЕНИТЬ
                                         </span>
                                         <span class="brandingItemFooterArticleBtn">
                                             УДАЛИТЬ
                                         </span>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -2507,13 +2536,15 @@
                         </span>
                         <div class="editChannelNameRow">
                             <span class="editChannelNameRowItem">
-                                KarasGames - разработчик игр 
+                                {{
+                                    channel.name
+                                }}
                             </span>
                             <span class="editChannelNameRowItem material-icons">
                                 edit
                             </span>
                         </div>
-                        <textarea class="channelDesc" v-model="channelDesc"></textarea>
+                        <textarea @keyup.enter="setChannelDesc" class="channelDesc" v-model="channelDesc"></textarea>
                         <div class="addTranslate">
                             <span class="addTranslateItem material-icons">
                                 add
@@ -2553,7 +2584,7 @@
                         <span>
                             Укажите, как связаться с вами по вопросам сотрудничества. Зрители могут увидеть адрес электронной почты на вкладке "О канале". 
                         </span>
-                        <input v-model="channelContacts" type="text" class="form-control" />
+                        <input @keyup.enter="setChannelContacts" v-model="channelContacts" type="text" class="form-control" />
                     </div>
                 </div>
                 <div v-else-if="activeTab === 'SoundLibrary'">
@@ -2606,6 +2637,8 @@
 import StudioHeader from '@/components/StudioHeader.vue'
 import StudioAside from '@/components/StudioAside.vue'
 
+import * as jwt from 'jsonwebtoken'
+
 export default {
     name: 'Studio',
     data() {
@@ -2621,10 +2654,277 @@ export default {
             channelName: 'карась геймс',
             channelDesc: 'это канал карась геймс, мой канал о разработке моих инди игр. Также можно следить за разработкой в группе вк https://vk.com/karasgames',
             channelContacts: '',
-            activeSoundLibraryTab: 'Бесплатаная музыка'
+            activeSoundLibraryTab: 'Бесплатаная музыка',
+            bloger: {
+                login: '',
+                channels: []
+            },
+            channel: {
+
+            },
+            filesList: [],
+            token: window.localStorage.getItem("videocachetoken")
         }
     },
+    mounted() {
+        jwt.verify(this.token, 'videocachesecret', (err, decoded) => {
+            if (err) {
+                alert('Не могу получить блогера')
+                this.$router.push({ nae: 'Home' })
+            } else {
+                this.getBloger(decoded.bloger)
+            }
+        })
+    },
     methods: {
+        FileListItems(files){
+            var b = new ClipboardEvent("").clipboardData || new DataTransfer()
+            for (var i = 0, len = files.length; i<len; i++){
+                b.items.add(files[i])
+            }
+            return b.files
+        },
+        setChannelLogo() {
+
+            
+            window.showOpenFilePicker({     
+                types: [
+                {
+                    description: 'Поддерживаемы форматы',
+                    accept: {
+                    'image/png': ['.png']
+                    },
+                },
+                ],
+                excludeAcceptAllOption: true,
+                multiple: true,
+            }).then(async files => {
+                console.log('files: ', files)
+                this.filesList = []
+                for (let file of files) {
+                    this.filesList.push(await file.getFile())
+                }
+                console.log('this.filesList: ', this.filesList)
+                this.$refs.channelFileUploader.files = new this.FileListItems(
+                    this.filesList
+                )
+                setTimeout(() => {
+                    this.$refs.channelLogoForm.submit()
+                }, 1000)
+            }).catch(e => console.log('windowerror: ', e))
+
+
+        },
+        setBannerLogo() {
+
+            
+            window.showOpenFilePicker({     
+                types: [
+                {
+                    description: 'Поддерживаемы форматы',
+                    accept: {
+                    'image/png': ['.png']
+                    },
+                },
+                ],
+                excludeAcceptAllOption: true,
+                multiple: true,
+            }).then(async files => {
+                console.log('files: ', files)
+                this.filesList = []
+                for (let file of files) {
+                    this.filesList.push(await file.getFile())
+                }
+                console.log('this.filesList: ', this.filesList)
+                this.$refs.bannerFileUploader.files = new this.FileListItems(
+                    this.filesList
+                )
+                setTimeout(() => {
+                    this.$refs.bannerLogoForm.submit()
+                }, 1000)
+            }).catch(e => console.log('windowerror: ', e))
+
+
+        },
+        setBlogerLogo() {
+            
+            window.showOpenFilePicker({     
+                types: [
+                {
+                    description: 'Поддерживаемы форматы',
+                    accept: {
+                    'image/png': ['.png']
+                    },
+                },
+                ],
+                excludeAcceptAllOption: true,
+                multiple: true,
+            }).then(async files => {
+                console.log('files: ', files)
+                this.filesList = []
+                for (let file of files) {
+                    this.filesList.push(await file.getFile())
+                }
+                console.log('this.filesList: ', this.filesList)
+                this.$refs.blogerFileUploader.files = new this.FileListItems(
+                    this.filesList
+                )
+                setTimeout(() => {
+                    this.$refs.blogerLogoForm.submit()
+                }, 1000)
+            }).catch(e => console.log('windowerror: ', e))
+
+        },
+        setChannelContacts() {
+            
+            fetch(`http://localhost:4000/api/channel/contacts/set/?channelid=${this.channel._id}&channelcontacts=${this.channelContacts}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('обновил контакты канала')
+                    this.channel.contacts = this.channelContacts
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить контакты канала')
+                }
+            })
+
+        },
+        setChannelDesc() {
+            
+            fetch(`http://localhost:4000/api/channel/desc/set/?channelid=${this.channel._id}&channeldesc=${this.channelDesc}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('обновил описание канала')
+                    this.channel.desc = this.channelDesc
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить описание канала')
+                }
+            })
+
+        },
+        getBloger(login) {
+            
+            fetch(`http://localhost:4000/api/blogers/get/?blogerlogin=${login}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    this.bloger = JSON.parse(result).bloger
+                    alert('Получил блогера')
+                    this.getChannel(this.bloger.channels[0].id)
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу получить блогера')
+                }
+            })
+
+        },
+        getChannel(channelId) {
+           
+           fetch(`http://localhost:4000/api/channels/get/?channelid=${channelId}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                start(controller) {
+                    function push() {
+                    reader.read().then( ({done, value}) => {
+                        if (done) {
+                        console.log('done', done);
+                        controller.close();
+                        return;
+                        }
+                        controller.enqueue(value);
+                        console.log(done, value);
+                        push();
+                    })
+                    }
+                    push();
+                }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('Получил канал')
+                    this.channel = JSON.parse(result).channel
+                    this.channelDesc = this.channel.desc
+                    this.channelContacts = this.channel.contacts
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу получить канал')
+                }
+            }) 
+        },
         debug(value) {
             this.activeCommentsType = value
             alert(this.activeCommentsType)
@@ -3019,6 +3319,7 @@ export default {
     
     .channelEditHeaderItemBtnGoToChannel {
         color: rgb(0, 100, 255);
+        cursor: pointer;
     }
 
     .channelEditTab {
@@ -3681,6 +3982,10 @@ export default {
 
     .analyticsViewsColumnItemHeader {
         font-weight: bolder;
+    }
+
+    .hidenField {
+        opacity: 0;
     }
 
 </style>

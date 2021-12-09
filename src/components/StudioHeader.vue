@@ -52,26 +52,13 @@
                     
                 </span>
             </div>
-            <div class="avatarContextMenuItem">
+            <div class="avatarContextMenuItem" @click="$router.push({ name: 'Home' })">
                 <div class="avatarContextMenuElement">
                     <span class="material-icons-outlined avatarContextMenuElementIcon">
-                        paid
+                        smart_display
                     </span>
-                    <span @click="$router.push({ name: 'Home' })">
-                        Покупки и платные подписки
-                    </span>
-                </div>
-                <span>
-                    
-                </span>
-            </div>
-            <div class="avatarContextMenuItem">
-                <div class="avatarContextMenuElement">
-                    <span class="material-icons-outlined avatarContextMenuElementIcon">
-                        settings
-                    </span>
-                    <span @click="$router.push({ name: 'Home' })">
-                        Творческая студия VideoCache
+                    <span>
+                        Главная
                     </span>
                 </div>
                 <span>
@@ -91,12 +78,12 @@
                     chevron_right
                 </span>
             </div>
-            <div class="avatarContextMenuItem">
+            <div class="avatarContextMenuItem" @click="logout">
                 <div class="avatarContextMenuElement">
                     <span class="material-icons-outlined avatarContextMenuElementIcon">
                         logout
                     </span>
-                    <span @click="logout">
+                    <span>
                         Выйти
                     </span>
                 </div>
@@ -104,6 +91,7 @@
                     
                 </span>
             </div>
+            <hr />
             <div class="avatarContextMenuItem">
                 <div class="avatarContextMenuElement">
                     <span class="material-icons-outlined avatarContextMenuElementIcon">
@@ -120,71 +108,6 @@
             <div class="avatarContextMenuItem">
                 <div class="avatarContextMenuElement">
                     <span class="material-icons-outlined avatarContextMenuElementIcon">
-                        translate
-                    </span>
-                    <span @click="$router.push({ name: 'Home' })">
-                        Язык: Русский
-                    </span>
-                </div>
-                <span class="material-icons">
-                    chevron_right
-                </span>
-            </div>
-            <div class="avatarContextMenuItem">
-                <div class="avatarContextMenuElement">
-                    <span class="material-icons-outlined avatarContextMenuElementIcon">
-                        language
-                    </span>
-                    <span @click="$router.push({ name: 'Home' })">
-                        Страна: Россия
-                    </span>
-                </div>
-                <span class="material-icons">
-                    chevron_right
-                </span>
-            </div>
-            <div class="avatarContextMenuItem">
-                <div class="avatarContextMenuElement">
-                    <span class="material-icons-outlined avatarContextMenuElementIcon">
-                        settings
-                    </span>
-                    <span @click="$router.push({ name: 'Home' })">
-                        Настройки
-                    </span>
-                </div>
-                <span>
-                    
-                </span>
-            </div>
-            <div class="avatarContextMenuItem">
-                <div class="avatarContextMenuElement">
-                    <span class="material-icons-outlined avatarContextMenuElementIcon">
-                        person_pin_circle
-                    </span>
-                    <span @click="$router.push({ name: 'Home' })">
-                        Личные данные на VideoCache
-                    </span>
-                </div>
-                <span>
-                    
-                </span>
-            </div>
-            <div class="avatarContextMenuItem">
-                <div class="avatarContextMenuElement">
-                    <span class="material-icons-outlined avatarContextMenuElementIcon">
-                        help_outline
-                    </span>
-                    <span @click="$router.push({ name: 'Home' })">
-                        Справка
-                    </span>
-                </div>
-                <span>
-                    
-                </span>
-            </div>
-            <div class="avatarContextMenuItem">
-                <div class="avatarContextMenuElement">
-                    <span class="material-icons-outlined avatarContextMenuElementIcon">
                         announcement
                     </span>
                     <span @click="$router.push({ name: 'Home' })">
@@ -193,29 +116,6 @@
                 </div>
                 <span>
                     
-                </span>
-            </div>
-            <div class="avatarContextMenuItem">
-                <div class="avatarContextMenuElement">
-                    <span class="material-icons-outlined avatarContextMenuElementIcon">
-                        keyboard
-                    </span>
-                    <span @click="$router.push({ name: 'Home' })">
-                        Быстрые клавиши
-                    </span>
-                </div>
-                <span>
-                    
-                </span>
-            </div>
-            <div class="avatarContextMenuItem">
-                <div class="avatarContextMenuElement">
-                    <span @click="$router.push({ name: 'Home' })">
-                        Безопасный режим: откл.
-                    </span>
-                </div>
-                <span class="material-icons">
-                    chevron_right
                 </span>
             </div>
         </div>
@@ -538,6 +438,9 @@ export default {
             localStorage.removeItem('videocachetoken')
             this.isAuth = false
             this.avatarContextMenu = false
+            if (this.$route.path !== '/') {
+                this.$router.push({ name: 'Home' })
+            }
         },
         checkBloger() {
 

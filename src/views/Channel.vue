@@ -210,10 +210,14 @@
                                     Описание
                                 </span>
                                 <span class="aboutChannelElement">
-                                    это канал карась геймс, мой канал о разработке моих инди игр. Также можно следить за разработкой в группе вк
+                                    {{
+                                        channel.desc
+                                    }}
                                 </span>
                                 <span class="aboutChannelElement">
-                                    https://vk.com/karasgames
+                                    {{
+                                        channel.contacts
+                                    }}
                                 </span>
                             </div>
                             <div class="aboutChannelArticle">
@@ -221,7 +225,9 @@
                                         Статистика
                                     </span>
                                     <span class="aboutChannelElement aboutChannelArticleItem">
-                                        Дата регистрации: 26 июн. 2021 г.
+                                        Дата регистрации: {{
+                                            `${channel.created.split('T')[0].split('-')[2]} ${monthLabels[channel.created.split('T')[0].split('-')[1]]} ${channel.created.split('T')[0].split('-')[0]} г.`
+                                        }}
                                     </span>
                                     <span class="aboutChannelElement aboutChannelArticleItem">
                                         1 564 просмотра
@@ -302,15 +308,76 @@ export default {
             },
             videos: [],
             keywords: '',
+            monthLabels: {
+                '1': 'янв.',
+                '2': 'фев.',
+                '3': 'мар.',
+                '4': 'апр.',
+                '5': 'мая',
+                '6': 'июн.',
+                '7': 'июл.',
+                '8': 'авг.',
+                '9': 'сен.',
+                '01': 'янв.',
+                '02': 'фев.',
+                '03': 'мар.',
+                '04': 'апр.',
+                '05': 'мая',
+                '06': 'июн.',
+                '07': 'июл.',
+                '08': 'авг.',
+                '09': 'сен.',
+                '10': 'окт.',
+                '11': 'ноя.',
+                '12': 'дек.',
+            },
             token: window.localStorage.getItem("videocachetoken")
         }
     },
     mounted() {
         this.getChannel()
         this.getVideos()
+        this.addView()
     },
     methods: {
+        addView() {
+            
+            fetch(`http://localhost:4000/api/channels/views/add/`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('Добавил просмотр')
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу добавить просмотр')
+                }
+            })
+
+        },
         getVideos() {
+            
             fetch(`http://localhost:4000/api/videos/all/`, {
                 mode: 'cors',
                 method: 'GET'
@@ -345,6 +412,7 @@ export default {
                     alert('Не могу получить группу видео')
                 }
             })
+
         },
         getChannel() {
             fetch(`http://localhost:4000/api/channels/get/?channelid=${this.$route.query.channelid}`, {

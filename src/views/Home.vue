@@ -308,7 +308,7 @@
             </div>
           </div>
         </div>
-        <div v-else-if="activeTab === 'Library'" class="library">
+        <div v-else-if="activeTab === 'Library' && bloger !== null" class="library">
           <div class="libraryAside">
             <div class="libraryAsideHeader">
               <div class="libraryAsideHeaderHistory">
@@ -381,7 +381,9 @@
                 Подписки
               </span>
               <span>
-                1
+                {{
+                  subs
+                }}
               </span>
             </div>
             <div class="libraryArticleItem libraryArticleContainer">
@@ -401,6 +403,11 @@
               </span>
             </div>
           </div>
+        </div>
+        <div v-else-if="activeTab === 'Library' && bloger === null" class="library">
+          <span>
+            Вы не вошли в VideoCache
+          </span>
         </div>
         <div v-else-if="activeTab === 'Purchases'">
           <span class="offersLabel">
@@ -439,6 +446,8 @@
 import Header from '@/components/Header.vue'
 import Aside from '@/components/Aside.vue'
 
+import * as jwt from 'jsonwebtoken'
+
 export default {
   name: 'Home',
   data() {
@@ -446,7 +455,11 @@ export default {
       burger: false,
       activeTab: 'Home',
       videoFilter: 'Все',
-      videos: []
+      videos: [],
+      channels: [],
+      subs: 0,
+      bloger: null,
+      token: window.localStorage.getItem("videocachetoken")
     }
   },
   mounted() {
@@ -479,12 +492,96 @@ export default {
         if (JSON.parse(result).status === 'OK') {
             this.videos = JSON.parse(result).videos
             alert('Получил группу видео')
+            jwt.verify(this.token, 'videocachesecret', (err, decoded) => {
+              if (err) {
+                alert('Не могу получить блогера')
+              } else {
+                this.getBloger(decoded.bloger)
+                this.getChannels()
+              }
+            })
         } else if (JSON.parse(result).status === 'Error') {
             alert('Не могу получить группу видео')
         }
     })
   },
   methods: {
+    getBloger(login) {
+            
+      fetch(`http://localhost:4000/api/blogers/get/?blogerlogin=${login}`, {
+        mode: 'cors',
+        method: 'GET'
+      }).then(response => response.body).then(rb  => {
+          const reader = rb.getReader()
+          return new ReadableStream({
+              start(controller) {
+                  function push() {
+                      reader.read().then( ({done, value}) => {
+                          if (done) {
+                              console.log('done', done);
+                              controller.close();
+                              return;
+                          }
+                          controller.enqueue(value);
+                          console.log(done, value);
+                          push();
+                      })
+                  }
+                  push();
+              }
+          });
+      }).then(stream => {
+          return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+      })
+      .then(result => {
+          if (JSON.parse(result).status === 'OK') {
+              this.isAuth = true
+              this.bloger = JSON.parse(result).bloger
+              alert('Получил блогера')
+          } else if (JSON.parse(result).status === 'Error') {
+              alert('Не могу получить блогера')
+          }
+      })
+
+  },
+    getChannels() {
+      
+      fetch(`http://localhost:4000/api/channels/all/`, {
+        mode: 'cors',
+        method: 'GET'
+      }).then(response => response.body).then(rb  => {
+        const reader = rb.getReader()
+        return new ReadableStream({
+          start(controller) {
+            function push() {
+              reader.read().then( ({done, value}) => {
+                if (done) {
+                  console.log('done', done);
+                  controller.close();
+                  return;
+                }
+                controller.enqueue(value);
+                console.log(done, value);
+                push();
+              })
+            }
+            push();
+          }
+        });
+      }).then(stream => {
+        return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+      })
+      .then(result => {
+        if (JSON.parse(result).status === 'OK') {
+          alert('Получил каналы')
+          this.channels = JSON.parse(result).channels
+          this.subs = 0
+          this.channels.map(channel => this.subs += channel.followers.filter(follower => follower.bloger === this.bloger.login).length)
+        } else if (JSON.parse(result).status === 'Error') {
+          alert('Не могу получить каналы')
+        }
+      })
+    },
     videoHoutHandler(videoId) {
       document.getElementById(videoId).pause()
     },
@@ -493,6 +590,7 @@ export default {
       
     },
     getChannel(channelId) {
+      
       fetch(`http://localhost:4000/api/channels/get/?channelid=${channelId}`, {
         mode: 'cors',
         method: 'GET'
@@ -526,6 +624,7 @@ export default {
         alert('Не могу получить канал')
       }
     })
+    
   },
     toggleBurgerHandler(toggler) {
       this.burger = toggler
