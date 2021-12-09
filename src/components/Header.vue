@@ -18,13 +18,13 @@
             </button>
         </div>
         <div class="headerItem">
-            <span class="headerElement material-icons-outlined">
+            <span class="contextMenuBtn headerElement material-icons-outlined" @click="createContextMenu = !createContextMenu" title="Создать">
                 videocam
             </span>
-            <span class="headerElement material-icons-outlined">
+            <span class="contextMenuBtn headerElement material-icons-outlined" @click="appsContextMenu = !appsContextMenu" title="Приложения">
                 apps
             </span>
-            <span class="headerElement material-icons-outlined">
+            <span class="contextMenuBtn headerElement material-icons-outlined" @click="notificationsContextMenu = !notificationsContextMenu" title="Уведомления">
                 notifications
             </span>
             <div class="headerElement avatar" @click="avatarContextMenu = !avatarContextMenu">
@@ -926,6 +926,178 @@
                 </span>
             </div>
         </div>
+        <div v-if="createContextMenu && isAuth" class="createContextMenu">
+            <div class="avatarContextMenuItem">
+                <div class="avatarContextMenuElement">
+                    <span :class="{ 'material-icons-outlined': true, avatarContextMenuElementIcon: true }">
+                        play_circle
+                    </span>
+                    <span>
+                        Добавить видео
+                    </span>
+                </div>
+                <span>
+                    
+                </span>
+            </div>
+            <div class="avatarContextMenuItem">
+                <div class="avatarContextMenuElement">
+                    <span :class="{ 'material-icons-outlined': true, avatarContextMenuElementIcon: true }">
+                        stream
+                    </span>
+                    <span>
+                        Начать трансляцию
+                    </span>
+                </div>
+                <span>
+                    
+                </span>
+            </div>
+        </div>
+        <div v-if="appsContextMenu && isAuth" class="appsContextMenu">
+            <div class="avatarContextMenuItem">
+                <div class="avatarContextMenuElement">
+                    <span class="material-icons-outlined avatarContextMenuElementIcon" @click="isCountrySwitchDialog = false">
+                        desktop_windows
+                    </span>
+                    <span>
+                        VideoCache TV
+                    </span>
+                </div>
+                <span>
+                    
+                </span>
+            </div>
+            <div class="avatarContextMenuItem">
+                <div class="avatarContextMenuElement">
+                    <span :class="{ 'material-icons-outlined': true, avatarContextMenuElementIcon: true }">
+                        
+                    </span>
+                    <span>
+                        VideoCache Music
+                    </span>
+                </div>
+                <span>
+                    
+                </span>
+            </div>
+            <div class="avatarContextMenuItem">
+                <div class="avatarContextMenuElement">
+                    <span :class="{ 'material-icons-outlined': true, avatarContextMenuElementIcon: true }">
+                        
+                    </span>
+                    <span>
+                        VideoCache детям
+                    </span>
+                </div>
+                <span>
+                    
+                </span>
+            </div>
+            <div class="avatarContextMenuItem">
+                <div class="avatarContextMenuElement">
+                    <span class="material-icons-outlined avatarContextMenuElementIcon" @click="isCountrySwitchDialog = false">
+                        play_circle
+                    </span>
+                    <span>
+                        VideoCache для музыкантов
+                    </span>
+                </div>
+                <span>
+                    
+                </span>
+            </div>
+        </div>
+        <div v-if="notificationsContextMenu && isAuth" class="notificationsContextMenu">
+            <div class="avatarContextMenuItemHeader avatarContextMenuItem">
+                <span>
+                    Уведомления
+                </span>
+                <span class="material-icons-outlined">
+                    settings
+                </span>
+            </div>
+            <div class="avatarContextMenuItem">
+                <div class="follow avatarContextMenuElement">
+                    <img class="followItem followerLogo" src="https://yt3.ggpht.com/ytc/AKedOLQ52CEY-HSIxQiEd19UUyJq3HaYBCEc1viJw1In=s96-c-k-c0x00ffffff-no-rj" alt="" width="45px" />
+                    <div class="followItem followInfo">
+                        <span>
+                            У вас новый подписчик
+                        </span>
+                        <span>
+                            4 недели назад
+                        </span>
+                    </div>
+                </div>
+                <span>
+                    
+                </span>
+            </div>
+            <div class="avatarContextMenuItem">
+                <div class="follow avatarContextMenuElement">
+                    <img class="followItem followerLogo" src="https://yt3.ggpht.com/ytc/AKedOLQ52CEY-HSIxQiEd19UUyJq3HaYBCEc1viJw1In=s96-c-k-c0x00ffffff-no-rj" alt="" width="45px" />
+                    <div class="followItem followInfo">
+                        <span>
+                            У вас новый подписчик
+                        </span>
+                        <span>
+                            4 недели назад
+                        </span>
+                    </div>
+                </div>
+                <span>
+                    
+                </span>
+            </div>
+            <div class="avatarContextMenuItem">
+                <div class="follow avatarContextMenuElement">
+                    <img class="followItem followerLogo" src="https://yt3.ggpht.com/ytc/AKedOLQ52CEY-HSIxQiEd19UUyJq3HaYBCEc1viJw1In=s96-c-k-c0x00ffffff-no-rj" alt="" width="45px" />
+                    <div class="followItem followInfo">
+                        <span>
+                            У вас новый подписчик
+                        </span>
+                        <span>
+                            4 недели назад
+                        </span>
+                    </div>
+                </div>
+                <span>
+                    
+                </span>
+            </div>
+            <div class="avatarContextMenuItem">
+                <div class="follow avatarContextMenuElement">
+                    <img class="followItem followerLogo" src="https://yt3.ggpht.com/ytc/AKedOLQ52CEY-HSIxQiEd19UUyJq3HaYBCEc1viJw1In=s96-c-k-c0x00ffffff-no-rj" alt="" width="45px" />
+                    <div class="followItem followInfo">
+                        <span>
+                            У вас новый подписчик
+                        </span>
+                        <span>
+                            4 недели назад
+                        </span>
+                    </div>
+                </div>
+                <span>
+                    
+                </span>
+            </div>
+            <div class="avatarContextMenuItem">
+                <div class="follow avatarContextMenuElement">
+                    <img class="followItem followerLogo" src="https://yt3.ggpht.com/ytc/AKedOLQ52CEY-HSIxQiEd19UUyJq3HaYBCEc1viJw1In=s96-c-k-c0x00ffffff-no-rj" alt="" width="45px" />
+                    <div class="followItem followInfo">
+                        <span>
+                            У вас новый подписчик
+                        </span>
+                        <span>
+                            4 недели назад
+                        </span>
+                    </div>
+                </div>
+                <span>
+                    
+                </span>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -961,6 +1133,9 @@ export default {
             isCountrySwitchDialog: false,
             isLanguageSwitchDialog: false,
             isThemeSwitchDialog: false,
+            createContextMenu: false,
+            appsContextMenu: false,
+            notificationsContextMenu: false,
             token: window.localStorage.getItem("videocachetoken")
         }
     },
@@ -1706,6 +1881,77 @@ export default {
     }
 
     .helpHeaderItemCloseBtn {
+        cursor: pointer;
+    }
+
+    .avatarContextMenuItemHeader {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .followInfo {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .followerLogo {
+        border-radius: 100%;
+    }
+
+    .follow {
+        display: flex;
+        margin: 25px 0px;
+    }
+
+    .followItem {
+        margin: 0px 10px;
+    }
+
+    
+    .notificationsContextMenu {
+        user-select: none;
+        box-shadow: 0px 0px 5px rgb(150, 150, 150);
+        border-radius: 8px;
+        position: absolute;
+        top: 25px;
+        left: 68%;
+        background-color: rgb(255, 255, 255);
+        width: 330px;
+        height: 400px;
+        display: flex;
+        flex-direction: column;
+        overflow-y: scroll;
+    }
+
+    .createContextMenu {
+        user-select: none;
+        box-shadow: 0px 0px 5px rgb(150, 150, 150);
+        border-radius: 8px;
+        position: absolute;
+        top: 25px;
+        left: 65%;
+        background-color: rgb(255, 255, 255);
+        width: 250px;
+        height: 100px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .appsContextMenu {
+        user-select: none;
+        box-shadow: 0px 0px 5px rgb(150, 150, 150);
+        border-radius: 8px;
+        position: absolute;
+        top: 25px;
+        left: 65%;
+        background-color: rgb(255, 255, 255);
+        width: 330px;
+        height: 215px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .contextMenuBtn {
         cursor: pointer;
     }
 
