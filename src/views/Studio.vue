@@ -2673,6 +2673,9 @@ export default {
                 this.$router.push({ nae: 'Home' })
             } else {
                 this.getBloger(decoded.bloger)
+                if (this.$route.query.activetab !== 'none') {
+                    this.activeTab = this.$route.query.activetab
+                }
             }
         })
     },

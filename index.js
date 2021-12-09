@@ -51,6 +51,8 @@ const express = require('express')
 const path = require('path')
 const serveStatic = require('serve-static')
 
+const csv_export = require('csv-export')
+
 const app = express()
 
 app.use('/', serveStatic(path.join(__dirname, '/dist')))
@@ -417,6 +419,36 @@ app.get('/api/channels/source/get', (req, res) => {
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
   
   return res.sendFile(__dirname + `/channels/${req.query.channelname}.png`)
+
+})
+
+app.get('/api/blogers/source/get', (req, res) => {
+        
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  return res.sendFile(__dirname + `/blogers/${req.query.blogerlogin}.png`)
+
+})
+
+app.get('/api/export/csv/download', async (req, res) => {
+        
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  return await res.download(path.join(__dirname, `csvs/${req.query.channelname}.csv`), `${req.query.channelname}.csv`, function (err) {
+    if (err) {
+      //error to download file
+      return res.json({ "status": "Error" })
+    } else {
+      //file success download
+      return res.json({ "status": "OK" })
+    }
+  })
 
 })
 
@@ -1319,6 +1351,58 @@ app.post('/api/channels/logos/channel', uploadForChannels.single('myFile'), asyn
   } else {
     return res.redirect('http://localhost:8080/')
   }
+
+})
+
+app.get('/api/export/csv', (req, res) => {
+  
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  ChannelModel.findOne({ _id: req.query.channelid }, function(err, channel) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      
+      let channelInfo = {
+        channel: [
+          {
+            name: channel.name
+          },
+          {
+            desc: channel.desc
+          },
+          {
+            contacts: channel.contacts
+          },
+          {
+            bloger: channel.bloger
+          },
+          {
+            created: channel.created
+          },
+          {
+            views: channel.views
+          }
+        ]
+      }
+    
+      csv_export.export(channelInfo, function(buffer) {
+        //this module returns a buffer for the csv files already compressed into a single zip.
+        //save the zip or force file download via express or other server
+        // fs.writeFileSync(`./csvs/${req.query.channelname}.csv`, buffer)
+        fs.writeFile(`./csvs/${channel.name}.csv`, buffer, (err, csv) => {
+          if (err) {
+            return res.json({ status: 'Error' })
+          }
+          return res.json({ status: 'OK' })
+        })
+      })
+
+    }
+  })
 
 })
 

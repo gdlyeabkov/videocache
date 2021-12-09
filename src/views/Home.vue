@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header :burger="burger" @toggleBurger="toggleBurgerHandler" @changeActiveTab="changeActiveTabHandler" />
+    <Header :burger="burger" @toggleBurger="toggleBurgerHandler" @changeActiveTab="changeActiveTabHandler"  @changeFilter="changeFilterHandler" />
     <div clas="main">
       <Aside :burger="burger" :activeTab="activeTab" @changeActiveTab="changeActiveTabHandler" />
       <div class="article" :style="`left: ${burger ? '20%' : '10%'}`">
@@ -97,7 +97,7 @@
                   <source :src="`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`" />
                 </video>
                 <div class="videoFooter">
-                  <div :style="`background-image: url('${`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`}');`" class="videoAvatar videoItem">
+                  <div :style="`background-image: url('${`http://localhost:4000/api/channels/source/get/?channelname=${video.channelName}`}');`" class="videoAvatar videoItem">
                     
                   </div>
                   <div class="aboutVideo videoItem">
@@ -274,7 +274,7 @@
                   <source :src="`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`" />
                 </video>
                 <div class="videoFooter">
-                  <div :style="`background-image: url('${`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`}');`" class="videoAvatar videoItem">
+                  <div :style="`background-image: url('${`http://localhost:4000/api/channels/source/get/?channelname=${video.channelName}`}');`" class="videoAvatar videoItem">
                     
                   </div>
                   <div class="aboutVideo videoItem">
@@ -436,6 +436,184 @@
             </div>
           </div>
         </div>
+        <div v-else-if="activeTab === 'Filters'" class="filters">
+          <div class="filtersHeader">
+            <div class="filtersHeaderItem" @click="isFilters = !isFilters">
+              <span class="filtersHeaderElement material-icons">
+                tune
+              </span>
+              <span class="filtersHeaderElement">
+                Фильтры
+              </span>
+            </div>
+            <div class="filtersHeaderItem">
+              <span class="filtersHeaderElement material-icons">
+                tune
+              </span>
+              <span class="filtersHeaderElement">
+                Фильтры
+              </span>
+            </div>
+          </div>
+          <div v-if="isFilters" class="filtersBody">
+            <div class="filtersBodyColumn">
+              <span class="filtersBodyColumnItem filtersBodyColumnHeader">
+                По дате загрузки
+              </span>
+              <span class="filtersBodyColumnItem">
+                За последний час
+              </span>
+              <span class="filtersBodyColumnItem">
+                Сегодня
+              </span>
+              <span class="filtersBodyColumnItem">
+                За эту неделю
+              </span>
+              <span class="filtersBodyColumnItem">
+                За этот месяц
+              </span>
+              <span class="filtersBodyColumnItem">
+                За этот год
+              </span>
+            </div>
+            <div class="filtersBodyColumn">
+              <span class="filtersBodyColumnItem filtersBodyColumnHeader">
+                Тип
+              </span>
+              <span class="filtersBodyColumnItem">
+                Видео
+              </span>
+              <span class="filtersBodyColumnItem">
+                Каналы
+              </span>
+              <span class="filtersBodyColumnItem">
+                Плейлисты
+              </span>
+              <span class="filtersBodyColumnItem">
+                Фильмы
+              </span>
+            </div>
+            <div class="filtersBodyColumn">
+              <span class="filtersBodyColumnItem filtersBodyColumnHeader">
+                Длительность
+              </span>
+              <span class="filtersBodyColumnItem">
+                Менее 4 минут
+              </span>
+              <span class="filtersBodyColumnItem">
+                От 4 до 20 минут
+              </span>
+              <span class="filtersBodyColumnItem">
+                Более 20 минут
+              </span>
+            </div>
+            <div class="filtersBodyColumn">
+              <span class="filtersBodyColumnItem filtersBodyColumnHeader">
+                Особенности
+              </span>
+              <span class="filtersBodyColumnItem">
+                Прямые трансляции
+              </span>
+              <span class="filtersBodyColumnItem">
+                4K
+              </span>
+              <span class="filtersBodyColumnItem">
+                HD
+              </span>
+              <span class="filtersBodyColumnItem">
+                Субтитры
+              </span>
+              <span class="filtersBodyColumnItem">
+                Лицензия Creative Commons
+              </span>
+              <span class="filtersBodyColumnItem">
+                360°
+              </span>
+              <span class="filtersBodyColumnItem">
+                VR180
+              </span>
+              <span class="filtersBodyColumnItem">
+                В формате 3D
+              </span>
+              <span class="filtersBodyColumnItem">
+                HDR
+              </span>
+              <span class="filtersBodyColumnItem">
+                Место съемки
+              </span>
+              <span class="filtersBodyColumnItem">
+                Приобретено
+              </span>
+            </div>
+            <div class="filtersBodyColumn">
+              <span class="filtersBodyColumnItem filtersBodyColumnHeader">
+                Упорядочить
+              </span>
+              <span class="filtersBodyColumnItem">
+                По релевантности
+              </span>
+              <span class="filtersBodyColumnItem">
+                По дате загрузки
+              </span>
+              <span class="filtersBodyColumnItem">
+                По числу просмотров
+              </span>
+              <span class="filtersBodyColumnItem">
+                По рейтингу
+              </span>
+            </div>
+          </div>
+          <hr />
+          <div v-if="videos.filter(video => video.name.toLowerCase().includes(keywords.toLowerCase())).length <= 0" class="notFoundVideoFilters">
+            <img src="" alt="" width="150px" />
+            <span>
+              Поищите по другим ключевым словам или уберите примененные фильтры.
+            </span>
+            <span>
+              Результатов не найдено.
+            </span>
+          </div>
+          <div v-else class="videos">
+            <div class="videosColum">
+              <div v-for="video in videos.filter(video => video.name.toLowerCase().includes(keywords.toLowerCase()))" :key="video" class="video" @click="$router.push({ name: 'Video', query: { videoid: video._id, channelid: video.channel } })">
+                <video class="videoHeader" controls  :id="`videoElement${video._id}Id`" @mouseenter="videoHoverHandler(`videoElement${video._id}Id`)" @mouseleave="videoHoutHandler(`videoElement${video._id}Id`)">
+                  <source :src="`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`" />
+                </video>
+                <div class="videoFooter">
+                  <div :style="`background-image: url('${`http://localhost:4000/api/channels/source/get/?channelname=${video.channelName}`}');`" class="videoAvatar videoItem">
+                    
+                  </div>
+                  <div class="aboutVideo videoItem">
+                    <span class="videoName">
+                      {{
+                        video.name
+                      }}
+                    </span>
+                    <span>
+                      {{
+                        video.channelName
+                      }}
+                    </span>
+                    <span>
+                      {{
+                        video.views
+                      }} просмотров
+                    </span>
+                    <span>
+                      {{
+                        `${video.created.split('T')[0].split('-')[2]}/${video.created.split('T')[0].split('-')[1]}/${video.created.split('T')[0].split('-')[0]}`
+                      }}
+                      2 недели назад
+                    </span>
+                  </div>
+                  <span class="material-icons videoItem">
+                    more_vert
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -459,6 +637,8 @@ export default {
       channels: [],
       subs: 0,
       bloger: null,
+      keywords: '',
+      isFilters: false,
       token: window.localStorage.getItem("videocachetoken")
     }
   },
@@ -506,6 +686,9 @@ export default {
     })
   },
   methods: {
+    changeFilterHandler(filter) {
+      this.keywords = filter
+    },
     getBloger(login) {
             
       fetch(`http://localhost:4000/api/blogers/get/?blogerlogin=${login}`, {
@@ -752,6 +935,7 @@ export default {
   }
 
   .videoAvatar {
+    background-size: 100% 100%;
     border-radius: 100%;
     width: 60px;
     height: 40px;
@@ -977,6 +1161,53 @@ export default {
 
   .libraryAsideHeaderHistoryItem {
     margin: 0px 5px;
+  }
+
+  .notFoundVideoFilters {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .filtersHeader {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .filtersHeaderItem {
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+  }
+
+  .filtersHeaderElement {
+    margin: 0px 15px;
+  }
+
+  .filtersBody {
+    min-height: 250px;
+    width: 100%;
+    display: flex;
+    justify-content: between;
+  }
+
+  .filtersBodyColumn {
+    margin: 0px 35px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .filtersBodyColumnHeader {
+    font-weight: bolder;
+  }
+
+  .filtersBodyColumnItem {
+    margin: 10px 0px;
+  }
+
+  .filters {
+    overflow-y: scroll;
   }
 
 </style>

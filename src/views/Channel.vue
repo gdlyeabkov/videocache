@@ -10,7 +10,7 @@
                     </div>
                     <div class="channelHeader">
                         <div class="channelInfo">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Logo_of_YouTube_%282015-2017%29.svg/1280px-Logo_of_YouTube_%282015-2017%29.svg.png" alt="" width="60px" class="channelInfoItem" />
+                            <img :src="`http://localhost:4000/api/channels/source/get/?channelname=${channel.name}`" alt="" width="60px" class="channelInfoLogo channelInfoItem" />
                             <div class="channelInfoTextContent">
                                 <span class="channelInfoItem channelName">
                                     {{
@@ -25,13 +25,13 @@
                             </div>
                         </div>
                         <div class="channelBtns">
-                            <button class="btn btn-primary channelBtn">
+                            <button class="btn btn-primary channelBtn" @click="$router.push({ name: 'Studio', query: { channelid: channel._id, activetab: 'ChannelEdit' } })">
                                 Настроить вид канала
                             </button>
-                            <button class="btn btn-primary channelBtn" @click="$router.push({ name: 'Studio', query: { channelid: channel._id } })">
+                            <button class="btn btn-primary channelBtn" @click="$router.push({ name: 'Studio', query: { channelid: channel._id, activetab: 'none' } })">
                                 Видео
                             </button>
-                            <span class="exportCSVLabel">
+                            <span class="exportCSVLabel" @click="exportCSV">
                                 ЭКСПОРТ CSV
                             </span>
                         </div>
@@ -340,6 +340,43 @@ export default {
         this.addView()
     },
     methods: {
+        exportCSV() {
+            
+            fetch(`http://localhost:4000/api/export/csv/?channelid=${this.channel._id}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('Экспортирую в CSV')
+                    window.location = `http://localhost:4000/api/export/csv/download/?channelname=${this.channel.name}`
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу экспортировать в CSV')
+                }
+            })
+
+        },
         addView() {
             
             fetch(`http://localhost:4000/api/channels/views/add/`, {
@@ -531,6 +568,7 @@ export default {
     }
 
     .exportCSVLabel {
+        cursor: pointer;
         color: rgb(150, 150, 150);
         font-weight: bolder;
     }
@@ -656,6 +694,12 @@ export default {
     .searchChannelTab {
         display: flex;
         align-items: center;
+    }
+
+    .channelInfoLogo {
+        border-radius: 100%;
+        width: 50px;
+        height: 50px;
     }
     
 

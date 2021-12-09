@@ -9,7 +9,7 @@
         <div class="headerItem">
             <div class="headerElement input-group search">
                 <input placeholder="Введите запрос" v-model="keywords" type="text" class="form-control" />
-                <span class="input-group-text material-icons">
+                <span class="input-group-text material-icons" @click="changeActiveTab('Filters'); $emit('changeFilter', keywords)">
                     search
                 </span>
             </div>
@@ -27,7 +27,7 @@
             <span class="contextMenuBtn headerElement material-icons-outlined" @click="notificationsContextMenu = !notificationsContextMenu" title="Уведомления">
                 notifications
             </span>
-            <div class="headerElement avatar" @click="avatarContextMenu = !avatarContextMenu">
+            <div :style="`background-image: url('http://localhost:4000/api/blogers/source/get/?blogerlogin=${bloger.login}');`" class="headerElement avatar" @click="avatarContextMenu = !avatarContextMenu">
 
             </div>
         </div>
@@ -252,7 +252,7 @@
                     
                 </span>
             </div>
-            <div class="avatarContextMenuItem" @click="$router.push({ name: 'Studio' })">
+            <div class="avatarContextMenuItem" @click="$router.push({ name: 'Studio', query: { channelid: bloger.channels[0].id, activetab: 'none' } })">
                 <div class="avatarContextMenuElement">
                     <span class="material-icons-outlined avatarContextMenuElementIcon">
                         settings
@@ -1160,6 +1160,9 @@ export default {
         })
     },
     methods: {
+        refreshSearch(tab) {
+        
+        },
         changeActiveTab(tab) {
             this.$emit('changeActiveTab', tab)
         },
@@ -1565,6 +1568,7 @@ export default {
         width: 25px;
         height: 25px;
         background-color: rgb(0, 150, 0);
+        background-size: 100% 100%;
     }
 
     .headerElement {
