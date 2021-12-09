@@ -96,7 +96,7 @@
                                 <span>
                                     Последние 48 часов · Просмотры
                                 </span>
-                                <div class="mainBodyItemDataRow">
+                                <!-- <div class="mainBodyItemDataRow">
                                     <span>
                                         СОЗДАНИЕ АНИМАЦИИ ДЛЯ 2D ПЕРСОНАЖЕЙ | ИМПОРТ АНИМАЦИИ В UNITY
                                     </span>
@@ -134,7 +134,24 @@
                                             —
                                         </span>
                                     </div>
-                                </div>                                
+                                </div>                                 -->
+                                <div v-for="video in videos.filter(video => channel.videos.map(video => video.id).includes(video._id))" :key="video.id" class="mainBodyItemDataRow">
+                                    <span>
+                                        {{
+                                            video.name
+                                        }}
+                                    </span>
+                                    <div class="mainBodyItemDataRowCount">
+                                        <span class="mainBodyItemDataRowItem">
+                                            {{
+                                                video.views
+                                            }}
+                                        </span>
+                                        <span class="mainBodyItemDataRowItem">
+                                            —
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="mainBodyItem">
                                 <span class="mainBodyItemHeader">
@@ -143,11 +160,25 @@
                                 <span>
                                     Комментарии, на которые вы ещё не ответили 
                                 </span>
-                                <div class="comment">
+                                <!-- <div class="comment">
                                     <img class="commentItem" src="https://yt3.ggpht.com/vZ5f4p6HG9FhmCv0zkY4Cc-8Ma405_gtS3COgxhCxiXNyhxFKUQHuqif4hoWbAludibzLAtTqw=s176-c-k-c0x00ffffff-no-rj" alt="" width="50px" />
                                     <div class="commentColumn commentItem">
                                         <span>
                                             Coolinar •2 месяца назад
+                                        </span>
+                                        <span>
+                                            для того чтобы делать много уровней не надо 
+                                        </span>
+                                    </div>
+                                    <img class="commentItem" src="https://i9.ytimg.com/vi_webp/a7VuEDl71k4/maxresdefault.webp?v=61111ef4&sqp=CLTht40G&rs=AOn4CLCqcxDK0FS5ChN6MjdfZBiFYquH1Q" alt="" width="75px" />
+                                </div> -->
+                                <div v-for="post in videos[0].posts" :key="post" class="comment">
+                                    <img class="commentItem" src="https://yt3.ggpht.com/vZ5f4p6HG9FhmCv0zkY4Cc-8Ma405_gtS3COgxhCxiXNyhxFKUQHuqif4hoWbAludibzLAtTqw=s176-c-k-c0x00ffffff-no-rj" alt="" width="50px" />
+                                    <div class="commentColumn commentItem">
+                                        <span>
+                                            {{
+                                                post.bloger
+                                            }} •2 месяца назад
                                         </span>
                                         <span>
                                             для того чтобы делать много уровней не надо 
@@ -166,7 +197,7 @@
                                 <span>
                                     Последние 90 дней
                                 </span>
-                                <div class="follower">
+                                <!-- <div class="follower">
                                     <img src="https://yt3.ggpht.com/ytc/AKedOLQ52CEY-HSIxQiEd19UUyJq3HaYBCEc1viJw1In=s48-c-k-c0x00ffffff-no-rj" alt="" width="50px" class="followerAvatar" />
                                     <div class="followerInfo">
                                         <span>
@@ -193,6 +224,29 @@
                                     <div class="followerInfo">
                                         <span>                                            
                                             عالم عبودي
+                                        </span>
+                                    </div>
+                                </div> -->
+                                <div v-for="follower in channel.followers" :key="follower.bloger" class="follower">
+                                    <img :src="`http://localhost:4000/api/blogers/source/get/?blogerlogin=${follower.bloger}`" alt="" width="50px" class="followerAvatar" />
+                                    <div class="followerInfo">
+                                        <span>
+                                            {{
+                                                follower.bloger
+                                            }}
+                                        </span>
+                                        <span>
+                                            {{
+                                                follower.followers
+                                            }}
+                                            {{
+                                                follower.followers.toString().endsWith(1) ?
+                                                    'подписчик'
+                                                : (follower.followers.length.toString().endsWith(2) || channel.followers.length.toString().endsWith(3) || channel.followers.length.toString().endsWith(4)) ?
+                                                    'подписчика'
+                                                :
+                                                    'подписчиков'
+                                            }}
                                         </span>
                                     </div>
                                 </div>
@@ -265,18 +319,19 @@
                         </div>  
                         <div class="contentTable">
                             <div class="contentColumn primaryContentColumn">
+                                <!-- <input class="contentRow" type="checkbox" />
                                 <input class="contentRow" type="checkbox" />
                                 <input class="contentRow" type="checkbox" />
                                 <input class="contentRow" type="checkbox" />
                                 <input class="contentRow" type="checkbox" />
-                                <input class="contentRow" type="checkbox" />
-                                <input class="contentRow" type="checkbox" />
+                                <input class="contentRow" type="checkbox" /> -->
+                                 <input v-for="video in videos.filter(video => channel.videos.map(video => video.id).includes(video._id))" :key="video.id" class="contentRow" type="checkbox" />
                             </div>
                             <div class="contentColumn secondaryContentColumn">
                                 <span class="contentRow">
                                     Видео
                                 </span>
-                                <div class="contentRow">
+                                <!-- <div class="contentRow">
                                     <video width="150px" controls>
                                         <source />
                                     </video>
@@ -299,6 +354,11 @@
                                 <div class="contentRow">
                                     <video width="150px" controls>
                                         <source />
+                                    </video>
+                                </div> -->
+                                <div v-for="video in videos.filter(video => channel.videos.map(video => video.id).includes(video._id))" :key="video.id" class="contentRow">
+                                    <video width="150px" controls>
+                                        <source :src="`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`" />
                                     </video>
                                 </div>
                             </div>
@@ -306,7 +366,7 @@
                                 <span class="contentRow">
                                     Параметры доступа
                                 </span>
-                                <div class="contentRow contentColumnDateField">
+                                <!-- <div class="contentRow contentColumnDateField">
                                     <span class="material-icons contentColumnDateFieldItem">
                                         visibility
                                     </span>
@@ -339,6 +399,14 @@
                                     </span>
                                 </div>
                                 <div class="contentRow contentColumnDateField">
+                                    <span class="material-icons contentColumnDateFieldItem">
+                                        visibility
+                                    </span>
+                                    <span class="contentColumnDateFieldItem">
+                                        Открытый
+                                    </span>
+                                </div> -->
+                                <div v-for="video in videos.filter(video => channel.videos.map(video => video.id).includes(video._id))" :key="video.id" class="contentRow contentColumnDateField">
                                     <span class="material-icons contentColumnDateFieldItem">
                                         visibility
                                     </span>
@@ -351,7 +419,7 @@
                                 <span class="contentRow">
                                     Ограничения
                                 </span>
-                                 <span class="contentRow">
+                                 <!-- <span class="contentRow">
                                     Нет
                                  </span>
                                  <span class="contentRow">
@@ -364,6 +432,9 @@
                                     Нет
                                  </span>
                                  <span class="contentRow">
+                                    Нет
+                                 </span> -->
+                                 <span v-for="video in videos.filter(video => channel.videos.map(video => video.id).includes(video._id))" :key="video.id" class="contentRow">
                                     Нет
                                  </span>
                             </div>
@@ -376,7 +447,7 @@
                                         expand_more
                                     </span>
                                 </div>
-                                <span class="contentRow">
+                                <!-- <span class="contentRow">
                                     13 сент. 2021 г.
                                 </span>
                                 <span class="contentRow">
@@ -390,13 +461,18 @@
                                 </span>
                                 <span class="contentRow">
                                     13 сент. 2021 г.
+                                </span> -->
+                                <span v-for="video in videos.filter(video => channel.videos.map(video => video.id).includes(video._id))" :key="video.id" class="contentRow">
+                                    {{
+                                        `${video.created.split('T')[0].split('-')[2]} ${monthLabels[video.created.split('T')[0].split('-')[1]]} ${video.created.split('T')[0].split('-')[0]} г.`
+                                    }}
                                 </span>
                             </div>
                             <div class="contentColumn thirdaryContentColumn">
                                 <span class="contentRow">
                                     Просмотры
                                 </span>
-                                <span class="contentRow">
+                                <!-- <span class="contentRow">
                                     289
                                 </span>
                                 <span class="contentRow">
@@ -410,13 +486,18 @@
                                 </span>
                                 <span class="contentRow">
                                     289
+                                </span> -->
+                                <span v-for="video in videos.filter(video => channel.videos.map(video => video.id).includes(video._id))" :key="video.id" class="contentRow">
+                                    {{
+                                        video.views
+                                    }}
                                 </span>
                             </div>
                             <div class="contentColumn thirdaryContentColumn">
                                 <span class="contentRow">
                                     Комментарии
                                 </span>
-                                <span class="contentRow">
+                                <!-- <span class="contentRow">
                                     1
                                 </span>
                                 <span class="contentRow">
@@ -429,6 +510,9 @@
                                     1
                                 </span>
                                 <span class="contentRow">
+                                    1
+                                </span> -->
+                                <span v-for="video in videos.filter(video => channel.videos.map(video => video.id).includes(video._id))" :key="video.id" class="contentRow">
                                     1
                                 </span>
                             </div>
@@ -436,7 +520,7 @@
                                 <span class="contentRow">
                                     %'Нравиться'
                                 </span>
-                                <span class="contentRow">
+                                <!-- <span class="contentRow">
                                     90%
                                 </span>
                                 <span class="contentRow">
@@ -449,6 +533,9 @@
                                     90%
                                 </span>
                                 <span class="contentRow">
+                                    90%
+                                </span> -->
+                                <span v-for="video in videos.filter(video => channel.videos.map(video => video.id).includes(video._id))" :key="video.id" class="contentRow">
                                     90%
                                 </span>
                             </div>
@@ -1598,7 +1685,77 @@
                             </div>
                         </div>
                         <div class="commentsList">
-                            <div class="commentList">
+                            <div v-for="post in videos[0].posts" :key="post" class="commentList">
+                                <div class="commentListAside">
+                                    <img class="commentListAsideItem" src="https://yt3.ggpht.com/vZ5f4p6HG9FhmCv0zkY4Cc-8Ma405_gtS3COgxhCxiXNyhxFKUQHuqif4hoWbAludibzLAtTqw=s48-c-k-c0x00ffffff-no-rj" alt="" />
+                                    <div class="commentListAsideItem commentListAsideInfo">
+                                        <div class="commentListAsideInfoItem commentListAsideInfoHeader">
+                                            <span class="commentListAsideInfoHeaderItem">
+                                                {{
+                                                    post.bloger
+                                                }}
+                                            </span>
+                                            <span class="commentListAsideInfoHeaderItem">
+                                                2 месяца назад 56 подписчики
+                                            </span>
+                                        </div>
+                                        <div class="commentListAsideInfoItem commentListAsideInfoMain">
+                                            для того чтобы делать много уровней не надо делать много сцен, просто делаешь настройки игры в скриптбл объектах и потому применяешь их к сцене (количесвто врагов их тип задний фон и тд)
+                                        </div>
+                                        <div class="commentListAsideInfoItem commentListAsideFooter">
+                                            <span class="commentListAsideInfElement commentListAsideInfElementAnswer">
+                                                ОТВЕТИТЬ
+                                            </span>
+                                            <span class="commentListAsideInfElement">
+                                                Нет ответов
+                                            </span>
+                                            <span class="commentListAsideInfElement material-icons">
+                                                expand_more
+                                            </span>
+                                            <span class="commentListAsideInfElement material-icons">
+                                                thumb_up
+                                            </span>
+                                            <span class="commentListAsideInfElement material-icons">
+                                                thumb_down
+                                            </span>
+                                            <span class="commentListAsideInfElement material-icons">
+                                                favorite
+                                            </span>
+                                            <span class="commentListAsideInfElement material-icons">
+                                                more_vert
+                                            </span>
+                                            <span class="commentListAsideInfElement material-icons">
+                                                play_circle
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="commentArticle">
+                                    <img src="https://i.ytimg.com/vi_webp/a7VuEDl71k4/mqdefault.webp" alt="" width="100px" />
+                                    <span>
+                                        Сделал
+                                    </span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div v-else-if="activeCommentsType === 'На проверке'">
+                        <div class="commentsFilterBlock">
+                            <span class="material-icons commentsFilterBlockItem">
+                                filter_list
+                            </span>
+                            <div class="commentsFilterBlockContainer">
+                                <span class="commentsFilterBlockContainerItem">
+                                    Без моего ответа
+                                </span>
+                                <span class="commentsFilterBlockContainerItem material-icons">
+                                    cancel
+                                </span>
+                            </div>
+                        </div>
+                        <div class="commentsList">
+                            <!-- <div class="commentList">
                                 <div class="commentListAside">
                                     <img class="commentListAsideItem" src="https://yt3.ggpht.com/vZ5f4p6HG9FhmCv0zkY4Cc-8Ma405_gtS3COgxhCxiXNyhxFKUQHuqif4hoWbAludibzLAtTqw=s48-c-k-c0x00ffffff-no-rj" alt="" />
                                     <div class="commentListAsideItem commentListAsideInfo">
@@ -1647,25 +1804,8 @@
                                         Сделал
                                     </span>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div v-else-if="activeCommentsType === 'На проверке'">
-                        <div class="commentsFilterBlock">
-                            <span class="material-icons commentsFilterBlockItem">
-                                filter_list
-                            </span>
-                            <div class="commentsFilterBlockContainer">
-                                <span class="commentsFilterBlockContainerItem">
-                                    Без моего ответа
-                                </span>
-                                <span class="commentsFilterBlockContainerItem material-icons">
-                                    cancel
-                                </span>
-                            </div>
-                        </div>
-                        <div class="commentsList">
-                            <div class="commentList">
+                            </div> -->
+                            <div v-for="post in 5" :key="post" class="commentList">
                                 <div class="commentListAside">
                                     <img class="commentListAsideItem" src="https://yt3.ggpht.com/vZ5f4p6HG9FhmCv0zkY4Cc-8Ma405_gtS3COgxhCxiXNyhxFKUQHuqif4hoWbAludibzLAtTqw=s48-c-k-c0x00ffffff-no-rj" alt="" />
                                     <div class="commentListAsideItem commentListAsideInfo">
@@ -1746,7 +1886,7 @@
                                     Видео
                                 </span>
                             </div>
-                            <div class="subtitlesTableColumnContent">
+                            <!-- <div class="subtitlesTableColumnContent">
                                 <video controls height="115px">
                                     <source />
                                 </video>
@@ -1769,6 +1909,11 @@
                             <div class="subtitlesTableColumnContent">
                                 <video controls height="115px">
                                     <source />
+                                </video>
+                            </div> -->
+                            <div v-for="video in videos.filter(video => channel.videos.map(video => video.id).includes(video._id))" :key="video.id" class="subtitlesTableColumnContent">
+                                <video controls height="115px">
+                                    <source :src="`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`" />
                                 </video>
                             </div>
                         </div>
@@ -1778,7 +1923,7 @@
                                     Языки
                                 </span>
                             </div>
-                            <div class="subtitlesTableColumnContent">
+                            <!-- <div class="subtitlesTableColumnContent">
                                 <span class="subtitlesTableColumnContentItem">
                                     1
                                 </span>
@@ -1811,6 +1956,14 @@
                                 </span>
                             </div>
                             <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    1
+                                </span>
+                                <span class="material-icons subtitlesTableColumnContentItem">
+                                    expand_more
+                                </span>
+                            </div> -->
+                            <div v-for="video in videos.filter(video => channel.videos.map(video => video.id).includes(video._id))" :key="video.id" class="subtitlesTableColumnContent">
                                 <span class="subtitlesTableColumnContentItem">
                                     1
                                 </span>
@@ -1825,7 +1978,7 @@
                                     Дата изменения
                                 </span>
                             </div>
-                            <div class="subtitlesTableColumnContent">
+                            <!-- <div class="subtitlesTableColumnContent">
                                 <span class="subtitlesTableColumnContentItem">
                                     16 окт. 2021 г.
                                 </span>
@@ -1848,6 +2001,13 @@
                             <div class="subtitlesTableColumnContent">
                                 <span class="subtitlesTableColumnContentItem">
                                     16 окт. 2021 г.
+                                </span>
+                            </div> -->
+                            <div v-for="video in videos.filter(video => channel.videos.map(video => video.id).includes(video._id))" :key="video.id" class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    {{
+                                        `${video.created.split('T')[0].split('-')[2]} ${monthLabels[video.created.split('T')[0].split('-')[1]]} ${video.created.split('T')[0].split('-')[0]} г.`
+                                    }}
                                 </span>
                             </div>
                         </div>
@@ -1857,7 +2017,7 @@
                                     Название и описание
                                 </span>
                             </div>
-                            <div class="subtitlesTableColumnContent">
+                            <!-- <div class="subtitlesTableColumnContent">
                                 <span class="subtitlesTableColumnContentItem">
                                     -
                                 </span>
@@ -1878,6 +2038,11 @@
                                 </span>
                             </div>
                             <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    -
+                                </span>
+                            </div> -->
+                            <div v-for="video in videos.filter(video => channel.videos.map(video => video.id).includes(video._id))" :key="video.id" class="subtitlesTableColumnContent">
                                 <span class="subtitlesTableColumnContentItem">
                                     -
                                 </span>
@@ -1889,7 +2054,7 @@
                                     Субтитры
                                 </span>
                             </div>
-                            <div class="subtitlesTableColumnContent">
+                            <!-- <div class="subtitlesTableColumnContent">
                                 <span class="subtitlesTableColumnContentItem">
                                     -
                                 </span>
@@ -1910,6 +2075,11 @@
                                 </span>
                             </div>
                             <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    -
+                                </span>
+                            </div> -->
+                            <div v-for="video in videos.filter(video => channel.videos.map(video => video.id).includes(video._id))" :key="video.id" class="subtitlesTableColumnContent">
                                 <span class="subtitlesTableColumnContentItem">
                                     -
                                 </span>
@@ -2414,7 +2584,7 @@
                                 Фото профиля показывается, например, рядом с вашими видео или комментариями на YouTube. 
                             </span>
                             <div class="brandingItemFooter">
-                                <img width="175px" src="https://yt3.ggpht.com/UhjsV-ihiyEBav8xnrM6Ud2ARTYiiPs8o71LsPDfPunxrtFumlSUc1ydpBice0Z4WOLDcDOboA=s600-c-k-c0x00ffffff-no-rj-rp-mo" alt="" />
+                                <img width="175px" :src="`http://localhost:4000/api/blogers/source/get/?blogerlogin=${bloger.login}`" alt="" />
                                 <div class="brandingItemFooterArticle">
                                     <span>
                                         Рекомендуем использовать изображение размером не менее 98 х 98 пикселей в формате PNG или GIF. Анимированные картинки загружать нельзя. Размер файла – не более 4 МБ. Помните, что изображение должно соответствовать правилам сообщества YouTube. 
@@ -2450,7 +2620,7 @@
                                 Это изображение показывается в верхней части страницы канала.
                             </span>
                             <div class="brandingItemFooter">
-                                <img width="175px" src="https://yt3.ggpht.com/UhjsV-ihiyEBav8xnrM6Ud2ARTYiiPs8o71LsPDfPunxrtFumlSUc1ydpBice0Z4WOLDcDOboA=s600-c-k-c0x00ffffff-no-rj-rp-mo" alt="" />
+                                <img width="175px" :src="`http://localhost:4000/api/channels/source/get/?channelname=${channel.name}`" alt="" />
                                 <div class="brandingItemFooterArticle">
                                     <span>
                                         Чтобы канал выглядел привлекательно на всех устройствах, советуем загрузить изображение размером не менее 2048 x 1152 пикс. Размер файла – не более 6 МБ.
@@ -2486,7 +2656,7 @@
                                 Логотип канала показывается в правом нижнем углу проигрывателя при просмотре ваших вид
                             </span>
                             <div class="brandingItemFooter">
-                                <img width="25px" src="https://yt3.ggpht.com/UhjsV-ihiyEBav8xnrM6Ud2ARTYiiPs8o71LsPDfPunxrtFumlSUc1ydpBice0Z4WOLDcDOboA=s600-c-k-c0x00ffffff-no-rj-rp-mo" alt="" />
+                                <img class="brandingItemFooterLogo" width="25px" :src="`http://localhost:4000/api/channels/source/get/?channelname=${channel.name}`" alt="" />
                                 <div class="brandingItemFooterArticle">
                                     <span>
                                         Когда будет показываться логотип
@@ -2663,6 +2833,30 @@ export default {
 
             },
             filesList: [],
+            videos: [],
+            monthLabels: {
+                '1': 'янв.',
+                '2': 'фев.',
+                '3': 'мар.',
+                '4': 'апр.',
+                '5': 'мая',
+                '6': 'июн.',
+                '7': 'июл.',
+                '8': 'авг.',
+                '9': 'сен.',
+                '01': 'янв.',
+                '02': 'фев.',
+                '03': 'мар.',
+                '04': 'апр.',
+                '05': 'мая',
+                '06': 'июн.',
+                '07': 'июл.',
+                '08': 'авг.',
+                '09': 'сен.',
+                '10': 'окт.',
+                '11': 'ноя.',
+                '12': 'дек.',
+            },
             token: window.localStorage.getItem("videocachetoken")
         }
     },
@@ -2670,9 +2864,10 @@ export default {
         jwt.verify(this.token, 'videocachesecret', (err, decoded) => {
             if (err) {
                 alert('Не могу получить блогера')
-                this.$router.push({ nae: 'Home' })
+                this.$router.push({ name: 'Home' })
             } else {
                 this.getBloger(decoded.bloger)
+                this.getVideos()
                 if (this.$route.query.activetab !== 'none') {
                     this.activeTab = this.$route.query.activetab
                 }
@@ -2680,6 +2875,43 @@ export default {
         })
     },
     methods: {
+        getVideos() {
+            
+            fetch(`http://localhost:4000/api/videos/all/`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    this.videos = JSON.parse(result).videos
+                    alert('Получил группу видео')
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу получить группу видео')
+                }
+            })
+
+        },
         FileListItems(files){
             var b = new ClipboardEvent("").clipboardData || new DataTransfer()
             for (var i = 0, len = files.length; i<len; i++){
@@ -3057,6 +3289,7 @@ export default {
     .comment {
         display: flex;
         align-items: flex-start;
+        margin: 15px 0px;
     }
 
     .commentItem {
@@ -3989,6 +4222,10 @@ export default {
 
     .hidenField {
         opacity: 0;
+    }
+
+    .brandingItemFooterLogo {
+        border-radius: 100%;
     }
 
 </style>

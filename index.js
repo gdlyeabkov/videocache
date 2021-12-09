@@ -268,6 +268,42 @@ app.get('/api/blogers/create', async (req, res) => {
   })
 })
 
+app.post('/api/blogers/create', uploadForBlogers.single('myFile'), async (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query = BlogerModel.find({})
+  query.exec((err, allBlogers) => {
+      if (err) {
+          return res.json({ "status": "Error" })
+      }
+      let blogerExists = false
+      allBlogers.forEach(bloger => {
+        if (bloger.login.includes(req.query.blogerlogin)) {
+          blogerExists = true
+        }
+      })
+      if (blogerExists) {
+        return res.json({ status: 'Error' })
+      } else {
+          let encodedPassword = "#"
+          let salt = bcrypt.genSalt(saltRounds)
+          encodedPassword = bcrypt.hashSync(req.query.blogerpassword, saltRounds)
+          let newBloger = new BlogerModel({ login: req.query.blogerlogin, password: encodedPassword })
+          newBloger.save(function (err, bloger) {
+              if (err) {
+                  return res.json({ "status": "Error" })
+              } else {
+                return res.redirect('http://localhost:8080/')
+              }
+          })
+      }
+  })
+})
+
 app.get('/api/channels/create', async (req, res) => {
     
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -1206,20 +1242,63 @@ app.get('/api/channels/followers/add', (req, res) => {
   res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
   
-  ChannelModel.updateOne({ _id: req.query.channelid },
-    { $push: 
-      {
-        followers: [
-          {
-            bloger: req.query.blogerlogin,
-          }
-        ] 
-      }
-  }, (err, channel) => {
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
     if (err) {
       return res.json({ "status": "Error" })
     } else {
-      return res.json({ status: 'OK' })
+      // console.log(`bloger.channel: ${new Mapbloger.channels[0].id}`)
+      // console.log(`new Map(bloger).get('channel'): ${new Map(bloger).get('channels')[0].id}`)
+      
+      if (bloger.channels.length >= 1) {
+        
+        console.log(`bloger.channels[0].id: ${new Map(bloger.channels[0]).get('id')}`)
+        let query =  ChannelModel.findOne({ '_id': new Map(bloger.channels[0]).get('id') }, function(err, channel) {
+          if (err) {
+            return res.json({ "status": "Error" })
+          } else {
+            ChannelModel.updateOne({ _id: req.query.channelid },
+              { $push: 
+                {
+                  followers: [
+                    {
+                      bloger: req.query.blogerlogin,
+                      followers: channel.followers.length
+                    }
+                  ] 
+                }
+            }, (err, channel) => {
+              if (err) {
+                return res.json({ "status": "Error" })
+              } else {
+                return res.json({ status: 'OK' })
+              }
+            })
+            
+          }
+        })
+
+      } else {
+        ChannelModel.updateOne({ _id: req.query.channelid },
+          { $push: 
+            {
+              followers: [
+                {
+                  bloger: req.query.blogerlogin,
+                  followers: 0
+                }
+              ] 
+            }
+        }, (err, channel) => {
+          if (err) {
+            return res.json({ "status": "Error" })
+          } else {
+          
+          }
+        })
+
+      }
+        
+      
     }
   })
 

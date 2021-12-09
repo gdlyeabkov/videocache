@@ -19,7 +19,9 @@
                             {{ video.views }} просмотр
                         </span>
                         <span class="videoFooterElement">
-                            16 окт. 2021 г.
+                            {{
+                                `${video.created.split('T')[0].split('-')[2]} ${monthLabels[video.created.split('T')[0].split('-')[1]]} ${video.created.split('T')[0].split('-')[0]} г.`
+                            }}
                         </span>
                     </div>
                     <div class="videoFooterItem videoFooterArticle">
@@ -63,15 +65,27 @@
                 <div class="aboutVideo">
                     <div class="aboutVideoHeader">
                         <div class="aboutVideoHeaderItem videoChannelInfo">
-                            <div class="videoChannelInfoItem videoChannelInfoLogo">
+                            <div :style="`background-image: url('http://localhost:4000/api/channels/source/get/?channelname=${channel.name}');`" class="videoChannelInfoItem videoChannelInfoLogo">
 
                             </div>
                             <div class="videoChannelInfoItem videoChannelInfoContent">
                                 <span class="videoChannelInfoContentItem">
-                                    s
+                                    {{
+                                        channel.name
+                                    }}
                                 </span>
                                 <span class="videoChannelInfoContentItem">
-                                    25 подписчиков
+                                    {{
+                                        channel.followers.length
+                                    }}
+                                    {{
+                                        channel.followers.length.toString().endsWith(1) ?
+                                            'подписчик'
+                                        : (channel.followers.length.toString().endsWith(2) || channel.followers.length.toString().endsWith(3) || channel.followers.length.toString().endsWith(4)) ?
+                                            'подписчика'
+                                        :
+                                            'подписчиков'
+                                    }}
                                 </span>
                             </div>
                         </div>
@@ -114,14 +128,14 @@
                     </div>
                 </div>
                 <div class="createPostContainer">
-                    <div class="blogerAvatar createPostContainerItem">
+                    <div :style="`background-image: url('http://localhost:4000/api/blogers/source/get/?blogerlogin=${bloger.login}');`" class="blogerAvatar createPostContainerItem">
 
                     </div>
                     <input placeholder="Оставьте комментарий" v-model="post" type="text" class="createPostContainerItem form-control" @keyup.enter="sendPost" />
                 </div>
                 <div class="posts">
                     <div v-for="post in video.posts" :key="post.id" class="post">
-                        <img src="https://yt3.ggpht.com/ytc/AKedOLTKZYe0FvM7mciXj4wO72lvzeEmCTBq7MeSMKCv=s48-c-k-c0x00ffffff-no-rj" class="blogerAvatar" />
+                        <img :src="`http://localhost:4000/api/blogers/source/get/?blogerlogin=${post.bloger}`" class="blogerAvatar" />
                         <div class="postArticle">
                             <div class="postArticleItem postArticleHeader">
                                 <span class="postArticleHeader">
@@ -230,6 +244,29 @@ export default {
             post: '',
             channel: {
                 followers: []
+            },
+            monthLabels: {
+                '1': 'янв.',
+                '2': 'фев.',
+                '3': 'мар.',
+                '4': 'апр.',
+                '5': 'мая',
+                '6': 'июн.',
+                '7': 'июл.',
+                '8': 'авг.',
+                '9': 'сен.',
+                '01': 'янв.',
+                '02': 'фев.',
+                '03': 'мар.',
+                '04': 'апр.',
+                '05': 'мая',
+                '06': 'июн.',
+                '07': 'июл.',
+                '08': 'авг.',
+                '09': 'сен.',
+                '10': 'окт.',
+                '11': 'ноя.',
+                '12': 'дек.',
             },
             token: window.localStorage.getItem("videocachetoken")
         }
@@ -353,7 +390,7 @@ export default {
             .then(result => {
                 if (JSON.parse(result).status === 'OK') {
                     this.channel.followers.push({
-                        bloger: this.bloger.login
+                        bloger: this.bloger.login,
                     })
                     alert('Подписался')
                     this.post = ''
@@ -724,6 +761,7 @@ export default {
     }
 
     .videoChannelInfoLogo {
+        background-size: 100% 100%;
         border-radius: 100%;
         width: 35px;
         height: 35px;
@@ -749,6 +787,7 @@ export default {
     }
 
     .blogerAvatar {
+        background-size: 100% 100%;
         border-radius: 100%;
         background-color: rgb(0, 150, 0);
         width: 75px;

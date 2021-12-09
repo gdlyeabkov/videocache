@@ -487,7 +487,8 @@
             </div>
         </div>
         <div v-if="isCreateBlogerDialog" class="backdrop">
-            <div class="createChannelDialog">
+            <!-- <div class="createChannelDialog"> -->
+            <form class="createChannelDialog" ref="createBlogerFormRef" method="POST" enctype="multipart/form-data" :action="`http://localhost:4000/api/blogers/create/?blogerlogin=${blogerLogin}&blogerpassword=${blogerPassword}`">
                 <div class="createChannelDialogItem mainDetails">
                     <span class="mainDetailsLabel">
                         Основные сведения
@@ -499,6 +500,7 @@
                 <span class="uploadImageLabel">
                     ЗАГРУЗИТЬ ИЗОБРАЖЕНИЕ
                 </span>
+                <input ref="blogerFileUploader" type="file" name="myFile" class="hiddenField" id="uploader" />
                 <div class="createChannelDialogItem w-75">
                     <input placeholder="Имя аккаунта" v-model="blogerLogin" type="text" class="form-control">
                 </div>
@@ -517,11 +519,15 @@
                     <span class="footerBtn" @click="isCreateBlogerDialog = false">
                         ОТМЕНА
                     </span>
-                    <span class="footerBtn createChannelLabel" @click="createBloger">
+                    <!-- <span class="footerBtn createChannelLabel" @click="createBloger">
+                        СОЗДАТЬ АККАУНТ
+                    </span> -->
+                    <span class="footerBtn createChannelLabel" @click="createBlogerDrivenPost">
                         СОЗДАТЬ АККАУНТ
                     </span>
                 </div>
-            </div>
+            <!-- </div> -->
+            </form>
         </div>
         <div v-if="isCreateChannelDialog" class="backdrop">
             <div class="createChannelDialog">
@@ -1160,6 +1166,36 @@ export default {
         })
     },
     methods: {
+        createBlogerDrivenPost() {
+            window.showOpenFilePicker({     
+                types: [
+                {
+                    description: 'Поддерживаемы форматы',
+                    accept: {
+                    'image/png': ['.png']
+                    },
+                },
+                ],
+                excludeAcceptAllOption: true,
+                multiple: true,
+            }).then(async files => {
+                console.log('files: ', files)
+                for (let file of files) {
+                    this.filesList.push(await file.getFile())
+                }
+                console.log('this.filesList: ', this.filesList)
+                this.$refs.blogerFileUploader.files = new this.FileListItems(
+                    this.filesList
+                )
+                setTimeout(() => {
+                    this.token = jwt.sign({
+                        bloger: blogerData.login
+                    }, 'videocachesecret', { expiresIn: '5m' })
+                    localStorage.setItem('videocachetoken', this.token)
+                    this.$refs.createBlogerFormRef.submit()
+                }, 1000)
+            }).catch(e => console.log('windowerror: ', e))
+        },
         refreshSearch(tab) {
         
         },

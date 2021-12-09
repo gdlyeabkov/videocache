@@ -29,7 +29,7 @@
                     Создать
                 </span>
             </button>
-            <div class="headerElement avatar" @click="avatarContextMenu = !avatarContextMenu">
+            <div :style="`background-image: url('http://localhost:4000/api/blogers/source/get/?blogerlogin=${bloger.login}');`" class="headerElement avatar" @click="avatarContextMenu = !avatarContextMenu">
 
             </div>
         </div>
@@ -591,6 +591,7 @@ export default {
     }
 
     .avatar {
+        background-size: 100% 100%;
         cursor: pointer;
         border-radius: 100%;
         width: 25px;
