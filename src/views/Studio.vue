@@ -50,7 +50,7 @@
                                     }}
                                 </span>
                                 <span>
-                                    +2 за последние 28 дней
+                                    +{{ totalViewsFromPeriod }} за последние 28 дней
                                 </span>
                                 <div class="separator">
 
@@ -67,7 +67,9 @@
                                     </span>
                                     <div class="mainBodyItemDataRowCount">
                                         <span class="mainBodyItemDataRowItem">
-                                            128
+                                            {{
+                                                totalViews
+                                            }}
                                         </span>
                                         <span class="mainBodyItemDataRowItem">
                                             —
@@ -538,7 +540,9 @@
                                     90%
                                 </span> -->
                                 <span v-for="video in videos.filter(video => channel.videos.map(video => video.id).includes(video._id))" :key="video.id" class="contentRow">
-                                    90%
+                                    {{
+                                        (100 / (((video.likes.length + video.dislikes.length) / 100) * (100 / video.likes.length)))
+                                    }}%
                                 </span>
                             </div>
                         </div>
@@ -617,7 +621,7 @@
                         <span class="playListsHeaderTitle">
                             Плейлисты на канале
                         </span>
-                        <span class="playListsHeaderCreatePlayListBtn">
+                        <span class="playListsHeaderCreatePlayListBtn" @click="createPlayList">
                             СОЗДАТЬ ПЛЭЙЛИСТ
                         </span>
                     </div>
@@ -633,11 +637,18 @@
                     <div class="splitter">
 
                     </div>
-                    <div class="playListsTable">
+                    <div v-if="bloger.playlists.length >= 1" class="playListsTable">
                         <div class="playListsTableColumn playListsTablePrimaryColumn">
                             <div class="playListsTableColumnHeader">
                                 <span>
                                     Плейлист
+                                </span>
+                            </div>
+                            <div v-for="playlist in playlists" :key="playlist._id" class="playListsTableColumnHeader">
+                                <span>
+                                    {{
+                                        playlist.name
+                                    }}
                                 </span>
                             </div>
                         </div>
@@ -647,11 +658,25 @@
                                     Доступ
                                 </span>
                             </div>
+                            <div v-for="playlist in playlists" :key="playlist._id" class="playListsTableColumnHeader">
+                                <span>
+                                    {{
+                                        playlist.name
+                                    }}
+                                </span>
+                            </div>
                         </div>
                         <div class="playListsTableColumn playListsTableSecondaryColumn">
                             <div class="playListsTableColumnHeader">
                                 <span>
                                     Последнее изменение
+                                </span>
+                            </div>
+                            <div v-for="playlist in playlists" :key="playlist._id" class="playListsTableColumnHeader">
+                                <span>
+                                    {{
+                                        playlist.name
+                                    }}
                                 </span>
                             </div>
                         </div>
@@ -661,9 +686,16 @@
                                     Количество видео
                                 </span>
                             </div>
+                            <div v-for="playlist in playlists" :key="playlist._id" class="playListsTableColumnHeader">
+                                <span>
+                                    {{
+                                        playlist.name
+                                    }}
+                                </span>
+                            </div>
                         </div>
                     </div>
-                    <div class="playListsHere">
+                    <div v-else class="playListsHere">
                         <span>
                             Здесь будут собраны ваши плейлисты.
                         </span>
@@ -684,22 +716,22 @@
                     </div>
                     <div class="analyticsHeader">
                         <div class="analyticsTabs">
-                            <div :class="{ analyticsTab: true, activeAnalyticsTab: activeAnalyticsTab === 'Scope' }" @click="activeAnalyticsTab = 'Scope'">
+                            <div :class="{ analyticsTab: true, activeAnalyticsTab: activeAnalyticsTab === 'Scope' }" @click="setActiveAnalyticsTab('Scope')">
                                 <span>
                                     Обзор
                                 </span>
                             </div>
-                            <div :class="{ analyticsTab: true, activeAnalyticsTab: activeAnalyticsTab === 'Views' }" @click="activeAnalyticsTab = 'Views'">
+                            <div :class="{ analyticsTab: true, activeAnalyticsTab: activeAnalyticsTab === 'Views' }" @click="setActiveAnalyticsTab('Views')">
                                 <span>
                                     Просмотры
                                 </span>
                             </div>
-                            <div :class="{ analyticsTab: true, activeAnalyticsTab: activeAnalyticsTab === 'Interaction' }" @click="activeAnalyticsTab = 'Interaction'">
+                            <div :class="{ analyticsTab: true, activeAnalyticsTab: activeAnalyticsTab === 'Interaction' }" @click="setActiveAnalyticsTab('Interaction')">
                                 <span>
                                     Взаимодействие
                                 </span>
                             </div>
-                            <div :class="{ analyticsTab: true, activeAnalyticsTab: activeAnalyticsTab === 'Audition' }" @click="activeAnalyticsTab = 'Audition'">
+                            <div :class="{ analyticsTab: true, activeAnalyticsTab: activeAnalyticsTab === 'Audition' }" @click="setActiveAnalyticsTab('Audition')">
                                 <span>
                                     Аудитория
                                 </span>
@@ -709,12 +741,12 @@
                             <span class="analyticsHeaderItemColumnElement">
                                 8 нояб. – 5 дек. 2021 г.
                             </span>
-                            <select v-model="analyticsPeriod" class="analyticsHeaderItemColumnElement form-select">
-                                <option value="Последние 7 дней">Последние 7 дней</option>
-                                <option value="Последние 28 дней">Последние 28 дней</option>
-                                <option value="Последние 90 дней">Последние 90 дней</option>
-                                <option value="Последние 365 дней">Последние 365 дней</option>
-                                <option value="Все время">Все время</option>
+                            <select v-model="analyticsPeriod" class="analyticsHeaderItemColumnElement form-select" @change="drawGraph">
+                                <option :value="7">Последние 7 дней</option>
+                                <option :value="28">Последние 28 дней</option>
+                                <option :value="90">Последние 90 дней</option>
+                                <option :value="365">Последние 365 дней</option>
+                                <option :value="1000">Все время</option>
                             </select>
                         </div>
                         
@@ -722,19 +754,25 @@
                     <div v-if="activeAnalyticsTab === 'Scope'" class="analyticsScope">
                         <div class="analyticsScopePrimaryItem analyticsScopeItem">
                             <span class="analyticsScopeItemHeader">
-                                За последние 28 дней ваши видео набрали 129 просмотров
+                                За последние {{ analyticsPeriod }} дней ваши видео набрали 
+                                {{
+                                    totalViewsFromPeriod
+                                }}
+                                 просмотров
                             </span>
                             <div class="analyticsScopeChart">
                                 <div class="analyticsScopeChartTabs">
-                                    <div class="analyticsScopeChartTab">
+                                    <div :class="{ analyticsScopeChartTab: true, activeAnalyticsScopeChartTab: activeAnalyticsScopeChartTab === 'Views' }" @click="activeAnalyticsScopeChartTab = 'Views'">
                                         <span class="analyticsScopeChartTabHeader">
                                             Просмотры
                                         </span>
                                         <span class="analyticsScopeChartTabContent">
-                                            129
+                                            {{
+                                                totalViews
+                                            }}
                                         </span>
                                     </div>
-                                    <div class="analyticsScopeChartTab">
+                                    <div :class="{ analyticsScopeChartTab: true, activeAnalyticsScopeChartTab: activeAnalyticsScopeChartTab === 'ViewTime' }" @click="activeAnalyticsScopeChartTab = 'ViewTime'">
                                         <span class="analyticsScopeChartTabHeader">
                                             Время просмотра (часы)
                                         </span>
@@ -742,7 +780,7 @@
                                             3,0
                                         </span>
                                     </div>
-                                    <div class="analyticsScopeChartTab">
+                                    <div :class="{ analyticsScopeChartTab: true, activeAnalyticsScopeChartTab: activeAnalyticsScopeChartTab === 'Followers' }" @click="activeAnalyticsScopeChartTab = 'Followers'">
                                         <span class="analyticsScopeChartTabHeader">
                                             Подписчики
                                         </span>
@@ -1001,7 +1039,7 @@
                         <div class="analyticsScopeMainItem analyticsScopePrimaryItem analyticsScopeItem">
                             <div class="analyticsScopeChart">
                                 <div class="analyticsScopeChartTabs">
-                                    <div class="analyticsScopeChartTabAnother analyticsScopeChartTab">
+                                    <div :class="{ analyticsScopeChartTabAnother: true, analyticsScopeChartTab: true, activeAnalyticsScopeChartTab: activeAnalyticsScopeChartTab === 'Screenings' }" @click="activeAnalyticsScopeChartTab = 'Screenings'">
                                         <span class="analyticsScopeChartTabHeader">
                                             Показы
                                         </span>
@@ -1034,9 +1072,9 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="analyticsScopeChartGraph">
+                                <canvas id="graph" width="60%" height="70%">
                                     
-                                </div>
+                                </canvas>
                                 <span class="analyticsScopeChartDetail">
                                     ПОДРОБНЕЕ
                                 </span>
@@ -1318,9 +1356,9 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="analyticsScopeChartGraph">
+                                <canvas id="graph" width="60%" height="70%">
                                     
-                                </div>
+                                </canvas>
                                 <span class="analyticsScopeChartDetail">
                                     ПОДРОБНЕЕ
                                 </span>
@@ -1513,9 +1551,9 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="analyticsScopeChartGraph">
+                                <canvas id="graph" width="60%" height="70%">
                                     
-                                </div>
+                                </canvas>
                                 <span class="analyticsScopeChartDetail">
                                     ПОДРОБНЕЕ
                                 </span>
@@ -1661,18 +1699,18 @@
                         Комментарии и упоминания
                     </span>
                     <div class="commentsTypes">
-                        <div :class="{ commentsType: activeCommentsType !== 'Опубликованные', activeCommentsType: activeCommentsType === 'Опубликованные' }" @click="debug('Опубликованные')">
+                        <div :class="{ commentsType: true, activeCommentsType: activeCommentsType === 'Опубликованные' }" @click="activeCommentsType = 'Опубликованные'">
                             <span>
                                 Опубликованные
                             </span>
                         </div>
-                        <div :class="{ commentsType: activeCommentsType !== 'На проверке', activeCommentsType: activeCommentsType === 'На проверке' }" @click="debug('На проверке')">
+                        <div :class="{ commentsType: true, activeCommentsType: activeCommentsType === 'На проверке' }" @click="activeCommentsType = 'На проверке'">
                             <span>
                                 На проверке
                             </span>
                         </div>
                     </div>
-                    <div v-if="activeCommentsType = 'Опубликованные'">
+                    <div v-if="activeCommentsType === 'Опубликованные'">
                         <div class="commentsFilterBlock">
                             <span class="material-icons commentsFilterBlockItem">
                                 filter_list
@@ -1763,20 +1801,26 @@
                             </div>
                         </div>
                         <div class="commentsList">
-                            <!-- <div class="commentList">
+                            <div v-for="post in posts" :key="post" class="commentList">
                                 <div class="commentListAside">
-                                    <img class="commentListAsideItem" src="https://yt3.ggpht.com/vZ5f4p6HG9FhmCv0zkY4Cc-8Ma405_gtS3COgxhCxiXNyhxFKUQHuqif4hoWbAludibzLAtTqw=s48-c-k-c0x00ffffff-no-rj" alt="" />
+                                    <img class="commentListAsideItem" :src="`http://localhost:4000/api/blogers/source/get/?blogerlogin=${post.bloger}`" width="75px" alt="" />
                                     <div class="commentListAsideItem commentListAsideInfo">
                                         <div class="commentListAsideInfoItem commentListAsideInfoHeader">
                                             <span class="commentListAsideInfoHeaderItem">
-                                                Coolinar Coolinar • 
+                                                {{
+                                                    post.bloger
+                                                }}
                                             </span>
                                             <span class="commentListAsideInfoHeaderItem">
-                                                2 месяца назад 56 подписчики
+                                                2 месяца назад {{
+                                                    post.followers
+                                                }} подписчики
                                             </span>
                                         </div>
                                         <div class="commentListAsideInfoItem commentListAsideInfoMain">
-                                            для того чтобы делать много уровней не надо делать много сцен, просто делаешь настройки игры в скриптбл объектах и потому применяешь их к сцене (количесвто врагов их тип задний фон и тд)
+                                            {{
+                                                post.message
+                                            }}
                                         </div>
                                         <div class="commentListAsideInfoItem commentListAsideFooter">
                                             <span class="commentListAsideInfElement commentListAsideInfElementAnswer">
@@ -1807,62 +1851,15 @@
                                     </div>
                                 </div>
                                 <div class="commentArticle">
-                                    <img src="https://i.ytimg.com/vi_webp/a7VuEDl71k4/mqdefault.webp" alt="" width="100px" />
+                                    <img :src="`http://localhost:4000/api/channels/source/get/?channelname=${post.channelName}`" alt="" width="100px" />
                                     <span>
-                                        Сделал
-                                    </span>
-                                </div>
-                            </div> -->
-                            <div v-for="post in 5" :key="post" class="commentList">
-                                <div class="commentListAside">
-                                    <img class="commentListAsideItem" src="https://yt3.ggpht.com/vZ5f4p6HG9FhmCv0zkY4Cc-8Ma405_gtS3COgxhCxiXNyhxFKUQHuqif4hoWbAludibzLAtTqw=s48-c-k-c0x00ffffff-no-rj" alt="" />
-                                    <div class="commentListAsideItem commentListAsideInfo">
-                                        <div class="commentListAsideInfoItem commentListAsideInfoHeader">
-                                            <span class="commentListAsideInfoHeaderItem">
-                                                Coolinar Coolinar • 
-                                            </span>
-                                            <span class="commentListAsideInfoHeaderItem">
-                                                2 месяца назад 56 подписчики
-                                            </span>
-                                        </div>
-                                        <div class="commentListAsideInfoItem commentListAsideInfoMain">
-                                            для того чтобы делать много уровней не надо делать много сцен, просто делаешь настройки игры в скриптбл объектах и потому применяешь их к сцене (количесвто врагов их тип задний фон и тд)
-                                        </div>
-                                        <div class="commentListAsideInfoItem commentListAsideFooter">
-                                            <span class="commentListAsideInfElement commentListAsideInfElementAnswer">
-                                                ОТВЕТИТЬ
-                                            </span>
-                                            <span class="commentListAsideInfElement">
-                                                Нет ответов
-                                            </span>
-                                            <span class="commentListAsideInfElement material-icons">
-                                                expand_more
-                                            </span>
-                                            <span class="commentListAsideInfElement material-icons">
-                                                thumb_up
-                                            </span>
-                                            <span class="commentListAsideInfElement material-icons">
-                                                thumb_down
-                                            </span>
-                                            <span class="commentListAsideInfElement material-icons">
-                                                favorite
-                                            </span>
-                                            <span class="commentListAsideInfElement material-icons">
-                                                more_vert
-                                            </span>
-                                            <span class="commentListAsideInfElement material-icons">
-                                                play_circle
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="commentArticle">
-                                    <img src="https://i.ytimg.com/vi_webp/a7VuEDl71k4/mqdefault.webp" alt="" width="100px" />
-                                    <span>
-                                        Сделал
+                                        {{
+                                            post.videoName
+                                        }}
                                     </span>
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -2138,7 +2135,7 @@
                                     Видео
                                 </span>
                             </div>
-                            <div class="subtitlesTableColumnContent">
+                            <!-- <div class="subtitlesTableColumnContent">
                                 <video controls height="115px">
                                     <source />
                                 </video>
@@ -2161,6 +2158,11 @@
                             <div class="subtitlesTableColumnContent">
                                 <video controls height="115px">
                                     <source />
+                                </video>
+                            </div> -->
+                            <div v-for="video in videos.filter(video => channel.videos.map(video => video.id).includes(video._id))" :key="video.id" class="subtitlesTableColumnContent">
+                                <video controls height="115px">
+                                    <source :src="`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`" />
                                 </video>
                             </div>
                         </div>
@@ -2170,7 +2172,7 @@
                                     Языки
                                 </span>
                             </div>
-                            <div class="subtitlesTableColumnContent">
+                            <!-- <div class="subtitlesTableColumnContent">
                                 <span class="subtitlesTableColumnContentItem">
                                     1
                                 </span>
@@ -2203,6 +2205,14 @@
                                 </span>
                             </div>
                             <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    1
+                                </span>
+                                <span class="material-icons subtitlesTableColumnContentItem">
+                                    expand_more
+                                </span>
+                            </div> -->
+                            <div v-for="video in videos.filter(video => channel.videos.map(video => video.id).includes(video._id))" :key="video.id" class="subtitlesTableColumnContent">
                                 <span class="subtitlesTableColumnContentItem">
                                     1
                                 </span>
@@ -2217,7 +2227,7 @@
                                     Дата изменения
                                 </span>
                             </div>
-                            <div class="subtitlesTableColumnContent">
+                            <!-- <div class="subtitlesTableColumnContent">
                                 <span class="subtitlesTableColumnContentItem">
                                     16 окт. 2021 г.
                                 </span>
@@ -2240,6 +2250,13 @@
                             <div class="subtitlesTableColumnContent">
                                 <span class="subtitlesTableColumnContentItem">
                                     16 окт. 2021 г.
+                                </span>
+                            </div> -->
+                            <div v-for="video in videos.filter(video => channel.videos.map(video => video.id).includes(video._id))" :key="video.id" class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    {{
+                                        `${video.created.split('T')[0].split('-')[2]} ${monthLabels[video.created.split('T')[0].split('-')[1]]} ${video.created.split('T')[0].split('-')[0]} г.`
+                                    }}
                                 </span>
                             </div>
                         </div>
@@ -2249,7 +2266,7 @@
                                     Название и описание
                                 </span>
                             </div>
-                            <div class="subtitlesTableColumnContent">
+                            <!-- <div class="subtitlesTableColumnContent">
                                 <span class="subtitlesTableColumnContentItem">
                                     -
                                 </span>
@@ -2270,6 +2287,11 @@
                                 </span>
                             </div>
                             <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    -
+                                </span>
+                            </div> -->
+                            <div v-for="video in videos.filter(video => channel.videos.map(video => video.id).includes(video._id))" :key="video.id" class="subtitlesTableColumnContent">
                                 <span class="subtitlesTableColumnContentItem">
                                     -
                                 </span>
@@ -2281,7 +2303,7 @@
                                     Субтитры
                                 </span>
                             </div>
-                            <div class="subtitlesTableColumnContent">
+                            <!-- <div class="subtitlesTableColumnContent">
                                 <span class="subtitlesTableColumnContentItem">
                                     -
                                 </span>
@@ -2302,6 +2324,11 @@
                                 </span>
                             </div>
                             <div class="subtitlesTableColumnContent">
+                                <span class="subtitlesTableColumnContentItem">
+                                    -
+                                </span>
+                            </div> -->
+                            <div v-for="video in videos.filter(video => channel.videos.map(video => video.id).includes(video._id))" :key="video.id" class="subtitlesTableColumnContent">
                                 <span class="subtitlesTableColumnContentItem">
                                     -
                                 </span>
@@ -2559,11 +2586,15 @@
                                             Все видео
                                         </span>
                                         <span>
-                                            (4)
+                                            (
+                                                {{
+                                                    videos.filter(video => channel.videos.map(video => video.id).includes(video._id)).length
+                                                }}
+                                            )
                                         </span>
                                     </div>
                                     <div class="channelEditSectionBodyFirstElement">
-                                        <video class="channelEditSectionBodyFirstElementItem" width="125px" controls>
+                                        <!-- <video class="channelEditSectionBodyFirstElementItem" width="125px" controls>
                                             <source src="" />
                                         </video>
                                         <video class="channelEditSectionBodyFirstElementItem" width="125px" controls>
@@ -2574,6 +2605,9 @@
                                         </video>
                                         <video class="channelEditSectionBodyFirstElementItem" width="125px" controls>
                                             <source src="" />
+                                        </video> -->
+                                        <video v-for="video in videos.filter(video => channel.videos.map(video => video.id).includes(video._id))" :key="video._id" class="channelEditSectionBodyFirstElementItem" width="125px" controls>
+                                            <source :src="`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`" />
                                         </video>
                                     </div>
                                 </div>
@@ -2826,7 +2860,7 @@ export default {
             activeTab: 'Main',
             activeContentTab: 'Downloads',
             activeAnalyticsTab: 'Scope',
-            analyticsPeriod: 'Последние 28 дней',
+            analyticsPeriod: 28,
             activeCommentsType: 'Опубликованные',
             activeSubtitlesTab: 'All',
             activeChannelEditTab: 'Главная страница',
@@ -2837,7 +2871,8 @@ export default {
             activeSoundLibraryTab: 'Бесплатаная музыка',
             bloger: {
                 login: '',
-                channels: []
+                channels: [],
+                playlists: []
             },
             channel: {
 
@@ -2870,6 +2905,10 @@ export default {
             isEditChannelName: false,
             posts: [],
             viewsAnalytics: [],
+            totalViews: 0,
+            totalViewsFromPeriod: 0,
+            playlists: [],
+            activeAnalyticsScopeChartTab: 'Views',
             token: window.localStorage.getItem("videocachetoken")
         }
     },
@@ -2887,6 +2926,84 @@ export default {
         })
     },
     methods: {
+        getPlayLists() {
+            
+            fetch(`http://localhost:4000/api/playlists/all/`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    this.playlists = JSON.parse(result).playlists
+                    alert(`Получил плейлисты: ${this.playlists.length}`)
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу получить плейлисты')
+                }
+            })
+
+        },
+        createPlayList() {
+            
+            fetch(`http://localhost:4000/api/playlists/create/?blogerid=${this.bloger._id}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert(`Создал плейлист`)
+                    this.isEditChannelName = false
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу создать плейлист')
+                }
+            })
+
+        },
+        setActiveAnalyticsTab(tab) {
+            this.activeAnalyticsTab = tab
+            setTimeout(() => this.drawGraph(), 2000)
+        },
         addDays(fromDate, days) {
             let date = new Date(fromDate)
             date.setDate(date.getDate() + days)
@@ -2901,35 +3018,67 @@ export default {
                     this.viewsAnalytics.push(analyticsItem)
                 }
             }))
-            alert(this.viewsAnalytics[0].date)
             
             let ctx = document.getElementById('graph').getContext('2d')
             // alert(`ctx: ${ctx}`)
-            const stackedLine = new Chart(ctx, {
+            // new Chart(ctx, {
+            //     type: 'line',
+            //     data: {
+            //         labels: [
+            //             this.addDays(new Date(), -28).toLocaleDateString(),
+            //             this.addDays(new Date(), -24).toLocaleDateString(),
+            //             this.addDays(new Date(), -20).toLocaleDateString(),
+            //             this.addDays(new Date(), -16).toLocaleDateString(),
+            //             this.addDays(new Date(), -12).toLocaleDateString(),
+            //             this.addDays(new Date(), -8).toLocaleDateString(),
+            //             this.addDays(new Date(), -4).toLocaleDateString(),
+            //         ],
+            //         datasets: [{
+            //             label: '',
+            //             backgroundColor: 'rgb(255, 99, 132)',
+            //             borderColor: 'rgb(255, 99, 132)',
+            //             data: [
+            //                 this.viewsAnalytics.filter(viewsAnalyticsItem => `${viewsAnalyticsItem.date.split('-')[2].length >= 2 ? viewsAnalyticsItem.date.split('-')[2] : `0${viewsAnalyticsItem.date.split('-')[2]}`}.${viewsAnalyticsItem.date.split('-')[1].length >= 2 ? viewsAnalyticsItem.date.split('-')[1] : `0${viewsAnalyticsItem.date.split('-')[1]}`}.${viewsAnalyticsItem.date.split('-')[0]}` === this.addDays(new Date(), -28).toLocaleDateString()).length,
+            //                 this.viewsAnalytics.filter(viewsAnalyticsItem => `${viewsAnalyticsItem.date.split('-')[2].length >= 2 ? viewsAnalyticsItem.date.split('-')[2] : `0${viewsAnalyticsItem.date.split('-')[2]}`}.${viewsAnalyticsItem.date.split('-')[1].length >= 2 ? viewsAnalyticsItem.date.split('-')[1] : `0${viewsAnalyticsItem.date.split('-')[1]}`}.${viewsAnalyticsItem.date.split('-')[0]}` === this.addDays(new Date(), -24).toLocaleDateString()).length,
+            //                 this.viewsAnalytics.filter(viewsAnalyticsItem => `${viewsAnalyticsItem.date.split('-')[2].length >= 2 ? viewsAnalyticsItem.date.split('-')[2] : `0${viewsAnalyticsItem.date.split('-')[2]}`}.${viewsAnalyticsItem.date.split('-')[1].length >= 2 ? viewsAnalyticsItem.date.split('-')[1] : `0${viewsAnalyticsItem.date.split('-')[1]}`}.${viewsAnalyticsItem.date.split('-')[0]}` === this.addDays(new Date(), -20).toLocaleDateString()).length,
+            //                 this.viewsAnalytics.filter(viewsAnalyticsItem => `${viewsAnalyticsItem.date.split('-')[2].length >= 2 ? viewsAnalyticsItem.date.split('-')[2] : `0${viewsAnalyticsItem.date.split('-')[2]}`}.${viewsAnalyticsItem.date.split('-')[1].length >= 2 ? viewsAnalyticsItem.date.split('-')[1] : `0${viewsAnalyticsItem.date.split('-')[1]}`}.${viewsAnalyticsItem.date.split('-')[0]}` === this.addDays(new Date(), -16).toLocaleDateString()).length,
+            //                 this.viewsAnalytics.filter(viewsAnalyticsItem => `${viewsAnalyticsItem.date.split('-')[2].length >= 2 ? viewsAnalyticsItem.date.split('-')[2] : `0${viewsAnalyticsItem.date.split('-')[2]}`}.${viewsAnalyticsItem.date.split('-')[1].length >= 2 ? viewsAnalyticsItem.date.split('-')[1] : `0${viewsAnalyticsItem.date.split('-')[1]}`}.${viewsAnalyticsItem.date.split('-')[0]}` === this.addDays(new Date(), -12).toLocaleDateString()).length,
+            //                 this.viewsAnalytics.filter(viewsAnalyticsItem => `${viewsAnalyticsItem.date.split('-')[2].length >= 2 ? viewsAnalyticsItem.date.split('-')[2] : `0${viewsAnalyticsItem.date.split('-')[2]}`}.${viewsAnalyticsItem.date.split('-')[1].length >= 2 ? viewsAnalyticsItem.date.split('-')[1] : `0${viewsAnalyticsItem.date.split('-')[1]}`}.${viewsAnalyticsItem.date.split('-')[0]}` === this.addDays(new Date(), -8).toLocaleDateString()).length,
+            //                 this.viewsAnalytics.filter(viewsAnalyticsItem => `${viewsAnalyticsItem.date.split('-')[2].length >= 2 ? viewsAnalyticsItem.date.split('-')[2] : `0${viewsAnalyticsItem.date.split('-')[2]}`}.${viewsAnalyticsItem.date.split('-')[1].length >= 2 ? viewsAnalyticsItem.date.split('-')[1] : `0${viewsAnalyticsItem.date.split('-')[1]}`}.${viewsAnalyticsItem.date.split('-')[0]}` === this.addDays(new Date(), -4).toLocaleDateString()).length,
+            //             ],
+            //         }]
+            //     },
+            //     options: {
+            //         responsive: true,
+            //         maintainAspectRatio: false,
+            //         scales: {
+            //             yAxes: [{
+            //                 ticks: {
+            //                     beginAtZero:true
+            //                 }
+            //             }]
+            //         }
+            //     }
+            // })
+            let viewsAnalyticsDataRange = []
+            this.totalViewsFromPeriod = 0
+            for (let labelIdx = 0; labelIdx < 7; labelIdx++) {
+                viewsAnalyticsDataRange.push(this.viewsAnalytics.filter(viewsAnalyticsItem => `${viewsAnalyticsItem.date.split('-')[2].length >= 2 ? viewsAnalyticsItem.date.split('-')[2] : `0${viewsAnalyticsItem.date.split('-')[2]}`}.${viewsAnalyticsItem.date.split('-')[1].length >= 2 ? viewsAnalyticsItem.date.split('-')[1] : `0${viewsAnalyticsItem.date.split('-')[1]}`}.${viewsAnalyticsItem.date.split('-')[0]}` === this.addDays(new Date(), -this.analyticsPeriod + (this.analyticsPeriod / 7 * labelIdx)).toLocaleDateString()).length)
+                this.totalViewsFromPeriod += this.viewsAnalytics.filter(viewsAnalyticsItem => `${viewsAnalyticsItem.date.split('-')[2].length >= 2 ? viewsAnalyticsItem.date.split('-')[2] : `0${viewsAnalyticsItem.date.split('-')[2]}`}.${viewsAnalyticsItem.date.split('-')[1].length >= 2 ? viewsAnalyticsItem.date.split('-')[1] : `0${viewsAnalyticsItem.date.split('-')[1]}`}.${viewsAnalyticsItem.date.split('-')[0]}` === this.addDays(new Date(), -this.analyticsPeriod + (this.analyticsPeriod / 7 * labelIdx)).toLocaleDateString()).length
+            }
+            let viewsAnalyticsLabelsRange = []
+            for (let labelIdx = 0; labelIdx < 7; labelIdx++) {
+                viewsAnalyticsLabelsRange.push(this.addDays(new Date(), -this.analyticsPeriod + (this.analyticsPeriod / 7 * labelIdx)).toLocaleDateString(),)
+            }
+            new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: [
-                         this.addDays(new Date(), -28).toLocaleDateString(),
-                         this.addDays(new Date(), -24).toLocaleDateString(),
-                         this.addDays(new Date(), -20).toLocaleDateString(),
-                         this.addDays(new Date(), -16).toLocaleDateString(),
-                         this.addDays(new Date(), -12).toLocaleDateString(),
-                         this.addDays(new Date(), -8).toLocaleDateString(),
-                         this.addDays(new Date(), -4).toLocaleDateString(),
-                    ],
+                    labels: viewsAnalyticsLabelsRange,
                     datasets: [{
                         label: '',
                         backgroundColor: 'rgb(255, 99, 132)',
                         borderColor: 'rgb(255, 99, 132)',
-                        data: [
-                            this.viewsAnalytics.filter(viewsAnalyticsItem => `${viewsAnalyticsItem.date.split('-')[2].length >= 2 ? viewsAnalyticsItem.date.split('-')[2] : `0${viewsAnalyticsItem.date.split('-')[2]}`}.${viewsAnalyticsItem.date.split('-')[1].length >= 2 ? viewsAnalyticsItem.date.split('-')[1] : `0${viewsAnalyticsItem.date.split('-')[1]}`}.${viewsAnalyticsItem.date.split('-')[0]}` === this.addDays(new Date(), -28).toLocaleDateString()).length,
-                            this.viewsAnalytics.filter(viewsAnalyticsItem => `${viewsAnalyticsItem.date.split('-')[2].length >= 2 ? viewsAnalyticsItem.date.split('-')[2] : `0${viewsAnalyticsItem.date.split('-')[2]}`}.${viewsAnalyticsItem.date.split('-')[1].length >= 2 ? viewsAnalyticsItem.date.split('-')[1] : `0${viewsAnalyticsItem.date.split('-')[1]}`}.${viewsAnalyticsItem.date.split('-')[0]}` === this.addDays(new Date(), -24).toLocaleDateString()).length,
-                            this.viewsAnalytics.filter(viewsAnalyticsItem => `${viewsAnalyticsItem.date.split('-')[2].length >= 2 ? viewsAnalyticsItem.date.split('-')[2] : `0${viewsAnalyticsItem.date.split('-')[2]}`}.${viewsAnalyticsItem.date.split('-')[1].length >= 2 ? viewsAnalyticsItem.date.split('-')[1] : `0${viewsAnalyticsItem.date.split('-')[1]}`}.${viewsAnalyticsItem.date.split('-')[0]}` === this.addDays(new Date(), -20).toLocaleDateString()).length,
-                            this.viewsAnalytics.filter(viewsAnalyticsItem => `${viewsAnalyticsItem.date.split('-')[2].length >= 2 ? viewsAnalyticsItem.date.split('-')[2] : `0${viewsAnalyticsItem.date.split('-')[2]}`}.${viewsAnalyticsItem.date.split('-')[1].length >= 2 ? viewsAnalyticsItem.date.split('-')[1] : `0${viewsAnalyticsItem.date.split('-')[1]}`}.${viewsAnalyticsItem.date.split('-')[0]}` === this.addDays(new Date(), -16).toLocaleDateString()).length,
-                            this.viewsAnalytics.filter(viewsAnalyticsItem => `${viewsAnalyticsItem.date.split('-')[2].length >= 2 ? viewsAnalyticsItem.date.split('-')[2] : `0${viewsAnalyticsItem.date.split('-')[2]}`}.${viewsAnalyticsItem.date.split('-')[1].length >= 2 ? viewsAnalyticsItem.date.split('-')[1] : `0${viewsAnalyticsItem.date.split('-')[1]}`}.${viewsAnalyticsItem.date.split('-')[0]}` === this.addDays(new Date(), -12).toLocaleDateString()).length,
-                            this.viewsAnalytics.filter(viewsAnalyticsItem => `${viewsAnalyticsItem.date.split('-')[2].length >= 2 ? viewsAnalyticsItem.date.split('-')[2] : `0${viewsAnalyticsItem.date.split('-')[2]}`}.${viewsAnalyticsItem.date.split('-')[1].length >= 2 ? viewsAnalyticsItem.date.split('-')[1] : `0${viewsAnalyticsItem.date.split('-')[1]}`}.${viewsAnalyticsItem.date.split('-')[0]}` === this.addDays(new Date(), -8).toLocaleDateString()).length,
-                            this.viewsAnalytics.filter(viewsAnalyticsItem => `${viewsAnalyticsItem.date.split('-')[2].length >= 2 ? viewsAnalyticsItem.date.split('-')[2] : `0${viewsAnalyticsItem.date.split('-')[2]}`}.${viewsAnalyticsItem.date.split('-')[1].length >= 2 ? viewsAnalyticsItem.date.split('-')[1] : `0${viewsAnalyticsItem.date.split('-')[1]}`}.${viewsAnalyticsItem.date.split('-')[0]}` === this.addDays(new Date(), -4).toLocaleDateString()).length,
-                        ],
+                        data: viewsAnalyticsDataRange,
                     }]
                 },
                 options: {
@@ -2943,7 +3092,7 @@ export default {
                         }]
                     }
                 }
-            });
+            })
         },
         setChannelName() {
             
@@ -3020,6 +3169,14 @@ export default {
                             this.posts.push(post)
                         }
                     }))
+                    
+                    this.totalViews = 0
+                    this.videos.map(video => {
+                        if (this.channel.videos.map(video => video.id).includes(video._id)) {
+                            this.totalViews += video.views
+                        }
+                    })
+
                 } else if (JSON.parse(result).status === 'Error') {
                     alert('Не могу получить группу видео')
                 }
@@ -3271,14 +3428,11 @@ export default {
                     this.channelDesc = this.channel.desc
                     this.channelContacts = this.channel.contacts
                     this.getVideos()
+                    this.getPlayLists()
                 } else if (JSON.parse(result).status === 'Error') {
                     alert('Не могу получить канал')
                 }
             }) 
-        },
-        debug(value) {
-            this.activeCommentsType = value
-            alert(this.activeCommentsType)
         },
         changeActiveTabHandler(tab) {
             this.activeTab = tab
@@ -4173,7 +4327,7 @@ export default {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-
+        cursor: pointer;
     }
 
     .analyticsScopeChartGraph {
@@ -4359,6 +4513,11 @@ export default {
     #graph {
         max-height: 65%;
         /* background-color: rgb(255, 0, 0); */
+    }
+
+    .activeAnalyticsScopeChartTab {
+        background-color: rgb(255, 255, 255);
+        border-top: 5px solid rgb(0, 100, 255);
     }
 
 </style>

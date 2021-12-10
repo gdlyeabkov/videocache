@@ -25,10 +25,10 @@
                             </div>
                         </div>
                         <div class="channelBtns">
-                            <button class="btn btn-primary channelBtn" @click="$router.push({ name: 'Studio', query: { channelid: channel._id, activetab: 'ChannelEdit' } })">
+                            <button class="btn btn-primary channelBtn" @click="$router.push({ name: 'Studio', query: { channelid: channel._id, activetab: 'ChannelEdit', action: 'none' } })">
                                 Настроить вид канала
                             </button>
-                            <button class="btn btn-primary channelBtn" @click="$router.push({ name: 'Studio', query: { channelid: channel._id, activetab: 'none' } })">
+                            <button class="btn btn-primary channelBtn" @click="$router.push({ name: 'Studio', query: { channelid: channel._id, activetab: 'none', action: 'none' } })">
                                 Видео
                             </button>
                             <span class="exportCSVLabel" @click="exportCSV">

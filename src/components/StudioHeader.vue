@@ -312,6 +312,11 @@ export default {
             } else {
                 this.getBloger(decoded.bloger)
                 this.getChannel(this.$route.query.channelid)
+                if (this.$route.query.action !== 'none') {
+                    if (this.$route.query.action === 'add_video') {
+                        this.isCreateVideoDialog = true
+                    }
+                }
             }
         })
     },

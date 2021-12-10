@@ -252,7 +252,7 @@
                     
                 </span>
             </div>
-            <div class="avatarContextMenuItem" @click="$router.push({ name: 'Studio', query: { channelid: bloger.channels[0].id, activetab: 'none' } })">
+            <div class="avatarContextMenuItem" @click="$router.push({ name: 'Studio', query: { channelid: bloger.channels[0].id, activetab: 'none', action: 'none' } })">
                 <div class="avatarContextMenuElement">
                     <span class="material-icons-outlined avatarContextMenuElementIcon">
                         settings
@@ -938,7 +938,7 @@
                     <span :class="{ 'material-icons-outlined': true, avatarContextMenuElementIcon: true }">
                         play_circle
                     </span>
-                    <span>
+                    <span @click="$router.push({ name: 'Studio', query: { channelid: bloger.channels[0].id, activetab: 'none', action: 'add_video' } })">
                         Добавить видео
                     </span>
                 </div>

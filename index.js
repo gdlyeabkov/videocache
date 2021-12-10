@@ -77,6 +77,7 @@ const BlogerSchema = new mongoose.Schema({
   password: String,
   channels: [mongoose.Schema.Types.Map],
   playlists: [mongoose.Schema.Types.Map],
+  notifications: [mongoose.Schema.Types.Map],
   isFastPurchases: {
     type: Boolean,
     default: false
@@ -204,7 +205,8 @@ const ChannelModel = mongoose.model('ChannelModel', ChannelSchema)
 
 const PlayListSchema = new mongoose.Schema({
   name: String,
-  blogger: String,
+  bloger: String,
+  videos: [mongoose.Schema.Types.Map],
   created: {
     type: Date,
     default: Date.now
@@ -220,6 +222,11 @@ const VideoSchema = new mongoose.Schema({
   likes: [mongoose.Schema.Types.Map],
   dislikes: [mongoose.Schema.Types.Map],
   posts: [mongoose.Schema.Types.Map],
+  limits: [mongoose.Schema.Types.Map],
+  public: {
+    type: Boolean,
+    default: true
+  },
   views: {
     type: Number,
     default: 0
@@ -340,7 +347,7 @@ app.get('/api/channels/create', async (req, res) => {
                       }
                     ] 
                   }
-              }, (err, user) => {
+              }, (err, bloger) => {
                 if(err){
                     return res.json({ "status": "Error" })
                 } else {
@@ -391,7 +398,7 @@ app.post('/api/channels/create', [
                       }
                     ] 
                   }
-              }, (err, user) => {
+              }, (err, bloger) => {
                 if(err){
                     return res.json({ "status": "Error" })
                 } else {
@@ -1605,6 +1612,71 @@ app.get('/api/channel/name/set', (req, res) => {
             // })
           }
       })
+    }
+  })
+  
+})
+
+app.get('/api/playlists/create', async (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query = PlayListModel.find({})
+  query.exec((err, allPlayLists) => {
+      if (err) {
+        return res.json({ "status": "Error" })
+      }
+      let alphabet = "abcdefghjiklmnoprstuvwxyz"
+      let generatedPlayListName = ''
+      for (let i = 0; i < Math.floor(Math.random() * 25); i++) {
+          let randomIndex = Math.floor(Math.random() * alphabet.length)
+          let randomLetter = alphabet[randomIndex]
+          generatedPlayListName += randomLetter
+      }  
+      let newPlayList = new PlayListModel({ name: generatedPlayListName, bloger: req.query.blogerid })
+      newPlayList.save(function (err, playList) {
+          if (err) {
+            return res.json({ "status": "Error" })
+          } else {
+            
+            BlogerModel.updateOne({ _id: req.query.blogerid },
+              { $push: 
+                {
+                  playlists: [
+                    {
+                      id: playList._id.toString()
+                    }
+                  ] 
+                }
+            }, (err, bloger) => {
+              if(err){
+                return res.json({ "status": "Error" })
+              } else {
+
+                return res.json({ status: 'OK', playList: playList })
+              }
+            })
+
+          }
+      })
+  })
+})
+
+app.get('/api/playlists/all', (req, res) => {
+
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  PlayListModel.find({  }, function(err, playlists) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      return res.json({ "status": "OK", playlists: playlists })
     }
   })
   
