@@ -104,10 +104,14 @@
                         </div>
                     </div>
                     <span class="aboutVideoContent">
-                        В этом видео показываю как я делаю анимацию и импортирую в unity.
+                        {{
+                            'channel.desc'
+                        }}
                     </span>
                     <span class="aboutVideoContent">
-                        Это канал карась геймс, мой канал о разработке моих инди игр. Также можно следить за
+                        {{
+                            channel.contacts
+                        }}
                     </span>
                     <span class="aboutVideoContentMore">
                         ЕЩЕ
@@ -243,6 +247,7 @@ export default {
             },
             post: '',
             channel: {
+                desc: '',
                 followers: []
             },
             monthLabels: {

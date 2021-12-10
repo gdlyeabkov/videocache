@@ -172,8 +172,8 @@
                                     </div>
                                     <img class="commentItem" src="https://i9.ytimg.com/vi_webp/a7VuEDl71k4/maxresdefault.webp?v=61111ef4&sqp=CLTht40G&rs=AOn4CLCqcxDK0FS5ChN6MjdfZBiFYquH1Q" alt="" width="75px" />
                                 </div> -->
-                                <div v-for="post in videos[0].posts" :key="post" class="comment">
-                                    <img class="commentItem" src="https://yt3.ggpht.com/vZ5f4p6HG9FhmCv0zkY4Cc-8Ma405_gtS3COgxhCxiXNyhxFKUQHuqif4hoWbAludibzLAtTqw=s176-c-k-c0x00ffffff-no-rj" alt="" width="50px" />
+                                <div v-for="post in posts" :key="post" class="comment">
+                                    <img class="commentItem" :src="`http://localhost:4000/api/blogers/source/get/?blogerlogin=${post.bloger}`" alt="" width="50px" />
                                     <div class="commentColumn commentItem">
                                         <span>
                                             {{
@@ -181,7 +181,9 @@
                                             }} •2 месяца назад
                                         </span>
                                         <span>
-                                            для того чтобы делать много уровней не надо 
+                                            {{
+                                                post.message
+                                            }}
                                         </span>
                                     </div>
                                     <img class="commentItem" src="https://i9.ytimg.com/vi_webp/a7VuEDl71k4/maxresdefault.webp?v=61111ef4&sqp=CLTht40G&rs=AOn4CLCqcxDK0FS5ChN6MjdfZBiFYquH1Q" alt="" width="75px" />
@@ -239,14 +241,14 @@
                                             {{
                                                 follower.followers
                                             }}
-                                            {{
+                                            <!-- {{
                                                 follower.followers.toString().endsWith(1) ?
                                                     'подписчик'
                                                 : (follower.followers.length.toString().endsWith(2) || channel.followers.length.toString().endsWith(3) || channel.followers.length.toString().endsWith(4)) ?
                                                     'подписчика'
                                                 :
                                                     'подписчиков'
-                                            }}
+                                            }} -->
                                         </span>
                                     </div>
                                 </div>
@@ -749,9 +751,9 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="analyticsScopeChartGraph">
+                                <canvas id="graph" width="60%" height="70%">
                                     
-                                </div>
+                                </canvas>
                                 <span class="analyticsScopeChartDetail">
                                     ПОДРОБНЕЕ
                                 </span>
@@ -1685,9 +1687,9 @@
                             </div>
                         </div>
                         <div class="commentsList">
-                            <div v-for="post in videos[0].posts" :key="post" class="commentList">
+                            <div v-for="post in posts" :key="post" class="commentList">
                                 <div class="commentListAside">
-                                    <img class="commentListAsideItem" src="https://yt3.ggpht.com/vZ5f4p6HG9FhmCv0zkY4Cc-8Ma405_gtS3COgxhCxiXNyhxFKUQHuqif4hoWbAludibzLAtTqw=s48-c-k-c0x00ffffff-no-rj" alt="" />
+                                    <img class="commentListAsideItem" :src="`http://localhost:4000/api/blogers/source/get/?blogerlogin=${post.bloger}`" width="75px" alt="" />
                                     <div class="commentListAsideItem commentListAsideInfo">
                                         <div class="commentListAsideInfoItem commentListAsideInfoHeader">
                                             <span class="commentListAsideInfoHeaderItem">
@@ -1696,11 +1698,15 @@
                                                 }}
                                             </span>
                                             <span class="commentListAsideInfoHeaderItem">
-                                                2 месяца назад 56 подписчики
+                                                2 месяца назад {{
+                                                    post.followers
+                                                }} подписчики
                                             </span>
                                         </div>
                                         <div class="commentListAsideInfoItem commentListAsideInfoMain">
-                                            для того чтобы делать много уровней не надо делать много сцен, просто делаешь настройки игры в скриптбл объектах и потому применяешь их к сцене (количесвто врагов их тип задний фон и тд)
+                                            {{
+                                                post.message
+                                            }}
                                         </div>
                                         <div class="commentListAsideInfoItem commentListAsideFooter">
                                             <span class="commentListAsideInfElement commentListAsideInfElementAnswer">
@@ -1731,9 +1737,11 @@
                                     </div>
                                 </div>
                                 <div class="commentArticle">
-                                    <img src="https://i.ytimg.com/vi_webp/a7VuEDl71k4/mqdefault.webp" alt="" width="100px" />
+                                    <img :src="`http://localhost:4000/api/channels/source/get/?channelname=${post.channelName}`" alt="" width="100px" />
                                     <span>
-                                        Сделал
+                                        {{
+                                            post.videoName
+                                        }}
                                     </span>
                                 </div>
                             </div>
@@ -2710,10 +2718,11 @@
                                     channel.name
                                 }}
                             </span>
-                            <span class="editChannelNameRowItem material-icons">
+                            <span class="editChannelNameRowItem material-icons editChannelNameBtn" @click="isEditChannelName = !isEditChannelName">
                                 edit
                             </span>
                         </div>
+                        <input v-if="isEditChannelName" v-model="channelName" type="text" class="w-50 form-control editChanneNameField" @keyup.enter="setChannelName" />
                         <textarea @keyup.enter="setChannelDesc" class="channelDesc" v-model="channelDesc"></textarea>
                         <div class="addTranslate">
                             <span class="addTranslateItem material-icons">
@@ -2808,6 +2817,7 @@ import StudioHeader from '@/components/StudioHeader.vue'
 import StudioAside from '@/components/StudioAside.vue'
 
 import * as jwt from 'jsonwebtoken'
+const chartjs = require('chart.js')
 
 export default {
     name: 'Studio',
@@ -2857,6 +2867,9 @@ export default {
                 '11': 'ноя.',
                 '12': 'дек.',
             },
+            isEditChannelName: false,
+            posts: [],
+            viewsAnalytics: [],
             token: window.localStorage.getItem("videocachetoken")
         }
     },
@@ -2867,7 +2880,6 @@ export default {
                 this.$router.push({ name: 'Home' })
             } else {
                 this.getBloger(decoded.bloger)
-                this.getVideos()
                 if (this.$route.query.activetab !== 'none') {
                     this.activeTab = this.$route.query.activetab
                 }
@@ -2875,6 +2887,102 @@ export default {
         })
     },
     methods: {
+        addDays(fromDate, days) {
+            let date = new Date(fromDate)
+            date.setDate(date.getDate() + days)
+            return date
+        },
+        drawGraph() {
+            
+            this.viewsAnalytics = []
+            this.videos.map(video => video.viewsAnalytics.map(analyticsItem => analyticsItem).map(analyticsItem => {
+                // alert(`analyticsItem: ${analyticsItem.date} video: ${video.name} | ${this.channel.videos.map(video => video.id).includes(video._id)}`)
+                if (this.channel.videos.map(video => video.id).includes(video._id)) {
+                    this.viewsAnalytics.push(analyticsItem)
+                }
+            }))
+            alert(this.viewsAnalytics[0].date)
+            
+            let ctx = document.getElementById('graph').getContext('2d')
+            // alert(`ctx: ${ctx}`)
+            const stackedLine = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [
+                         this.addDays(new Date(), -28).toLocaleDateString(),
+                         this.addDays(new Date(), -24).toLocaleDateString(),
+                         this.addDays(new Date(), -20).toLocaleDateString(),
+                         this.addDays(new Date(), -16).toLocaleDateString(),
+                         this.addDays(new Date(), -12).toLocaleDateString(),
+                         this.addDays(new Date(), -8).toLocaleDateString(),
+                         this.addDays(new Date(), -4).toLocaleDateString(),
+                    ],
+                    datasets: [{
+                        label: '',
+                        backgroundColor: 'rgb(255, 99, 132)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        data: [
+                            this.viewsAnalytics.filter(viewsAnalyticsItem => `${viewsAnalyticsItem.date.split('-')[2].length >= 2 ? viewsAnalyticsItem.date.split('-')[2] : `0${viewsAnalyticsItem.date.split('-')[2]}`}.${viewsAnalyticsItem.date.split('-')[1].length >= 2 ? viewsAnalyticsItem.date.split('-')[1] : `0${viewsAnalyticsItem.date.split('-')[1]}`}.${viewsAnalyticsItem.date.split('-')[0]}` === this.addDays(new Date(), -28).toLocaleDateString()).length,
+                            this.viewsAnalytics.filter(viewsAnalyticsItem => `${viewsAnalyticsItem.date.split('-')[2].length >= 2 ? viewsAnalyticsItem.date.split('-')[2] : `0${viewsAnalyticsItem.date.split('-')[2]}`}.${viewsAnalyticsItem.date.split('-')[1].length >= 2 ? viewsAnalyticsItem.date.split('-')[1] : `0${viewsAnalyticsItem.date.split('-')[1]}`}.${viewsAnalyticsItem.date.split('-')[0]}` === this.addDays(new Date(), -24).toLocaleDateString()).length,
+                            this.viewsAnalytics.filter(viewsAnalyticsItem => `${viewsAnalyticsItem.date.split('-')[2].length >= 2 ? viewsAnalyticsItem.date.split('-')[2] : `0${viewsAnalyticsItem.date.split('-')[2]}`}.${viewsAnalyticsItem.date.split('-')[1].length >= 2 ? viewsAnalyticsItem.date.split('-')[1] : `0${viewsAnalyticsItem.date.split('-')[1]}`}.${viewsAnalyticsItem.date.split('-')[0]}` === this.addDays(new Date(), -20).toLocaleDateString()).length,
+                            this.viewsAnalytics.filter(viewsAnalyticsItem => `${viewsAnalyticsItem.date.split('-')[2].length >= 2 ? viewsAnalyticsItem.date.split('-')[2] : `0${viewsAnalyticsItem.date.split('-')[2]}`}.${viewsAnalyticsItem.date.split('-')[1].length >= 2 ? viewsAnalyticsItem.date.split('-')[1] : `0${viewsAnalyticsItem.date.split('-')[1]}`}.${viewsAnalyticsItem.date.split('-')[0]}` === this.addDays(new Date(), -16).toLocaleDateString()).length,
+                            this.viewsAnalytics.filter(viewsAnalyticsItem => `${viewsAnalyticsItem.date.split('-')[2].length >= 2 ? viewsAnalyticsItem.date.split('-')[2] : `0${viewsAnalyticsItem.date.split('-')[2]}`}.${viewsAnalyticsItem.date.split('-')[1].length >= 2 ? viewsAnalyticsItem.date.split('-')[1] : `0${viewsAnalyticsItem.date.split('-')[1]}`}.${viewsAnalyticsItem.date.split('-')[0]}` === this.addDays(new Date(), -12).toLocaleDateString()).length,
+                            this.viewsAnalytics.filter(viewsAnalyticsItem => `${viewsAnalyticsItem.date.split('-')[2].length >= 2 ? viewsAnalyticsItem.date.split('-')[2] : `0${viewsAnalyticsItem.date.split('-')[2]}`}.${viewsAnalyticsItem.date.split('-')[1].length >= 2 ? viewsAnalyticsItem.date.split('-')[1] : `0${viewsAnalyticsItem.date.split('-')[1]}`}.${viewsAnalyticsItem.date.split('-')[0]}` === this.addDays(new Date(), -8).toLocaleDateString()).length,
+                            this.viewsAnalytics.filter(viewsAnalyticsItem => `${viewsAnalyticsItem.date.split('-')[2].length >= 2 ? viewsAnalyticsItem.date.split('-')[2] : `0${viewsAnalyticsItem.date.split('-')[2]}`}.${viewsAnalyticsItem.date.split('-')[1].length >= 2 ? viewsAnalyticsItem.date.split('-')[1] : `0${viewsAnalyticsItem.date.split('-')[1]}`}.${viewsAnalyticsItem.date.split('-')[0]}` === this.addDays(new Date(), -4).toLocaleDateString()).length,
+                        ],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    }
+                }
+            });
+        },
+        setChannelName() {
+            
+            fetch(`http://localhost:4000/api/channel/name/set/?channelid=${this.channel._id}&channelname=${this.channelName}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert('обновил название канала')
+                    this.channel.name = this.channelName
+                    this.isEditChannelName = false
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу обновить название канала')
+                }
+            })
+
+        },
         getVideos() {
             
             fetch(`http://localhost:4000/api/videos/all/`, {
@@ -2906,6 +3014,12 @@ export default {
                 if (JSON.parse(result).status === 'OK') {
                     this.videos = JSON.parse(result).videos
                     alert('Получил группу видео')
+                    this.videos.map(video => video.posts.map(post => post).map(post => {
+                        // alert(`post: ${post.bloger} video: ${video.name} | ${this.channel.videos.map(video => video.id).includes(video._id)}`)
+                        if (this.channel.videos.map(video => video.id).includes(video._id)) {
+                            this.posts.push(post)
+                        }
+                    }))
                 } else if (JSON.parse(result).status === 'Error') {
                     alert('Не могу получить группу видео')
                 }
@@ -3153,8 +3267,10 @@ export default {
                 if (JSON.parse(result).status === 'OK') {
                     alert('Получил канал')
                     this.channel = JSON.parse(result).channel
+                    this.channelName = this.channel.name
                     this.channelDesc = this.channel.desc
                     this.channelContacts = this.channel.contacts
+                    this.getVideos()
                 } else if (JSON.parse(result).status === 'Error') {
                     alert('Не могу получить канал')
                 }
@@ -3166,6 +3282,9 @@ export default {
         },
         changeActiveTabHandler(tab) {
             this.activeTab = tab
+            if (tab === 'Analytics') {
+                setTimeout(() => this.drawGraph(), 2000)
+            }
         }
     },
     components: {
@@ -4061,6 +4180,7 @@ export default {
         box-sizing: border-box;
         padding: 0px 25px;
         height: 70%;
+        width: 100%;
     }
 
     .analytics {
@@ -4226,6 +4346,19 @@ export default {
 
     .brandingItemFooterLogo {
         border-radius: 100%;
+    }
+
+    .editChanneNameField {
+        margin: 15px 0px;
+    }
+
+    .editChannelNameBtn {
+        cursor: pointer;
+    }
+
+    #graph {
+        max-height: 65%;
+        /* background-color: rgb(255, 0, 0); */
     }
 
 </style>

@@ -227,7 +227,8 @@ const VideoSchema = new mongoose.Schema({
   created: {
     type: Date,
     default: Date.now
-  }
+  },
+  viewsAnalytics: [mongoose.Schema.Types.Map]
 }, { collection : 'myvideos' })
 
 const VideoModel = mongoose.model('VideoModel', VideoSchema)
@@ -1160,22 +1161,95 @@ app.get('/api/videos/posts/add', (req, res) => {
   res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
   
-  VideoModel.updateOne({ _id: req.query.videoid },
-    { $push: 
-      {
-        posts: [
-          {
-            id: Math.floor(Math.random() * 5000),
-            bloger: req.query.blogerlogin,
-            message: req.query.blogermessage
-          }
-        ] 
-      }
-  }, (err, video) => {
-    if(err){
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
+    if (err) {
       return res.json({ "status": "Error" })
     } else {
-      return res.json({ status: 'OK' })
+      if (bloger.channels.length >= 1) {
+        console.log(`2) ${new Map(bloger.channels[0]).get('id')}`)
+        let query =  ChannelModel.findOne({ '_id': new Map(bloger.channels[0]).get('id') }, function(err, channel) {
+          if (err) {
+            return res.json({ "status": "Error" })
+          } else {
+            let query =  VideoModel.findOne({ _id: req.query.videoid }, function(err, video) {
+              if (err) {
+                return res.json({ "status": "Error" })
+              } else {
+                let query =  ChannelModel.findOne({ '_id': video.channel }, function(err, watchChannel) {
+                  if (err) {
+                    return res.json({ "status": "Error" })
+                  } else {
+                    VideoModel.updateOne({ _id: req.query.videoid },
+                      { $push: 
+                        {
+                          posts: [
+                            {
+                              id: Math.floor(Math.random() * 5000),
+                              bloger: req.query.blogerlogin,
+                              message: req.query.blogermessage,
+                              created: new Date().toLocaleDateString(),
+                              videoName: video.name,
+                              channelName: watchChannel.name,
+                              followers: channel.followers.length
+                            }
+                          ] 
+                        }
+                    }, (err, video) => {
+                      if(err){
+                        return res.json({ "status": "Error" })
+                      } else {
+                        return res.json({ status: 'OK' })
+                      }
+                    })
+                  
+                  }
+                })
+                
+              }
+            })
+          
+          }
+        })
+      } else {
+        let query =  VideoModel.findOne({ _id: req.query.videoid }, function(err, video) {
+          if (err) {
+            return res.json({ "status": "Error" })
+          } else {
+            let query =  ChannelModel.findOne({ '_id': video.channel }, function(err, watchChannel) {
+              if (err) {
+                return res.json({ "status": "Error" })
+              } else {
+                VideoModel.updateOne({ _id: req.query.videoid },
+                  { $push: 
+                    {
+                      posts: [
+                        {
+                          id: Math.floor(Math.random() * 5000),
+                          bloger: req.query.blogerlogin,
+                          message: req.query.blogermessage,
+                          created: new Date().toLocaleDateString(),
+                          videoName: video.name,
+                          channelName: watchChannel.name,
+                          followers: 0
+                        }
+                      ] 
+                    }
+                }, (err, video) => {
+                  if(err){
+                    return res.json({ "status": "Error" })
+                  } else {
+                    return res.json({ status: 'OK' })
+                  }
+                })
+            
+              }
+            })
+          
+          }
+        })
+      
+      }
+    
     }
   })
 
@@ -1314,6 +1388,15 @@ app.get('/api/videos/views/add', (req, res) => {
   VideoModel.updateOne({ _id: req.query.videoid },
     {
       "$inc": { "views": 1 },
+      '$push': 
+        {
+          viewsAnalytics: [
+            {
+              date: new Date().toLocaleDateString()
+            }
+          ] 
+        }
+      
     }, (err, video) => {
     if (err) {
       return res.json({ "status": "Error" })
@@ -1483,6 +1566,48 @@ app.get('/api/export/csv', (req, res) => {
     }
   })
 
+})
+
+app.get('/api/channel/name/set', (req, res) => {
+    
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  ChannelModel.findOne({ '_id': req.query.channelid }, function(err, channel) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      console.log(`${channel.name} | ${req.query.channelid}`)
+      fs.rename(`./channels/${channel.name}.png`, `./channels/${req.query.channelname}.png`, (err, file) => {
+          if (err) {
+            return res.json({ status: 'Error' })
+          } else {
+            // fs.rename(`./banners/${channel.name}.mp4`, `./banners/${channelname}`, (err, file) => {
+            //   if (err) {
+            //     return res.json({ status: 'Error' })
+            //   } else {
+                ChannelModel.updateOne({ _id: req.query.channelid }, { name: req.query.channelname }, (err, channel) => {
+                  if (err) {
+                    return res.json({ status: 'Error' })
+                  }
+                  
+                  mongoose.connection.collection("myvideos").updateMany({ channel: req.query.channelid }, { '$set': { 'posts.$[].channelName': req.query.channelname } }, (err, videos) => {
+                    if (err) {
+                      return res.json({ status: 'Error' })        
+                    }
+                      return res.json({ status: 'OK' })
+                  })
+
+                })
+            //   }
+            // })
+          }
+      })
+    }
+  })
+  
 })
 
 app.get('**', (req, res) => { 
