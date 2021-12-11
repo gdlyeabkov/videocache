@@ -2,7 +2,7 @@
     <div>
         <StudioHeader />
         <div class="main">
-            <StudioAside :activeTab="activeTab" @changeActiveTab="changeActiveTabHandler" />
+            <StudioAside :activeTab="activeTab" @changeActiveTab="changeActiveTabHandler" @toggleSettings="toggleSettingsHandler" @toggleFeedback="toggleFeedbackHandler" />
             <div class="article">
                 <div v-if="activeTab === 'Main'">
                     <div class="mainHeader">
@@ -188,7 +188,7 @@
                                             }}
                                         </span>
                                     </div>
-                                    <img class="commentItem" src="https://i9.ytimg.com/vi_webp/a7VuEDl71k4/maxresdefault.webp?v=61111ef4&sqp=CLTht40G&rs=AOn4CLCqcxDK0FS5ChN6MjdfZBiFYquH1Q" alt="" width="75px" />
+                                    <img class="commentItem" src="https://i9.ytimg.com/vi_webp/a7VuEDl71k4/maxresdefault.webp?v=61111ef4&sqp=CLTht40G&rs=AOn4CLCqcxDK0FS5ChN6MjdfZBiFYquH1Q" alt="" width="35px" />
                                 </div>
                                 <span class="showAllComments">
                                     ЕЩЕ
@@ -2842,7 +2842,7 @@
                 </div>
             </div>
         </div>
-        <div v-if="true" class="settingsBackdrop">
+        <div v-if="isSettings" class="settingsBackdrop">
             <div class="settingsContextMenu">
                 <div class="settingsContextMenuHeader">
                     <span>
@@ -2886,7 +2886,7 @@
                         <span class="settingsContextMenuArticleHeader">
                             Единицы измерения по умолчанию
                         </span>
-                        <select v-model="currency" class="settingsContextMenuArticleItem w-50 form-select">
+                        <select v-model="currency" class="settingsContextMenuArticleItem w-50 form-select" @change="setCurrency">
                             <option :value="'USD'">Доллар США (USD)</option>
                             <option :value="'RUB'">Российский рубль (RUB)</option>
                         </select>
@@ -2910,41 +2910,99 @@
                             </div>
                         </div>
                         <div v-if="activeSettingsContextMenuArticleTab === 'Основная информация'" class="activeSettingsContextMenuArticleTabContent">
-                            <select v-model="country" class="settingsContextMenuArticleItem w-50 form-select">
+                            <select v-model="country" class="settingsContextMenuArticleItem w-50 form-select" @change="setCountry">
                                 <option :value="'Россия'">Россия</option>
                                 <option :value="'USA'">USA</option>
                             </select>
                             <span class="settingsContextMenuArticleItem">
                                 Выберите страну, где вы сейчас проживаете. Подробнее…
                             </span>
-                            <input placeholder="Ключевые слова" v-model="tags" type="text" class="settingsContextMenuArticleItem" />
+                            <input placeholder="Ключевые слова" v-model="tags" type="text" class="settingsContextMenuArticleItem" @keyup.enter="setKeywords" />
                             <span class="settingsContextMenuArticleItem">
                                 Укажите значения через запятую.
                             </span>
                         </div>
-                        <div v-else-if="activeSettingsContextMenuArticleTab === 'Расширенные настройки'"  class="activeSettingsContextMenuArticleTabContent activeSettingsContextMenuArticleTabRowContent">
-                            <div class="activeSettingsContextMenuArticleTabRowContentItem">
-                                <span class="activeSettingsContextMenuArticleTabRowContentItemHeader">
-                                    Комментарии к новым видео
+                        <div v-else-if="activeSettingsContextMenuArticleTab === 'Расширенные настройки'"  class="activeSettingsContextMenuArticleTabContent activeSettingsContextMenuArticleTabContent">
+                            <span class="auxSettingsHeader">     
+                                Аудитория
+                            </span>
+                            <span>
+                                Вы можете задать аудиторию на уровне канала. В противном случае вам понадобится указывать ее отдельно для каждого видео для детей. Эта настройка распространяется и на существующие, и на будущие ролики. Настройка для отдельного ролика будет иметь приоритет над настройкой на уровне канала.
+                            </span>
+                            <span class="auxSettingsHeader">
+                                Указать, что канал для детей?
+                            </span>
+                            <span>
+                                Вне зависимости от вашего местонахождения и страны проживания вы обязаны соблюдать требования Закона США о защите личных сведений детей в интернете (COPPA) и/или других законодательных актов. Вы обязаны сообщать нам, предназначены ли ваши ролики для детей. Подробнее о контенте, предназначенном для детей…
+                            </span>
+                            <div class="childCannelItem">
+                                <input class="childCannelElement" v-model="childChannel" name="childChannel" :value="'yes'" type="radio" @keyup.enter="setChildChannel" />
+                                <span class="childCannelElement">
+                                    Да мой канал и все видео на нем - для детей
                                 </span>
-                                <select v-model="commentsToNewVideo" class="settingsContextMenuArticleItem w-50 form-select">
-                                    <option :value="'Разрешить все комментарии'">Разрешить все комментарии</option>
-                                    <option :value="'Отправлять потенциально недопустимые комментарии на проверку'">Отправлять потенциально недопустимые комментарии на проверку</option>
-                                    <option :value="'Отправлять все комментарии на проверку'">Отправлять все комментарии на проверку</option>
-                                    <option :value="'Отключить комментарии'">Отключить комментарии</option>
-                                </select>
                             </div>
-                            <div class="activeSettingsContextMenuArticleTabRowContentItem">
-                                <span class="activeSettingsContextMenuArticleTabRowContentItemHeader">
-                                    Сообщения в чатах прямых трансляций
+                            <div class="childCannelItem">
+                                <input class="childCannelElement" v-model="childChannel" name="childChannel" :value="'no'" type="radio" @keyup.enter="setChildChannel" />
+                                <span class="childCannelElement">
+                                    Нет, мой канал не для детей и на нем нет десткого контента
                                 </span>
-                                <div class="settingsContextMenuArticleSendComments settingsContextMenuArticleItem">
-                                    <input v-model="sendImpossibleComments" type="checkbox" class="settingsContextMenuArticleSendCommentsItem" />
-                                    <span class="settingsContextMenuArticleSendCommentsItem">
-                                        Отправлять потенциально недопустимые комментарии на проверку
-                                    </span>
-                                </div>
                             </div>
+                            <div class="childCannelItem">
+                                <input class="childCannelElement" v-model="childChannel" name="childChannel" :value="'no'" type="radio" @keyup.enter="setChildChannel" />
+                                <span class="childCannelElement">
+                                    Я хочу указать аудиторию каждого ролика отдельно
+                                </span>
+                            </div>
+                            <div class="bindAccounts">
+                                <span>
+                                    Связь с аккаунтами Google Рекламы
+                                </span>
+                                <span>
+                                    СВЯЗАТЬ АККАУНТЫ
+                                </span>
+                            </div>
+                            <span>
+                                Если вы установите связь между каналом YouTube и аккаунтом Google Рекламы, то объявления к каждому ролику будут подбираться с учетом того, как с ним взаимодействуют зрители. Кроме того, вам станет доступна дополнительная статистика по видео. Подробнее… 
+                            </span>
+                            <span>
+                                Автоматические субтитры
+                            </span>
+                            <div class="childCannelItem">
+                                <input class="childCannelElement" v-model="autoSubtitles" type="checkbox" @keyup.enter="setAutoSubtitles" />
+                                <span class="childCannelElement">
+                                    Не показывать потенциально недопустимые слова
+                                </span>
+                            </div>
+                            <span>
+                                При создании автоматических субтитров система иногда допускает ошибки в тексте. Установите этот флажок, чтобы потенциально недопустимые слова не показывались. Подробнее… 
+                            </span>
+                            <span>
+                                Число подписчиков
+                            </span>
+                            <div class="childCannelItem">
+                                <input class="childCannelElement" v-model="showFollowers" type="checkbox" @keyup.enter="setShowFollowers" />
+                                <span class="childCannelElement">
+                                    Показывать количество подписчиков на канале
+                                </span>
+                            </div>
+                            <span>
+                                Реклама
+                            </span>
+                            <div class="childCannelItem">
+                                <input class="childCannelElement" v-model="adsBaseInterests" type="checkbox" @keyup.enter="setAdsBaseInterests" />
+                                <span class="childCannelElement">
+                                    Отключить рекламу на основе интересов
+                                </span>
+                            </div>
+                            <span>
+                                Другие настройки
+                            </span>
+                            <span>
+                                Управление аккаунтом Youtube
+                            </span>
+                            <span>
+                                Удаление контента с Youtube
+                            </span>
                         </div>
                         <div v-else-if="activeSettingsContextMenuArticleTab === 'Доступность функций'"  class="activeSettingsContextMenuArticleTabContent">
                             <span>
@@ -2969,26 +3027,10 @@
                             <div class="auxFunction">
                                 <div class="auxFunctionAside">
                                     <span class="auxFunctionAsideHeader">
-                                        Функции, доступные по умолчанию
+                                        Функции, для доступа к которым нужно подтвердить номер телефона
                                     </span>
                                     <span>
-                                        Загрузка видео, создание плейлистов и управление ими (добавление роликов и приглашение соавторов)
-                                    </span>
-                                </div>
-                                <span>
-                                    Включены 
-                                </span>
-                                <span class="material-icons">
-                                    expand_more
-                                </span>
-                            </div>
-                            <div class="auxFunction">
-                                <div class="auxFunctionAside">
-                                    <span class="auxFunctionAsideHeader">
-                                        Функции, доступные по умолчанию
-                                    </span>
-                                    <span>
-                                        Загрузка видео, создание плейлистов и управление ими (добавление роликов и приглашение соавторов)
+                                        Загрузка видео продолжительностью более 15 минут, свои значки, прямые трансляции, подача апелляций на заявки Content ID
                                     </span>
                                 </div>
                                 <span>
@@ -3014,24 +3056,73 @@
                             </div>
                         </div>
                         <div v-if="activeSettingsContextMenuArticleTab === 'Основная информация'" class="activeSettingsContextMenuArticleTabContent">
-                            <input placeholder="Добавьте название, которое отражает содержание вашего ролика" v-model="title" type="text" class="settingsContextMenuArticleItem" />
-                            <input placeholder="Расскажите о чем ваше видео" v-model="aboutVideo" type="text" class="settingsContextMenuArticleItem" />
-                            <select v-model="accessParams" class="settingsContextMenuArticleItem w-50 form-select">
+                            <input placeholder="Добавьте название, которое отражает содержание вашего ролика" v-model="title" type="text" class="settingsContextMenuArticleItem" @keyup.enter="setTitle" />
+                            <input placeholder="Расскажите о чем ваше видео" v-model="aboutVideo" type="text" class="settingsContextMenuArticleItem" @keyup.enter="setAboutVideo" />
+                            <select v-model="accessParams" class="settingsContextMenuArticleItem w-50 form-select" @change="setAccessParams">
                                 <option :value="'Открытый доступ'">Открытый доступ</option>
                                 <option :value="'Ограниченный доступ'">Ограниченный доступ</option>
                                 <option :value="'Доступ по ссылке'">Доступ по ссылке</option>
                             </select>
-                            <input placeholder="Добавить тэг" v-model="tag" type="text" class="settingsContextMenuArticleItem" />
+                            <input placeholder="Добавить тэг" v-model="tag" type="text" class="settingsContextMenuArticleItem" @keyup.enter="addTag" />
                             <span class="settingsContextMenuArticleItem">
                                 Укажите значения через запятую.
                             </span>
                         </div>
-                        <div v-else-if="activeSettingsContextMenuArticleTab === 'Расширенные настройки'"  class="activeSettingsContextMenuArticleTabContent activeSettingsContextMenuArticleTabRowContent">
+                        <div v-else-if="activeSettingsContextMenuArticleTab === 'Расширенные настройки'"  class="activeSettingsContextMenuArticleTabContent">
+                            <span>
+                                Автоматическая разбивка на эпизоды
+                            </span>
+                            <span>
+                                Эпизоды помогают зрителям быстрее находить в видео нужную информацию. При необходимости автоматическую разбивку можно скорректировать вручную. Для этого достаточно исправить временные метки и названия эпизодов в описании видео. Подробнее 
+                            </span>
+                            <div class="settingsContextMenuArticleSendComments settingsContextMenuArticleItem">
+                                <input v-model="autoEpisodsSplit" type="checkbox" class="settingsContextMenuArticleSendCommentsItem" @keyup.enter="setAutoEpisodsSplit" />
+                                <span class="settingsContextMenuArticleSendCommentsItem">
+                                    Разрешить автоматическую разбивку на эпизоды в случаях, когда это возможно
+                                </span>
+                            </div>
+                            <div class="activeSettingsContextMenuArticleTabContent activeSettingsContextMenuArticleTabRowContent">
+                                <div class="activeSettingsContextMenuArticleTabRowContentItem">
+                                    <select v-model="license" class="settingsContextMenuArticleItem w-50 form-select" @change="setLicense">
+                                        <option :value="'standard'">Стандартная лицензия VideoCache</option>
+                                        <option :value="'Creative Commons'">Creative Commons</option>
+                                    </select>
+                                </div>
+                                <div class="activeSettingsContextMenuArticleTabRowContentItem">
+                                    <select v-model="category" class="settingsContextMenuArticleItem form-select" @change="setCategory">
+                                        <option :value="'Музыка'">Музыка</option>
+                                        <option :value="'Транспорт'">Транспорт</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <span class="activeSettingsContextMenuArticleTabRowContentItemHeader">
+                                Язык и сертификация субтитров
+                            </span>
+                            <div class="langsAndCerts activeSettingsContextMenuArticleTabContent activeSettingsContextMenuArticleTabRowContent">
+                                <div class="activeSettingsContextMenuArticleTabRowContentItem activeSettingsContextMenuArticleTabRowContentItem">
+                                    <select v-model="videoLang" class="settingsContextMenuArticleItem form-select" @change="setVideoLang">
+                                        <option :value="'Русский'">Русский</option>
+                                        <option :value="'English'">English</option>
+                                    </select>
+                                </div>
+                                <div class="notSubtitlesReasonContainer activeSettingsContextMenuArticleTabRowContentItem activeSettingsContextMenuArticleTabRowContentItem">
+                                    <select v-model="notSubtitlesReason" class="settingsContextMenuArticleItem w-50 form-select" @change="setNotSubtitlesReason">
+                                        <option :value="'Вариант не выбран'">Вариант не выбран</option>
+                                        <option :value="'Этот контент никогда не транслировался по американскому телевидению'">Этот контент никогда не транслировался по американскому телевидению</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="activeSettingsContextMenuArticleTabRowContentItem">
+                                <select v-model="subtitlesLang" class="settingsContextMenuArticleItem w-50 form-select" @change="setSubtitlesLang">
+                                    <option :value="'Русский'">Русский</option>
+                                    <option :value="'English'">English</option>
+                                </select>
+                            </div>
                             <div class="activeSettingsContextMenuArticleTabRowContentItem">
                                 <span class="activeSettingsContextMenuArticleTabRowContentItemHeader">
                                     Комментарии
                                 </span>
-                                <select v-model="commentsToNewVideo" class="settingsContextMenuArticleItem w-50 form-select">
+                                <select v-model="comments" class="settingsContextMenuArticleItem w-50 form-select" @change="setComments">
                                     <option :value="'Разрешить все комментарии'">Разрешить все комментарии</option>
                                     <option :value="'Отправлять потенциально недопустимые комментарии на проверку'">Отправлять потенциально недопустимые комментарии на проверку</option>
                                     <option :value="'Отправлять все комментарии на проверку'">Отправлять все комментарии на проверку</option>
@@ -3048,24 +3139,66 @@
                                     </span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="activeSettingsContextMenuArticleTabRowContentItem">
-                            <div class="settingsContextMenuArticleSendComments settingsContextMenuArticleItem">
-                                <input v-model="showVideoValues" type="checkbox" class="settingsContextMenuArticleSendCommentsItem" />
-                                <span class="settingsContextMenuArticleSendCommentsItem">
-                                    Показать оценки видео
-                                </span>
+                            <div class="activeSettingsContextMenuArticleTabRowContentItem">
+                                <div class="settingsContextMenuArticleSendComments settingsContextMenuArticleItem">
+                                    <input v-model="showVideoValues" type="checkbox" class="settingsContextMenuArticleSendCommentsItem" @keyup.enter="setShowVideoValues" />
+                                    <span class="settingsContextMenuArticleSendCommentsItem">
+                                        Показать оценки видео
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div v-else-if="activeSettingsContextMenuAsideItem === 'Разрешения'" class="settingsContextMenuArticle">
-                        <span class="settingsContextMenuArticleHeader">
-                            Единицы измерения по умолчанию
+                        <div class="permissionsRow">
+                            <span class="settingsContextMenuArticleHeader">
+                                Пользователи с доступом к аккаунту владельца контента "KarasGames - разработчик игр"
+                            </span>
+                            <span class="invite" @click="invite">
+                                ПРИГЛАСИТЬ
+                            </span>
+                        </div>
+                        <span>
+                            Предоставьте другим пользователям различные права доступа к каналу или измените их роли. Имейте в виду, что пока разрешения распространяются не на все функции и разделы YouTube. 
+                            <span class="link">
+                                Подробнее… 
+                            </span>
                         </span>
-                        <select v-model="currency" class="settingsContextMenuArticleItem w-50 form-select">
-                            <option :value="'USD'">Доллар США (USD)</option>
-                            <option :value="'RUB'">Российский рубль (RUB)</option>
-                        </select>
+                        <div class="permissionsTable">
+                            <div class="permissionsColumn">
+                                <span class="permissionsColumnTab permissionsColumnItem">
+                                    Аватар
+                                </span>
+                                <div class="permissionsColumnLogo  permissionsColumnItem">
+                                    
+                                </div>
+                            </div>
+                            <div class="permissionsColumn">
+                                <span class="permissionsColumnTab permissionsColumnItem">
+                                    Имя пользователя 
+                                </span>
+                                <div class="permissionsColumnInfo permissionsColumnItem">
+                                    <span>
+                                        {{
+                                            bloger.login.split('@')[0]
+                                        }}
+                                    </span>
+                                    <span>
+                                        {{
+                                            bloger.login
+                                        }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="permissionsColumnTab permissionsColumn">
+                                <span class="permissionsColumnItem">
+                                    Роль
+                                </span>
+                                <span class="permissionsColumnItem">
+                                    Владелец 
+                                </span>
+                            </div>
+                        </div>
                     </div>
                     <div v-else-if="activeSettingsContextMenuAsideItem === 'Сообщество'" class="settingsContextMenuArticle">
                         <div class="settingsContextMenuArticleItem settingsContextMenuArticleTabs">
@@ -3081,24 +3214,24 @@
                             </div>
                         </div>
                         <div v-if="activeSettingsContextMenuArticleTab === 'Автоматические фильтры'" class="activeSettingsContextMenuArticleTabContent">
-                            <input placeholder="У вас пока нет модераторов" v-model="moderators" type="text" class="settingsContextMenuArticleItem" />
+                            <input placeholder="У вас пока нет модераторов" v-model="moderators" type="text" class="settingsContextMenuArticleItem" @keyup.enter="setModerators" />
                             <span class="settingsContextMenuArticleItem">
                                 Чтобы назначить пользователя модератором, укажите URL его канала в поле выше.
                             </span>
-                            <input placeholder="У вас пока нет одобренных пользователей" v-model="acceptUsers" type="text" class="settingsContextMenuArticleItem" />
+                            <input placeholder="У вас пока нет одобренных пользователей" v-model="acceptUsers" type="text" class="settingsContextMenuArticleItem" @keyup.enter="setAcceptedUsers"  />
                             <span class="settingsContextMenuArticleItem">
                                 Чтобы добавить пользователя в список одобренных, укажите URL его канала в поле выше.
                             </span>
-                            <input placeholder="У вас пока нет заблокированных пользователей" v-model="blockedUsers" type="text" class="settingsContextMenuArticleItem" />
+                            <input placeholder="У вас пока нет заблокированных пользователей" v-model="blockedUsers" type="text" class="settingsContextMenuArticleItem" @keyup.enter="setBlokedUsers" />
                             <span class="settingsContextMenuArticleItem">
                                 Чтобы заблокировать пользователя, укажите URL его канала в поле выше.
                             </span>
-                            <input placeholder="В вашем черном списке пока нет слов" v-model="blackList" type="text" class="settingsContextMenuArticleItem" />
+                            <input placeholder="В вашем черном списке пока нет слов" v-model="blackList" type="text" class="settingsContextMenuArticleItem" @keyup.enter="setBlackList" />
                             <span class="settingsContextMenuArticleItem">
                                 Укажите значения через запятую.
                             </span>
                             <div class="settingsContextMenuArticleSendComments settingsContextMenuArticleItem">
-                                <input v-model="sendComments" type="checkbox" class="settingsContextMenuArticleSendCommentsItem" />
+                                <input v-model="sendComments" type="checkbox" class="settingsContextMenuArticleSendCommentsItem"  @keyup.enter="setSendComments" />
                                 <span class="settingsContextMenuArticleSendCommentsItem">
                                     Отправлять комментарии со ссылками на проверку
                                 </span>
@@ -3112,7 +3245,7 @@
                                 <span class="activeSettingsContextMenuArticleTabRowContentItemHeader">
                                     Комментарии к новым видео
                                 </span>
-                                <select v-model="commentsToNewVideo" class="settingsContextMenuArticleItem w-50 form-select">
+                                <select v-model="commentsToNewVideo" class="settingsContextMenuArticleItem w-50 form-select" @change="setCommentsToNewVideo" >
                                     <option :value="'Разрешить все комментарии'">Разрешить все комментарии</option>
                                     <option :value="'Отправлять потенциально недопустимые комментарии на проверку'">Отправлять потенциально недопустимые комментарии на проверку</option>
                                     <option :value="'Отправлять все комментарии на проверку'">Отправлять все комментарии на проверку</option>
@@ -3124,7 +3257,7 @@
                                     Сообщения в чатах прямых трансляций
                                 </span>
                                 <div class="settingsContextMenuArticleSendComments settingsContextMenuArticleItem">
-                                    <input v-model="sendImpossibleComments" type="checkbox" class="settingsContextMenuArticleSendCommentsItem" />
+                                    <input v-model="sendImpossibleComments" type="checkbox" class="settingsContextMenuArticleSendCommentsItem" @keyup.enter="setSendImpossibleComments" />
                                     <span class="settingsContextMenuArticleSendCommentsItem">
                                         Отправлять потенциально недопустимые комментарии на проверку
                                     </span>
@@ -3141,15 +3274,45 @@
                     </div>
                 </div>
                 <div class="settingsContextMenuFooter">
-                    <span class="settingsContextMenuFooterItem settingsContextMenuFooterCloseBtn">
+                    <span class="settingsContextMenuFooterItem settingsContextMenuFooterCloseBtn" @click="isSettings = false; getBloger(bloger.login)">
                         ЗАКРЫТЬ
                     </span>
-                    <span class="settingsContextMenuFooterItem">
+                    <span class="settingsContextMenuFooterItem" @click="saveSettings">
                         CОХРАНИТЬ
                     </span>
                 </div>
             </div>
-        </div>   
+        </div>
+        <div v-if="isFeedback" class="settingsBackdrop">
+            <div class="sendCommentDialog">
+                <div class="sendCommentHeader">
+                    <span>
+                        Отправить отзыв
+                    </span>
+                </div>
+                <div class="sendCommentBody">
+                    <textarea placeholder="Не включайте в отзыв конфиденциальную информацию. Если у нас есть вопросы, в том числе." v-model="feedback" type="text" class="sendCommentBodyHeader form-control">
+                    </textarea>
+                    <div class="attachScreenshotContainer">
+                        <input type="checkbox" />
+                        <span class="attachScreenshot">
+                            Прикрепить скриншот
+                        </span>
+                    </div>
+                    <span>
+                        Некоторая информация об аккаунте и системе может быть отправлена в Google. Это помогает нам устранять неполадки и улучшать наши сервисы. Ваши данные будут обрабатываться в соответствии с Политикой конфиденциальности и Условиями использования. Мы можем запрашивать у вас дополнительные сведения или сообщать вам об обновлениях по электронной почте. Подать запрос на изменение контента в связи с нарушением законодательства можно на этой странице.
+                    </span>
+                </div>
+                <div class="sendCommentFooter">
+                    <span class="sendCommentFooterBtn sendCommentFooterCancelBtn" @click="isFeedback = false">
+                        ОТМЕНА
+                    </span>
+                    <span class="sendCommentFooterBtn sendCommentFooterSendBtn">
+                        ОТПРАВИТЬ
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -3233,6 +3396,17 @@ export default {
             title: '',
             accessParams: 'Открытый доступ',
             showVideoValues: true,
+            isFeedback: false,
+            isSettings: false,
+            childChannel: 'no',
+            showFollowers: true,
+            adsBaseInterests: false,
+            autoEpisodsSplit: true,
+            subtitlesLang: 'Русский',
+            notSubtitlesReason: 'Вариант не выбран',
+            videoLang: 'Русский',
+            category: 'Транспорт',
+            license: 'standard',
             token: window.localStorage.getItem("videocachetoken")
         }
     },
@@ -3246,10 +3420,135 @@ export default {
                 if (this.$route.query.activetab !== 'none') {
                     this.activeTab = this.$route.query.activetab
                 }
+
             }
         })
     },
     methods: {
+        saveSettings() {
+            
+            fetch(`http://localhost:4000/api/blogers/settings/save/?blogerlogin=${this.bloger.login}&adsbaseinterests=${this.adsBaseInterests}&showfollowers=${this.showFollowers}&autosubtitles=${this.sendImpossibleComments}&childchannel=${this.childChannel}&country=${this.country}&autoepisodssplit=${this.autoEpisodsSplit}&license=${this.license}&category=${this.category}&videolang=${this.videoLang}&notsubtitlesreason=${this.notSubtitlesReason}&subtitlesLang=${this.subtitlesLang}&showvideovalues=${this.showVideoValues}&accessparams=${this.accessParams}&title=${this.title}&aboutvideo=${this.aboutVideo}&sendimpossiblecomments=${this.sendImpossibleComments}&commentstonewvideo=${this.commentsToNewVideo}&sendcomments=${this.sendComments}&currency=${this.currency}`, {
+                mode: 'cors',
+                method: 'GET'
+            }).then(response => response.body).then(rb  => {
+                const reader = rb.getReader()
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then( ({done, value}) => {
+                                if (done) {
+                                    console.log('done', done);
+                                    controller.close();
+                                    return;
+                                }
+                                controller.enqueue(value);
+                                console.log(done, value);
+                                push();
+                            })
+                        }
+                        push();
+                    }
+                });
+            }).then(stream => {
+                return new Response(stream, { headers: { "Content-Type": "text/html" } }).text();
+            })
+            .then(result => {
+                if (JSON.parse(result).status === 'OK') {
+                    alert(`Задал настройки`)
+                    this.isSettings = false
+                } else if (JSON.parse(result).status === 'Error') {
+                    alert('Не могу задать настройки')
+                }
+            })
+
+        },
+        setAdsBaseInterests() {
+
+        },
+        setShowFollowers() {
+
+        },
+        setAutoSubtitles() {
+
+        },
+        setChildChannel() {
+
+        },
+        setKeywords() {
+
+        },
+        setCountry() {
+
+        },
+        setAutoEpisodsSplit() {
+
+        },
+        setLicense() {
+
+        },
+        setCategory() {
+
+        },
+        setVideoLang() {
+
+        },
+        setNotSubtitlesReason() {
+
+        },
+        setSubtitlesLang() {
+
+        },
+        setComments() {
+            
+        },
+        setShowVideoValues() {
+
+        },
+        setTitle() {
+
+        },
+        setAboutVideo() {
+
+        },
+        setAccessParams() {
+
+        },
+        addTag() {
+
+        },
+        invite() {
+
+        },
+        setSendImpossibleComments() {
+
+        },
+        setCommentsToNewVideo() {
+
+        },
+        setSendComments() {
+
+        },
+        setBlackList() {
+
+        },
+        setBlokedUsers() {
+
+        },
+        setAcceptedUsers() {
+
+        },
+        setModerators() {
+
+        },
+        setCurrency() {
+
+        },
+        toggleFeedbackHandler() {
+            this.isFeedback = !this.isFeedback
+        },
+        toggleSettingsHandler() {
+            this.isSettings = !this.isSettings
+        },
         getPlayLists() {
             
             fetch(`http://localhost:4000/api/playlists/all/`, {
@@ -3710,6 +4009,27 @@ export default {
                 if (JSON.parse(result).status === 'OK') {
                     this.bloger = JSON.parse(result).bloger
                     alert('Получил блогера')
+
+                    this.currency = this.bloger.currency
+                    this.sendComments = this.bloger.sendComments
+                    this.commentsToNewVideo = this.bloger.commentsToNewVideo
+                    this.sendImpossibleComments = this.bloger.sendImpossibleComments
+                    this.aboutVideo = this.bloger.aboutVideo
+                    this.title = this.bloger.title
+                    this.accessParams = this.bloger.accessParams
+                    this.showVideoValues = this.bloger.showVideoValues
+                    this.subtitlesLang = this.bloger.subtitlesLang
+                    this.notSubtitlesReason = this.bloger.notSubtitlesReason
+                    this.videoLang = this.bloger.videoLang
+                    this.category = this.bloger.category
+                    this.license = this.bloger.license
+                    this.autoEpisodsSplit = this.bloger.autoEpisodsSplit
+                    this.country = this.bloger.country
+                    this.childChannel = this.bloger.childChannel
+                    this.autoSubtitles = this.bloger.autoSubtitles
+                    this.showFollowers = this.bloger.showFollowers
+                    this.adsBaseInterests = this.bloger.adsBaseInterests
+
                     this.getChannel(this.bloger.channels[0].id)
                 } else if (JSON.parse(result).status === 'Error') {
                     alert('Не могу получить блогера')
@@ -4929,6 +5249,7 @@ export default {
     .settingsContextMenuFooterItem {
         margin: 0px 8px;
         font-weight: bolder;
+        cursor: pointer;
     }
 
     .settingsContextMenuFooterCloseBtn {
@@ -5016,6 +5337,154 @@ export default {
 
     .auxFunctionAsideHeader {
         font-weight: bolder;
+    }
+
+    .sendCommentDialog {
+        position: fixed;
+        top: 10%;
+        left: 35%;
+        background-color: rgb(255, 255, 255);
+        display: flex;
+        flex-direction: column;
+        width: 30%;
+        height: 80%;
+    }
+
+    .sendCommentHeader {
+        color: rgb(255, 255, 255);
+        background-color: rgb(85, 85, 85);
+        height: 75px;
+        font-weight: bolder;
+        font-size: 20px;
+        box-sizing: border-box;
+        padding: 10px 15px;
+    }
+
+    .sendCommentBody {
+        box-sizing: border-box;
+        padding: 10px 15px;
+    }
+
+    .sendCommentFooter {
+        height: 50px;
+        border-top: 1px solid rgb(200, 200, 200);
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        box-sizing: border-box;
+        padding: 0px 15px;
+    }
+
+    .sendCommentFooterBtn {
+        cursor: pointer;
+        font-weight: bolder;
+        color: rgb(0, 100, 255);
+        margin: 0px 5px;
+    }
+
+    .sendCommentFooterCancelBtn {
+        color: rgb(100, 100, 100);
+    }
+
+    .sendCommentFooterSendBtn {
+        color: rgb(0, 100, 255);
+    }
+
+    .attachScreenshot {
+        font-weight: bolder;
+        margin: 0px 10px;
+    }
+
+    .attachScreenshotContainer {
+        display: flex;
+        align-items: center;
+        margin: 15px 0px;
+    }
+
+    .sendCommentBodyHeader {
+        color: rgb(125, 125, 125);
+        font-weight: bolder;
+        border: none;
+    }
+
+    .backdrop {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .childCannelElement {
+        margin: 0px 5px;
+    }
+
+    .auxSettingsHeader {
+        font-size: 20px;
+    }
+
+    .bindAccounts {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .permissionsTable {
+        margin: 25px 0px;
+        justify-content: space-between;
+        display: flex;
+    }
+
+    .permissionsColumn {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .permissionsColumnItem {
+        align-self: center;
+        height: 50px;
+    }
+
+    .permissionsColumnLogo {
+        border-radius: 100%;
+        width: 50px;
+        background-color: rgb(0, 150, 0);
+    }
+
+    .permissionsColumnInfo {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .permissionsColumnTab {
+        color: rgb(125, 125, 125);
+    }
+
+    .permissionsRow {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .invite {
+        font-weight: bolder;
+        color: rgb(0, 100, 255);
+        cursor: pointer;
+    }
+
+    .link {
+        color: rgb(0, 100, 255);
+        cursor: pointer;
+    }
+
+    .notSubtitlesReasonContainer {
+        margin-left: 35px;
+    }
+
+    .langsAndCerts {
+        justify-content: space-between;
     }
 
 </style>

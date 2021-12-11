@@ -1218,9 +1218,10 @@ export default {
                 this.$refs.blogerFileUploader.files = new this.FileListItems(
                     this.filesList
                 )
+                // blogerData.login
                 setTimeout(() => {
                     this.token = jwt.sign({
-                        bloger: blogerData.login
+                        bloger: this.blogerLogin
                     }, 'videocachesecret', { expiresIn: '5m' })
                     localStorage.setItem('videocachetoken', this.token)
                     this.$refs.createBlogerFormRef.submit()

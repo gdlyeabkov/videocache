@@ -154,7 +154,7 @@
                 Настройки
             </span>
         </div>
-        <div class="asideItem" @click="isFeedback = !isFeedback">
+        <div class="asideItem" @click="toggleFeedback">
             <span class="material-icons-outlined asideElement">
                 announcement
             </span>
@@ -207,13 +207,6 @@
                 Библиотека
             </span>
         </div>
-        <div v-if="true" class="settingsBackdrop">
-            <div class="settingsContextMenu">
-                <span>
-                    &nbsp;
-                </span>
-            </div>
-        </div>
     </div>
 </template>
 
@@ -222,8 +215,7 @@ export default {
     name: 'Aside',
     data() {
         return {
-            isFeedback: false,
-            isSettings: false
+            
         }
     },
     props: {
@@ -237,12 +229,16 @@ export default {
         }
     },
     emits: [
-        'changeActiveTab'
+        'changeActiveTab',
+        'toggleSettings',
+        'toggleFeedback'
     ],
     methods: {
+        toggleFeedback() {
+            this.$emit('toggleFeedback')
+        },
         toggleSettings() {
-            this.isSettings = !this.isSettings
-            alert(`this.isSettings: ${this.isSettings}`)
+            this.$emit('toggleSettings')
         },
         changeActiveTab(tab) {
             this.$emit('changeActiveTab', tab)

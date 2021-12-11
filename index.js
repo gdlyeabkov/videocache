@@ -173,7 +173,96 @@ const BlogerSchema = new mongoose.Schema({
   theme: {
     type: String,
     default: 'Light'
-  }
+  },
+  adsBaseInterests: {
+    type: Boolean,
+    default: true
+  },
+  showFollowers: {
+    type: Boolean,
+    default: true
+  },
+  autoSubtitles: {
+    type: Boolean,
+    default: false
+  },
+  childChannel: {
+    type: String,
+    default: 'no'
+  },
+  tags: {
+    type: String,
+    default: ''
+  },
+  country: {
+    type: String,
+    default: 'Россия'
+  },
+  autoEpisodsSplit: {
+    type: Boolean,
+    default: true
+  },
+  license: {
+    type: String,
+    default: 'standard'
+  },
+  category: {
+    type: String,
+    default: ''
+  },
+  videoLang: {
+    type: String,
+    default: 'Русский'
+  },
+  notSubtitlesReason: {
+    type: String,
+    default: 'Вариант не выбран'
+  },
+  subtitlesLang: {
+    type: String,
+    default: 'Русский'
+  },
+  comments: {
+    type: String,
+    default: ''
+  },
+  showVideoValues: {
+    type: Boolean,
+    default: true
+  },
+  accessParams: {
+    type: String,
+    default: 'Открытый доступ'
+  },
+  title: {
+    type: String,
+    default: ''
+  },
+  aboutVideo: {
+    type: String,
+    default: ''
+  },
+  tags: [mongoose.Schema.Types.Map],
+  sendImpossibleComments: {
+    type: Boolean,
+    default: false
+  },
+  commentsToNewVideo: {
+    type: String,
+    default: 'Отправлять потенциально недопустимые комментарии на проверку'
+  },
+  sendComments: {
+    type: Boolean,
+    default: false
+  },
+  blackList: [mongoose.Schema.Types.Map],
+  blokedUsers: [mongoose.Schema.Types.Map],
+  acceptedUsers: [mongoose.Schema.Types.Map],
+  moderators: [mongoose.Schema.Types.Map],
+  currency: {
+    type: String,
+    default: 'RUB'
+  },
 }, { collection : 'myblogers' })
 
 const BlogerModel = mongoose.model('BlogerModel', BlogerSchema)
@@ -1680,6 +1769,49 @@ app.get('/api/playlists/all', (req, res) => {
     }
   })
   
+})
+
+app.get('/api/blogers/settings/save', (req, res) => {
+  
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Access-Token, X-Socket-ID, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+  
+  let query =  BlogerModel.findOne({ 'login': req.query.blogerlogin }, function(err, bloger) {
+    if (err) {
+      return res.json({ "status": "Error" })
+    } else {
+      BlogerModel.updateOne({ 'login': req.query.blogerlogin },
+      {
+        adsBaseInterests: req.query.adsbaseinterests,
+        showFollowers: req.query.showfollowers,
+        autoSubtitles: req.query.autosubtitles,
+        childChannel: req.query.childchannel,
+        country: req.query.country,
+        autoEpisodsSplit: req.query.autoepisodssplit,
+        license: req.query.license,
+        category: req.query.category,
+        videoLang: req.query.videolang,
+        notSubtitlesReason: req.query.notsubtitlesreason,
+        subtitlesLang: req.query.subtitleslang,
+        showVideoValues: req.query.showvideovalues,
+        accessParams: req.query.accessparams,
+        title: req.query.title,
+        aboutVideo: req.query.aboutvideo,
+        sendImpossibleComments: req.query.sendimpossiblecomments,
+        commentsToNewVideo: req.query.commentstonewvideo,
+        sendComments: req.query.comments,
+        currency: req.query.currency
+      }, (err, bloger) => {
+        if (err) {
+          return res.json({ status: 'Error' })        
+        }
+        return res.json({ status: 'OK' })
+      })
+    }
+  })
+
 })
 
 app.get('**', (req, res) => { 
