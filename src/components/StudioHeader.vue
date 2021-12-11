@@ -13,7 +13,7 @@
                     search
                 </span>
             </div>
-            <button class="micBtn headerElement btn btn-light material-icons">
+            <button class="micBtn headerElement btn btn-light material-icons" @click="toggleRecording">
                 mic
             </button>
         </div>
@@ -269,6 +269,7 @@
 <script>
 
 import * as jwt from 'jsonwebtoken'
+import STT from 'stt.js'
 
 export default {
     name: 'Header',
@@ -292,6 +293,9 @@ export default {
             channel: {
                 _id: 1
             },
+            stt: null,
+            isMicro: false,
+            intermmediateResult: '',
             token: window.localStorage.getItem("videocachetoken")
         }
     },
@@ -317,10 +321,37 @@ export default {
                         this.isCreateVideoDialog = true
                     }
                 }
+                this.stt = new STT({
+                    continuous: false,
+                    interimResults: true
+                })
+                this.stt.on('start', () => {
+                    
+                })
+                this.stt.on('end', () => {
+                    // this.keywords = this.intermmediateResult
+                    // this.isMicro = false
+                })
+                this.stt.on('result', ({ finalTranscript, interimTranscript }) => {
+                    this.intermeddiateResult = finalTranscript
+                    this.keywords = finalTranscript
+                    // this.isMicro = false
+                })
+                this.stt.on('error', (error) => {
+                    console.log('error :>> ', error);
+                })
             }
         })
     },
     methods: {
+        toggleRecording() {
+            this.isMicro = !this.isMicro
+            if (this.isMicro) {
+                this.stt.start()
+            } else if (!this.isMicro) {
+                this.stt.end()
+            }
+        },
         getChannel(channelId) {
             fetch(`http://localhost:4000/api/channels/get/?channelid=${channelId}`, {
                 mode: 'cors',

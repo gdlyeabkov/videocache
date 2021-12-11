@@ -13,7 +13,7 @@
                     search
                 </span>
             </div>
-            <button class="micBtn headerElement btn btn-light material-icons">
+            <button class="micBtn headerElement btn btn-light material-icons" @click="toggleRecording">
                 mic
             </button>
         </div>
@@ -1110,6 +1110,7 @@
 <script>
 
 import * as jwt from 'jsonwebtoken'
+import STT from 'stt.js'
 
 export default {
     name: 'Header',
@@ -1142,6 +1143,9 @@ export default {
             createContextMenu: false,
             appsContextMenu: false,
             notificationsContextMenu: false,
+            stt: null,
+            isMicro: false,
+            intermmediateResult: '',
             token: window.localStorage.getItem("videocachetoken")
         }
     },
@@ -1164,8 +1168,35 @@ export default {
                 this.getBloger(decoded.bloger)
             }
         })
+        this.stt = new STT({
+            continuous: false,
+            interimResults: true
+        })
+        this.stt.on('start', () => {
+            
+        })
+        this.stt.on('end', () => {
+            // this.keywords = this.intermmediateResult
+            // this.isMicro = false
+        })
+        this.stt.on('result', ({ finalTranscript, interimTranscript }) => {
+            this.intermeddiateResult = finalTranscript
+            this.keywords = finalTranscript
+            // this.isMicro = false
+        })
+        this.stt.on('error', (error) => {
+            console.log('error :>> ', error);
+        })
     },
     methods: {
+        toggleRecording() {
+            this.isMicro = !this.isMicro
+            if (this.isMicro) {
+                this.stt.start()
+            } else if (!this.isMicro) {
+                this.stt.end()
+            }
+        },
         createBlogerDrivenPost() {
             window.showOpenFilePicker({     
                 types: [

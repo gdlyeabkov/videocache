@@ -2842,6 +2842,314 @@
                 </div>
             </div>
         </div>
+        <div v-if="true" class="settingsBackdrop">
+            <div class="settingsContextMenu">
+                <div class="settingsContextMenuHeader">
+                    <span>
+                        Настройки
+                    </span>
+                </div>
+                <div class="settingsContextMenuBody">
+                    <div class="settingsContextMenuAside">
+                        <div :class="{ settingsContextMenuAsideItem: true, activeSettingsContextMenuAsideItem: activeSettingsContextMenuAsideItem === 'Общие' }" @click="activeSettingsContextMenuAsideItem = 'Общие'">
+                            <span>
+                                Общие
+                            </span>
+                        </div>
+                        <div :class="{ settingsContextMenuAsideItem: true, activeSettingsContextMenuAsideItem: activeSettingsContextMenuAsideItem === 'Канал' }" @click="activeSettingsContextMenuAsideItem = 'Канал'; activeSettingsContextMenuArticleTab = 'Основная информация'">
+                            <span>
+                                Канал
+                            </span>
+                        </div>
+                        <div :class="{ settingsContextMenuAsideItem: true, activeSettingsContextMenuAsideItem: activeSettingsContextMenuAsideItem === 'Загрузка видео' }" @click="activeSettingsContextMenuAsideItem = 'Загрузка видео'; activeSettingsContextMenuArticleTab = 'Основная информация'">
+                            <span>
+                                Загрузка видео
+                            </span>
+                        </div>
+                        <div :class="{ settingsContextMenuAsideItem: true, activeSettingsContextMenuAsideItem: activeSettingsContextMenuAsideItem === 'Разрешения' }" @click="activeSettingsContextMenuAsideItem = 'Разрешения'">
+                            <span>
+                                Разрешения
+                            </span>
+                        </div>
+                        <div :class="{ settingsContextMenuAsideItem: true, activeSettingsContextMenuAsideItem: activeSettingsContextMenuAsideItem === 'Сообщество' }" @click="activeSettingsContextMenuAsideItem = 'Сообщество'; activeSettingsContextMenuArticleTab = 'Автоматические фильтры'">
+                            <span>
+                                Сообщество
+                            </span>
+                        </div>
+                        <div :class="{ settingsContextMenuAsideItem: true, activeSettingsContextMenuAsideItem: activeSettingsContextMenuAsideItem === 'Соглашения' }" @click="activeSettingsContextMenuAsideItem = 'Соглашения'">
+                            <span>
+                                Соглашения
+                            </span>
+                        </div>
+                    </div>
+                    <div v-if="activeSettingsContextMenuAsideItem === 'Общие'" class="settingsContextMenuArticle">
+                        <span class="settingsContextMenuArticleHeader">
+                            Единицы измерения по умолчанию
+                        </span>
+                        <select v-model="currency" class="settingsContextMenuArticleItem w-50 form-select">
+                            <option :value="'USD'">Доллар США (USD)</option>
+                            <option :value="'RUB'">Российский рубль (RUB)</option>
+                        </select>
+                    </div>
+                    <div v-else-if="activeSettingsContextMenuAsideItem === 'Канал'" class="settingsContextMenuArticle">
+                        <div class="settingsContextMenuArticleItem settingsContextMenuArticleTabs">
+                            <div :class="{ settingsContextMenuArticleTab: true, activeSettingsContextMenuArticleTab: activeSettingsContextMenuArticleTab === 'Основная информация' }" @click="activeSettingsContextMenuArticleTab = 'Основная информация'">
+                                <span>
+                                    Основная информация
+                                </span>
+                            </div>
+                            <div :class="{ settingsContextMenuArticleTab: true, activeSettingsContextMenuArticleTab: activeSettingsContextMenuArticleTab === 'Расширенные настройки' }" @click="activeSettingsContextMenuArticleTab = 'Расширенные настройки'">
+                                <span>
+                                    Расширенные настройки
+                                </span>
+                            </div>
+                            <div :class="{ settingsContextMenuArticleTab: true, activeSettingsContextMenuArticleTab: activeSettingsContextMenuArticleTab === 'Доступность функций' }" @click="activeSettingsContextMenuArticleTab = 'Доступность функций'">
+                                <span>
+                                    Доступность функций
+                                </span>
+                            </div>
+                        </div>
+                        <div v-if="activeSettingsContextMenuArticleTab === 'Основная информация'" class="activeSettingsContextMenuArticleTabContent">
+                            <select v-model="country" class="settingsContextMenuArticleItem w-50 form-select">
+                                <option :value="'Россия'">Россия</option>
+                                <option :value="'USA'">USA</option>
+                            </select>
+                            <span class="settingsContextMenuArticleItem">
+                                Выберите страну, где вы сейчас проживаете. Подробнее…
+                            </span>
+                            <input placeholder="Ключевые слова" v-model="tags" type="text" class="settingsContextMenuArticleItem" />
+                            <span class="settingsContextMenuArticleItem">
+                                Укажите значения через запятую.
+                            </span>
+                        </div>
+                        <div v-else-if="activeSettingsContextMenuArticleTab === 'Расширенные настройки'"  class="activeSettingsContextMenuArticleTabContent activeSettingsContextMenuArticleTabRowContent">
+                            <div class="activeSettingsContextMenuArticleTabRowContentItem">
+                                <span class="activeSettingsContextMenuArticleTabRowContentItemHeader">
+                                    Комментарии к новым видео
+                                </span>
+                                <select v-model="commentsToNewVideo" class="settingsContextMenuArticleItem w-50 form-select">
+                                    <option :value="'Разрешить все комментарии'">Разрешить все комментарии</option>
+                                    <option :value="'Отправлять потенциально недопустимые комментарии на проверку'">Отправлять потенциально недопустимые комментарии на проверку</option>
+                                    <option :value="'Отправлять все комментарии на проверку'">Отправлять все комментарии на проверку</option>
+                                    <option :value="'Отключить комментарии'">Отключить комментарии</option>
+                                </select>
+                            </div>
+                            <div class="activeSettingsContextMenuArticleTabRowContentItem">
+                                <span class="activeSettingsContextMenuArticleTabRowContentItemHeader">
+                                    Сообщения в чатах прямых трансляций
+                                </span>
+                                <div class="settingsContextMenuArticleSendComments settingsContextMenuArticleItem">
+                                    <input v-model="sendImpossibleComments" type="checkbox" class="settingsContextMenuArticleSendCommentsItem" />
+                                    <span class="settingsContextMenuArticleSendCommentsItem">
+                                        Отправлять потенциально недопустимые комментарии на проверку
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-else-if="activeSettingsContextMenuArticleTab === 'Доступность функций'"  class="activeSettingsContextMenuArticleTabContent">
+                            <span>
+                                На этой вкладке приведены условия, которые нужно выполнить, чтобы получить доступ к определенным функциям.
+                            </span>
+                            <div class="auxFunction">
+                                <div class="auxFunctionAside">
+                                    <span class="auxFunctionAsideHeader">
+                                        Функции, доступные по умолчанию
+                                    </span>
+                                    <span>
+                                        Загрузка видео, создание плейлистов и управление ими (добавление роликов и приглашение соавторов)
+                                    </span>
+                                </div>
+                                <span>
+                                    Включены 
+                                </span>
+                                <span class="material-icons">
+                                    expand_more
+                                </span>
+                            </div>
+                            <div class="auxFunction">
+                                <div class="auxFunctionAside">
+                                    <span class="auxFunctionAsideHeader">
+                                        Функции, доступные по умолчанию
+                                    </span>
+                                    <span>
+                                        Загрузка видео, создание плейлистов и управление ими (добавление роликов и приглашение соавторов)
+                                    </span>
+                                </div>
+                                <span>
+                                    Включены 
+                                </span>
+                                <span class="material-icons">
+                                    expand_more
+                                </span>
+                            </div>
+                            <div class="auxFunction">
+                                <div class="auxFunctionAside">
+                                    <span class="auxFunctionAsideHeader">
+                                        Функции, доступные по умолчанию
+                                    </span>
+                                    <span>
+                                        Загрузка видео, создание плейлистов и управление ими (добавление роликов и приглашение соавторов)
+                                    </span>
+                                </div>
+                                <span>
+                                    Включены 
+                                </span>
+                                <span class="material-icons">
+                                    expand_more
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="activeSettingsContextMenuAsideItem === 'Загрузка видео'" class="settingsContextMenuArticle">
+                        <div class="settingsContextMenuArticleItem settingsContextMenuArticleTabs">
+                            <div :class="{ settingsContextMenuArticleTab: true, activeSettingsContextMenuArticleTab: activeSettingsContextMenuArticleTab === 'Основная информация' }" @click="activeSettingsContextMenuArticleTab = 'Основная информация'">
+                                <span>
+                                    Основная информация
+                                </span>
+                            </div>
+                            <div :class="{ settingsContextMenuArticleTab: true, activeSettingsContextMenuArticleTab: activeSettingsContextMenuArticleTab === 'Расширенные настройки' }" @click="activeSettingsContextMenuArticleTab = 'Расширенные настройки'">
+                                <span>
+                                    Расширенные настройки
+                                </span>
+                            </div>
+                        </div>
+                        <div v-if="activeSettingsContextMenuArticleTab === 'Основная информация'" class="activeSettingsContextMenuArticleTabContent">
+                            <input placeholder="Добавьте название, которое отражает содержание вашего ролика" v-model="title" type="text" class="settingsContextMenuArticleItem" />
+                            <input placeholder="Расскажите о чем ваше видео" v-model="aboutVideo" type="text" class="settingsContextMenuArticleItem" />
+                            <select v-model="accessParams" class="settingsContextMenuArticleItem w-50 form-select">
+                                <option :value="'Открытый доступ'">Открытый доступ</option>
+                                <option :value="'Ограниченный доступ'">Ограниченный доступ</option>
+                                <option :value="'Доступ по ссылке'">Доступ по ссылке</option>
+                            </select>
+                            <input placeholder="Добавить тэг" v-model="tag" type="text" class="settingsContextMenuArticleItem" />
+                            <span class="settingsContextMenuArticleItem">
+                                Укажите значения через запятую.
+                            </span>
+                        </div>
+                        <div v-else-if="activeSettingsContextMenuArticleTab === 'Расширенные настройки'"  class="activeSettingsContextMenuArticleTabContent activeSettingsContextMenuArticleTabRowContent">
+                            <div class="activeSettingsContextMenuArticleTabRowContentItem">
+                                <span class="activeSettingsContextMenuArticleTabRowContentItemHeader">
+                                    Комментарии
+                                </span>
+                                <select v-model="commentsToNewVideo" class="settingsContextMenuArticleItem w-50 form-select">
+                                    <option :value="'Разрешить все комментарии'">Разрешить все комментарии</option>
+                                    <option :value="'Отправлять потенциально недопустимые комментарии на проверку'">Отправлять потенциально недопустимые комментарии на проверку</option>
+                                    <option :value="'Отправлять все комментарии на проверку'">Отправлять все комментарии на проверку</option>
+                                    <option :value="'Отключить комментарии'">Отключить комментарии</option>
+                                </select>
+                            </div>
+                            <div class="activeSettingsContextMenuArticleTabRowContentItem">
+                                <span class="activeSettingsContextMenuArticleTabRowContentItemHeader">
+                                    
+                                </span>
+                                <div class="settingsContextMenuArticleSendComments settingsContextMenuArticleItem">
+                                    <span class="settingsContextMenuArticleSendCommentsItem">
+                                        
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="activeSettingsContextMenuArticleTabRowContentItem">
+                            <div class="settingsContextMenuArticleSendComments settingsContextMenuArticleItem">
+                                <input v-model="showVideoValues" type="checkbox" class="settingsContextMenuArticleSendCommentsItem" />
+                                <span class="settingsContextMenuArticleSendCommentsItem">
+                                    Показать оценки видео
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="activeSettingsContextMenuAsideItem === 'Разрешения'" class="settingsContextMenuArticle">
+                        <span class="settingsContextMenuArticleHeader">
+                            Единицы измерения по умолчанию
+                        </span>
+                        <select v-model="currency" class="settingsContextMenuArticleItem w-50 form-select">
+                            <option :value="'USD'">Доллар США (USD)</option>
+                            <option :value="'RUB'">Российский рубль (RUB)</option>
+                        </select>
+                    </div>
+                    <div v-else-if="activeSettingsContextMenuAsideItem === 'Сообщество'" class="settingsContextMenuArticle">
+                        <div class="settingsContextMenuArticleItem settingsContextMenuArticleTabs">
+                            <div :class="{ settingsContextMenuArticleTab: true, activeSettingsContextMenuArticleTab: activeSettingsContextMenuArticleTab === 'Автоматические фильтры' }" @click="activeSettingsContextMenuArticleTab = 'Автоматические фильтры'">
+                                <span>
+                                    Автоматические фильтры
+                                </span>
+                            </div>
+                            <div :class="{ settingsContextMenuArticleTab: true, activeSettingsContextMenuArticleTab: activeSettingsContextMenuArticleTab === 'Настройки по умолчанию' }" @click="activeSettingsContextMenuArticleTab = 'Настройки по умолчанию'">
+                                <span>
+                                    Настройки по умолчанию
+                                </span>
+                            </div>
+                        </div>
+                        <div v-if="activeSettingsContextMenuArticleTab === 'Автоматические фильтры'" class="activeSettingsContextMenuArticleTabContent">
+                            <input placeholder="У вас пока нет модераторов" v-model="moderators" type="text" class="settingsContextMenuArticleItem" />
+                            <span class="settingsContextMenuArticleItem">
+                                Чтобы назначить пользователя модератором, укажите URL его канала в поле выше.
+                            </span>
+                            <input placeholder="У вас пока нет одобренных пользователей" v-model="acceptUsers" type="text" class="settingsContextMenuArticleItem" />
+                            <span class="settingsContextMenuArticleItem">
+                                Чтобы добавить пользователя в список одобренных, укажите URL его канала в поле выше.
+                            </span>
+                            <input placeholder="У вас пока нет заблокированных пользователей" v-model="blockedUsers" type="text" class="settingsContextMenuArticleItem" />
+                            <span class="settingsContextMenuArticleItem">
+                                Чтобы заблокировать пользователя, укажите URL его канала в поле выше.
+                            </span>
+                            <input placeholder="В вашем черном списке пока нет слов" v-model="blackList" type="text" class="settingsContextMenuArticleItem" />
+                            <span class="settingsContextMenuArticleItem">
+                                Укажите значения через запятую.
+                            </span>
+                            <div class="settingsContextMenuArticleSendComments settingsContextMenuArticleItem">
+                                <input v-model="sendComments" type="checkbox" class="settingsContextMenuArticleSendCommentsItem" />
+                                <span class="settingsContextMenuArticleSendCommentsItem">
+                                    Отправлять комментарии со ссылками на проверку
+                                </span>
+                            </div>
+                            <span>
+                                Сейчас сообщения в чате, содержащие URL, автоматически блокируются. Если вы установите флажок выше, все комментарии с URL и хештегами будут отправляться на проверку. Это ограничение не будет распространяться на комментарии, которые написали вы, модераторы или одобренные пользователи.
+                            </span>
+                        </div>
+                        <div v-else-if="activeSettingsContextMenuArticleTab === 'Настройки по умолчанию'"  class="activeSettingsContextMenuArticleTabContent activeSettingsContextMenuArticleTabRowContent">
+                            <div class="activeSettingsContextMenuArticleTabRowContentItem">
+                                <span class="activeSettingsContextMenuArticleTabRowContentItemHeader">
+                                    Комментарии к новым видео
+                                </span>
+                                <select v-model="commentsToNewVideo" class="settingsContextMenuArticleItem w-50 form-select">
+                                    <option :value="'Разрешить все комментарии'">Разрешить все комментарии</option>
+                                    <option :value="'Отправлять потенциально недопустимые комментарии на проверку'">Отправлять потенциально недопустимые комментарии на проверку</option>
+                                    <option :value="'Отправлять все комментарии на проверку'">Отправлять все комментарии на проверку</option>
+                                    <option :value="'Отключить комментарии'">Отключить комментарии</option>
+                                </select>
+                            </div>
+                            <div class="activeSettingsContextMenuArticleTabRowContentItem">
+                                <span class="activeSettingsContextMenuArticleTabRowContentItemHeader">
+                                    Сообщения в чатах прямых трансляций
+                                </span>
+                                <div class="settingsContextMenuArticleSendComments settingsContextMenuArticleItem">
+                                    <input v-model="sendImpossibleComments" type="checkbox" class="settingsContextMenuArticleSendCommentsItem" />
+                                    <span class="settingsContextMenuArticleSendCommentsItem">
+                                        Отправлять потенциально недопустимые комментарии на проверку
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else-if="activeSettingsContextMenuAsideItem === 'Соглашения'" class="settingsContextMenuArticle">
+                        <div class="settingsContextMenuArticleCommunity">
+                            <span>
+                                Пользование сервисом регулируется Условиями использования YouTube. Подробнее… 
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="settingsContextMenuFooter">
+                    <span class="settingsContextMenuFooterItem settingsContextMenuFooterCloseBtn">
+                        ЗАКРЫТЬ
+                    </span>
+                    <span class="settingsContextMenuFooterItem">
+                        CОХРАНИТЬ
+                    </span>
+                </div>
+            </div>
+        </div>   
     </div>
 </template>
 
@@ -2909,6 +3217,22 @@ export default {
             totalViewsFromPeriod: 0,
             playlists: [],
             activeAnalyticsScopeChartTab: 'Views',
+            activeSettingsContextMenuAsideItem: 'Общие',
+            currency: 'RUB',
+            activeSettingsContextMenuArticleTab: 'Автоматические фильтры',
+            moderators: [],
+            acceptUsers: [],
+            blockedUsers: [],
+            blackList: [],
+            sendComments: false,
+            commentsToNewVideo: 'Отправлять потенциально недопустимые комментарии на проверку',
+            sendImpossibleComments: false,
+            country: 'Россия',
+            tags: [],
+            aboutVideo: '',
+            title: '',
+            accessParams: 'Открытый доступ',
+            showVideoValues: true,
             token: window.localStorage.getItem("videocachetoken")
         }
     },
@@ -4518,6 +4842,180 @@ export default {
     .activeAnalyticsScopeChartTab {
         background-color: rgb(255, 255, 255);
         border-top: 5px solid rgb(0, 100, 255);
+    }
+
+    .settingsContextMenu {
+        width: 65%;
+        height: 85%;
+        display: flex;
+        flex-direction: column;
+        background-color: rgb(255, 255, 255);
+        border-radius: 8px;
+    }
+
+    .settingsBackdrop {
+        /* width: 100%;
+        height: 100%; */
+        z-index: 25;
+        width: 100%;
+        height: 100%;
+        top: 0px;
+        left: 0px;
+        position: fixed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .settingsContextMenuHeader {
+        align-items: center;
+        display: flex;
+        box-sizing: border-box;
+        padding: 25px;
+        font-weight: bolder;
+        font-size: 18px;
+        height: 7%;
+        border-bottom: 1px solid rgb(175, 175, 175);
+    }
+
+    .settingsContextMenuBody {
+        display: flex;
+        height: calc(100% - 7% - 7%);
+    }
+
+    .settingsContextMenuAside {
+        width: 25%;
+        border-right: 1px solid rgb(175, 175, 175);
+    }
+
+    .settingsContextMenuArticle {
+        overflow-y: scroll;
+        box-sizing: border-box;
+        padding: 25px;
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .settingsContextMenuFooter {
+        height: 7%;
+        border-top: 1px solid rgb(175, 175, 175);
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+    }
+
+    .settingsContextMenuAsideItem {
+        box-sizing: border-box;
+        padding: 25px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        cursor: pointer;
+        font-weight: bolder;
+    }
+
+    .settingsContextMenuAsideItem:hover {
+        background-color: rgb(240, 240, 240);
+    }
+
+    .activeSettingsContextMenuAsideItem {
+        background-color: rgb(240, 240, 240);
+        border: 1px solid rgb(0, 100, 255)
+    }
+
+    .settingsContextMenuFooterItem {
+        margin: 0px 8px;
+        font-weight: bolder;
+    }
+
+    .settingsContextMenuFooterCloseBtn {
+        color: rgb(0, 100, 255)
+    }
+
+    .settingsContextMenuArticleHeader {
+        font-weight: bolder;
+        font-size: 18px;
+    }
+
+    .settingsContextMenuArticleItem {
+        margin: 15px 0px;
+    }
+
+    .settingsContextMenuArticleCommunity {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+        font-size: 12px;
+    }
+
+    .settingsContextMenuArticleTabs {
+        height: 35px;
+        display: flex;
+        border-bottom: 1px solid rgb(175, 175, 175);
+    }
+
+    .settingsContextMenuArticleTab {
+        height: 35px;
+        cursor: pointer;
+        margin: 0px 15px;
+        font-weight: bolder;
+        font-size: 14px;
+    }
+
+    .activeSettingsContextMenuArticleTab {
+        border-bottom: 3px solid rgb(0, 100, 255);
+    }
+
+    .settingsContextMenuArticleSendComments {
+        display: flex;
+        align-items: center;
+    }
+    
+    .settingsContextMenuArticleSendCommentsItem {
+        margin: 0px 5px;
+    }
+
+    .activeSettingsContextMenuArticleTabContent {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .activeSettingsContextMenuArticleTabRowContent {
+        flex-direction: row;
+    }
+
+    .activeSettingsContextMenuArticleTabRowContentItem {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .activeSettingsContextMenuArticleTabRowContentItemHeader {
+        font-weight: bolder;
+    }
+
+    .auxFunction {
+        margin: 15px 0px;
+        background-color: rgb(255, 255, 255);
+        display: flex;
+        justify-content: space-between;
+        box-sizing: border-box;
+        padding: 15px;
+        border: 1px solid rgb(175, 175, 175);
+        border-radius: 8px;
+    }
+
+    .auxFunctionAside {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .auxFunctionAsideHeader {
+        font-weight: bolder;
     }
 
 </style>

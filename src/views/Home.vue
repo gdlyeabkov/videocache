@@ -92,7 +92,7 @@
           </div>
           <div v-else class="videos">
             <div class="videosColum">
-              <div v-for="video in videos" :key="video" class="video" @click="$router.push({ name: 'Video', query: { videoid: video._id, channelid: video.channel } })">
+              <div v-for="video in videos" :key="video._id" class="video" @click="$router.push({ name: 'Video', query: { videoid: video._id, channelid: video.channel } })">
                 <video class="videoHeader" controls  :id="`videoElement${video._id}Id`" @mouseenter="videoHoverHandler(`videoElement${video._id}Id`)" @mouseleave="videoHoutHandler(`videoElement${video._id}Id`)">
                   <source :src="`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`" />
                 </video>

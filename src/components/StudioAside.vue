@@ -146,7 +146,7 @@
             </span>
         </div>
         <div class="separator"></div>
-        <div class="asideItem">
+        <div class="asideItem" @click="toggleSettings">
             <span class="material-icons-outlined asideElement">
                 settings
             </span>
@@ -154,7 +154,7 @@
                 Настройки
             </span>
         </div>
-        <div class="asideItem">
+        <div class="asideItem" @click="isFeedback = !isFeedback">
             <span class="material-icons-outlined asideElement">
                 announcement
             </span>
@@ -207,6 +207,13 @@
                 Библиотека
             </span>
         </div>
+        <div v-if="true" class="settingsBackdrop">
+            <div class="settingsContextMenu">
+                <span>
+                    &nbsp;
+                </span>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -215,7 +222,8 @@ export default {
     name: 'Aside',
     data() {
         return {
-            
+            isFeedback: false,
+            isSettings: false
         }
     },
     props: {
@@ -232,6 +240,10 @@ export default {
         'changeActiveTab'
     ],
     methods: {
+        toggleSettings() {
+            this.isSettings = !this.isSettings
+            alert(`this.isSettings: ${this.isSettings}`)
+        },
         changeActiveTab(tab) {
             this.$emit('changeActiveTab', tab)
         }
@@ -316,6 +328,29 @@ export default {
 
     .activeTab {
         color: rgb(255, 0, 0);
+    }
+
+    .settingsContextMenu {
+        width: 65%;
+        height: 65%;
+        display: flex;
+        background-color: rgb(255, 255, 255);
+        border-radius: 8px;
+
+    }
+
+    .settingsBackdrop {
+        /* width: 100%;
+        height: 100%; */
+        width: 1000px;
+        height: 1000px;
+        top: 0px;
+        left: 0px;
+        position: fixed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.7);
     }
 
 </style>
