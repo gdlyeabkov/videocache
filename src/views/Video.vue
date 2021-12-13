@@ -6,25 +6,33 @@
                 <div class="videoCachePlayer">
                     <div class="videoCachePlayerHeader">
                         <span class="videoCachePlayerHeaderTitle">
-                            Название видео
+                            {{
+                                video.name
+                            }}
                         </span>
                     </div>
-                    <video ref="mainVideoSource" id="mainVideoSource" height="465px" width="100%" controls>
-                        <source />
+                    <video ref="mainVideoSource" id="mainVideoSource" height="465px" width="100%">
+                        <source  src="http://localhost:4000/api/videos/source/get/?videoname=%D0%BF%D0%B5%D1%82%D1%80%D0%BE%D0%B2%D0%B8%D1%87.mp4" />
                     </video>
+                    <div class="videoSeeker" @click="seekVideo"></div>
                     <div class="videoCachePlayerFooter">
-                        <button class="btn btn-primary material-icons">
-                            play_circle
-                        </button>
-                        <button class="btn btn-primary material-icons">
-                            skip_previous
-                        </button>
-                        <button class="btn btn-primary material-icons">
-                            pause
-                        </button>
-                        <button class="btn btn-primary material-icons">
-                            skip_next
-                        </button>
+                        <div class="videoCachePlayerFooterItem">
+                            <button class="videoCachePlayerFooterItemBtn btn btn-primary material-icons" @click="playVideo">
+                                play_arrow
+                            </button>
+                            <button class="videoCachePlayerFooterItemBtn btn btn-primary material-icons">
+                                skip_previous
+                            </button>
+                            <button class="videoCachePlayerFooterItemBtn btn btn-primary material-icons" @click="pauseVideo">
+                                pause
+                            </button>
+                            <button class="videoCachePlayerFooterItemBtn btn btn-primary material-icons">
+                                skip_next
+                            </button>
+                        </div>
+                        <span>
+                            00:{{ currentTime }}/{{ `${`${parseInt(duration / 60)}`.length <= 1 ? `0${parseInt(duration / 60)}` : `${parseInt(duration / 60)}`}:${duration}` }}
+                        </span>
                     </div>
                 </div>
                 <div class="videoHeader">
@@ -294,6 +302,8 @@ export default {
                 '11': 'ноя.',
                 '12': 'дек.',
             },
+            duration: '00',
+            currentTime: '00',
             token: window.localStorage.getItem("videocachetoken")
         }
     },
@@ -301,7 +311,11 @@ export default {
         
         setTimeout(() => {
             let mainVideoSource = document.getElementById('mainVideoSource')
-            alert(mainVideoSource.getVideoPlaybackQuality().totalVideoFrames)
+            // alert(mainVideoSource.getVideoPlaybackQuality().totalVideoFrames)
+            this.duration = `${parseInt(this.$refs.mainVideoSource.duration)}`.length <= 1 ? `0${parseInt(this.$refs.mainVideoSource.duration)}` : `${parseInt(this.$refs.mainVideoSource.duration)}` 
+            setInterval(() => {
+                this.currentTime = `${parseInt(this.$refs.mainVideoSource.currentTime)}`.length <= 1 ? `0${parseInt(this.$refs.mainVideoSource.currentTime)}` : `${parseInt(this.$refs.mainVideoSource.currentTime)}`
+            }, 1000)
         }, 5000)
 
         jwt.verify(this.token, 'videocachesecret', (err, decoded) => {
@@ -318,6 +332,17 @@ export default {
         this.addView()
     },
     methods: {
+        seekVideo() {
+            alert('проматываю видео')
+            this.$refs.mainVideoSource.fastSeek(4)
+            // this.$refs.mainVideoSource.seekToNextFrame()
+        },
+        pauseVideo() {
+            this.$refs.mainVideoSource.pause()
+        },
+        playVideo() {
+            this.$refs.mainVideoSource.play()
+        },
         addView() {
             
             fetch(`http://localhost:4000/api/videos/views/add/?videoid=${this.$route.query.videoid}`, {
@@ -657,7 +682,8 @@ export default {
             .then(result => {
                 if (JSON.parse(result).status === 'OK') {
                     this.video = JSON.parse(result).video
-                    this.$refs.mainVideoSource.src = `http://localhost:4000/api/videos/source/get/?videoname=${this.video.name}`
+                    // this.$refs.mainVideoSource.src = `http://localhost:4000/api/videos/source/get/?videoname=${this.video.name}`
+                    this.$refs.mainVideoSource.source = `http://localhost:4000/api/videos/source/get/?videoname=${this.video.name}`
                     alert(`Получил видео: ${this.video.name}`)
                 } else if (JSON.parse(result).status === 'Error') {
                     alert('Не могу получить видео')
@@ -881,7 +907,7 @@ export default {
     }
 
     .videoCachePlayer {
-        background-color: rgb(255, 0, 0);
+        background-color: rgb(150, 150, 150);
         padding: 25px 0px;
     }
 
@@ -903,6 +929,21 @@ export default {
         font-weight: bolder;
         color: rgb(255, 255, 255);
         font-size: 24px;
+    }
+
+    .videoCachePlayerFooterItem {
+        display: flex;
+    }
+
+    .videoCachePlayerFooterItemBtn {
+        margin: 0px 5px;
+    }
+
+    .videoSeeker {
+        height: 5px;
+        width: 100%;
+        background-color: rgb(255, 0, 0);
+        cursor: pointer;
     }
 
 </style>
