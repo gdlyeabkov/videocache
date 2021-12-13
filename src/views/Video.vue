@@ -3,9 +3,30 @@
         <Header />
         <div class="main">
             <div class="aside">
-                <video ref="mainVideoSource" height="465px" width="100%" controls>
-                    <source />
-                </video>
+                <div class="videoCachePlayer">
+                    <div class="videoCachePlayerHeader">
+                        <span class="videoCachePlayerHeaderTitle">
+                            Название видео
+                        </span>
+                    </div>
+                    <video ref="mainVideoSource" id="mainVideoSource" height="465px" width="100%" controls>
+                        <source />
+                    </video>
+                    <div class="videoCachePlayerFooter">
+                        <button class="btn btn-primary material-icons">
+                            play_circle
+                        </button>
+                        <button class="btn btn-primary material-icons">
+                            skip_previous
+                        </button>
+                        <button class="btn btn-primary material-icons">
+                            pause
+                        </button>
+                        <button class="btn btn-primary material-icons">
+                            skip_next
+                        </button>
+                    </div>
+                </div>
                 <div class="videoHeader">
                     <span class="videoHeaderItem">
                         {{
@@ -277,6 +298,12 @@ export default {
         }
     },
     mounted() {
+        
+        setTimeout(() => {
+            let mainVideoSource = document.getElementById('mainVideoSource')
+            alert(mainVideoSource.getVideoPlaybackQuality().totalVideoFrames)
+        }, 5000)
+
         jwt.verify(this.token, 'videocachesecret', (err, decoded) => {
             if (err) {
                 alert('Не могу получить блогера')
@@ -851,6 +878,31 @@ export default {
 
     .videoInteractionBtn {
         cursor: pointer;
+    }
+
+    .videoCachePlayer {
+        background-color: rgb(255, 0, 0);
+        padding: 25px 0px;
+    }
+
+    .videoCachePlayerFooter {
+        margin: 15px 0px;
+        display: flex;
+        justify-content: space-between;
+        box-sizing: border-box;
+        padding: 0px 15px;
+    }
+
+    .videoCachePlayerHeader {
+        margin: 15px 0px;
+        box-sizing: border-box;
+        padding: 0px 15px;
+    }
+
+    .videoCachePlayerHeaderTitle {
+        font-weight: bolder;
+        color: rgb(255, 255, 255);
+        font-size: 24px;
     }
 
 </style>
