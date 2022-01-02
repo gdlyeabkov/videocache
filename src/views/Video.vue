@@ -11,10 +11,10 @@
                             }}
                         </span>
                     </div>
-                    <video ref="mainVideoSource" id="mainVideoSource" height="465px" width="100%">
+                    <video ref="mainVideoSource" id="mainVideoSource" height="465px" width="100%" :src="`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`">
                         <source  src="http://localhost:4000/api/videos/source/get/?videoname=%D0%BF%D0%B5%D1%82%D1%80%D0%BE%D0%B2%D0%B8%D1%87.mp4" />
                     </video>
-                    <div class="videoSeeker" @click="seekVideo"></div>
+                    <div class="videoSeeker" ref="videoSeeker" @click="seekVideo($event)"></div>
                     <div class="videoCachePlayerFooter">
                         <div class="videoCachePlayerFooterItem">
                             <button class="videoCachePlayerFooterItemBtn btn btn-primary material-icons" @click="playVideo">
@@ -31,7 +31,7 @@
                             </button>
                         </div>
                         <span>
-                            00:{{ currentTime }}/{{ `${`${parseInt(duration / 60)}`.length <= 1 ? `0${parseInt(duration / 60)}` : `${parseInt(duration / 60)}`}:${duration}` }}
+                            {{ getDuration() }}
                         </span>
                     </div>
                 </div>
@@ -267,7 +267,8 @@ export default {
                 posts: [],
                 likes: [],
                 dislikes: [],
-                views: 0
+                views: 0,
+                created: '2000-01-01T00:00:00'
             },
             otherVideos: [],
             bloger: {
@@ -332,10 +333,16 @@ export default {
         this.addView()
     },
     methods: {
-        seekVideo() {
-            alert('проматываю видео')
-            this.$refs.mainVideoSource.fastSeek(4)
-            // this.$refs.mainVideoSource.seekToNextFrame()
+        getDuration() {
+            return `00:${this.currentTime}/${`${parseInt(parseInt(this.duration) / 60)}`.length <= 1 ? `0${parseInt(parseInt(this.duration) / 60)}` : `${parseInt(parseInt(this.duration) / 60)}`}:${this.duration}`
+        },
+        seekVideo(event) {
+            let coordX = event.x
+            let videoWidth = this.$refs.videoSeeker.clientWidth
+            let seek = Math.floor(parseInt(videoWidth) / parseInt(coordX))
+            seek = seek
+            alert(`проматываю видео|${seek}|${videoWidth}|${coordX}`)
+            this.$refs.mainVideoSource.currentTime = seek
         },
         pauseVideo() {
             this.$refs.mainVideoSource.pause()
@@ -682,8 +689,6 @@ export default {
             .then(result => {
                 if (JSON.parse(result).status === 'OK') {
                     this.video = JSON.parse(result).video
-                    // this.$refs.mainVideoSource.src = `http://localhost:4000/api/videos/source/get/?videoname=${this.video.name}`
-                    this.$refs.mainVideoSource.source = `http://localhost:4000/api/videos/source/get/?videoname=${this.video.name}`
                     alert(`Получил видео: ${this.video.name}`)
                 } else if (JSON.parse(result).status === 'Error') {
                     alert('Не могу получить видео')
