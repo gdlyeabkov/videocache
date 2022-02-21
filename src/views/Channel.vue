@@ -87,7 +87,7 @@
                                     <span class="allVideosLabel videoFormatHeaderItem">
                                         Все видео
                                     </span>
-                                    <span class="playAllLabel videoFormatHeaderItem">
+                                    <span class="playAllLabel videoFormatHeaderItem" @click="playAllVideos()">
                                         ВОСПРОИЗВЕСТИ ВСЕ
                                     </span>
                                 </div>
@@ -340,6 +340,15 @@ export default {
         this.addView()
     },
     methods: {
+        playAllVideos() {
+            const isPublishVideo = this.videos.length >= 1
+            if (isPublishVideo) {
+                const myVideo = this.videos[0]
+                const myVideoId = myVideo._id
+                const myVideoChannelId = myVideo.channel
+                this.$router.push({ name: 'Video', query: { videoid: myVideoId, channelid: myVideoChannelId } })
+            }
+        },
         exportCSV() {
             
             fetch(`http://localhost:4000/api/export/csv/?channelid=${this.channel._id}`, {

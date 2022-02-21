@@ -222,6 +222,27 @@
             Популярные видео
           </span>
           <div class="popularVideos">
+            <!-- <div class="popularVideo">
+              <video controls width="250px">
+                <source />
+              </video>
+              <div class="popularVideoInfo">
+                <span class="popularVideoInfoItem popularVideoInfoItemHeader">
+                  Новогоднее наступление 2022: Арнольд Шварценеггер и много подарков! [World of Tanks]
+                </span>
+                <div class="popularVideoInfoContainer popularVideoInfoItem">
+                  <span class="popularVideoInfoContainerItem">
+                    World of Tanks. Официальный видеоканал
+                  </span>
+                  <span class="popularVideoInfoContainerItem">
+                    184 тыс. просмотров 6 часов назад
+                  </span>
+                </div>
+                <span class="popularVideoInfoItem">
+                  В World of Tanks начинается Новогоднее наступление 2022! В этом году тебя ждет еще больше подарков и сюрпризов, давн...
+                </span>
+              </div>
+            </div>
             <div class="popularVideo">
               <video controls width="250px">
                 <source />
@@ -240,6 +261,90 @@
                 </div>
                 <span class="popularVideoInfoItem">
                   В World of Tanks начинается Новогоднее наступление 2022! В этом году тебя ждет еще больше подарков и сюрпризов, давн...
+                </span>
+              </div>
+            </div>
+            <div class="popularVideo">
+              <video controls width="250px">
+                <source />
+              </video>
+              <div class="popularVideoInfo">
+                <span class="popularVideoInfoItem popularVideoInfoItemHeader">
+                  Новогоднее наступление 2022: Арнольд Шварценеггер и много подарков! [World of Tanks]
+                </span>
+                <div class="popularVideoInfoContainer popularVideoInfoItem">
+                  <span class="popularVideoInfoContainerItem">
+                    World of Tanks. Официальный видеоканал
+                  </span>
+                  <span class="popularVideoInfoContainerItem">
+                    184 тыс. просмотров 6 часов назад
+                  </span>
+                </div>
+                <span class="popularVideoInfoItem">
+                  В World of Tanks начинается Новогоднее наступление 2022! В этом году тебя ждет еще больше подарков и сюрпризов, давн...
+                </span>
+              </div>
+            </div>
+            <div class="popularVideo">
+              <video controls width="250px">
+                <source />
+              </video>
+              <div class="popularVideoInfo">
+                <span class="popularVideoInfoItem popularVideoInfoItemHeader">
+                  Новогоднее наступление 2022: Арнольд Шварценеггер и много подарков! [World of Tanks]
+                </span>
+                <div class="popularVideoInfoContainer popularVideoInfoItem">
+                  <span class="popularVideoInfoContainerItem">
+                    World of Tanks. Официальный видеоканал
+                  </span>
+                  <span class="popularVideoInfoContainerItem">
+                    184 тыс. просмотров 6 часов назад
+                  </span>
+                </div>
+                <span class="popularVideoInfoItem">
+                  В World of Tanks начинается Новогоднее наступление 2022! В этом году тебя ждет еще больше подарков и сюрпризов, давн...
+                </span>
+              </div>
+            </div>
+            <div class="popularVideo">
+              <video controls width="250px">
+                <source />
+              </video>
+              <div class="popularVideoInfo">
+                <span class="popularVideoInfoItem popularVideoInfoItemHeader">
+                  Новогоднее наступление 2022: Арнольд Шварценеггер и много подарков! [World of Tanks]
+                </span>
+                <div class="popularVideoInfoContainer popularVideoInfoItem">
+                  <span class="popularVideoInfoContainerItem">
+                    World of Tanks. Официальный видеоканал
+                  </span>
+                  <span class="popularVideoInfoContainerItem">
+                    184 тыс. просмотров 6 часов назад
+                  </span>
+                </div>
+                <span class="popularVideoInfoItem">
+                  В World of Tanks начинается Новогоднее наступление 2022! В этом году тебя ждет еще больше подарков и сюрпризов, давн...
+                </span>
+              </div>
+            </div> -->
+            <div v-for="video in videos.filter(video => video.views >= 100)" :key="video.name" class="popularVideo" :id="`videoElement${video._id}Id`" @mouseenter="videoHoverHandler(`videoElement${video._id}Id`)" @mouseleave="videoHoutHandler(`videoElement${video._id}Id`)">
+              <video controls width="250px">
+                <source :src="`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`" />
+              </video>
+              <div class="popularVideoInfo">
+                <span class="popularVideoInfoItem popularVideoInfoItemHeader">
+                  {{ video.name }}
+                </span>
+                <div class="popularVideoInfoContainer popularVideoInfoItem">
+                  <span class="popularVideoInfoContainerItem">
+                    {{ video.channelName }}
+                  </span>
+                  <span class="popularVideoInfoContainerItem">
+                    {{ video.views }} просмотров 6 часов назад
+                  </span>
+                </div>
+                <span class="popularVideoInfoItem">
+                  {{ video.name }}
                 </span>
               </div>
             </div>
@@ -576,7 +681,7 @@
           <div v-else class="videos">
             <div class="videosColum">
               <div v-for="video in videos.filter(video => video.name.toLowerCase().includes(keywords.toLowerCase()))" :key="video" class="video" @click="$router.push({ name: 'Video', query: { videoid: video._id, channelid: video.channel } })">
-                <video class="videoHeader" controls  :id="`videoElement${video._id}Id`" @mouseenter="videoHoverHandler(`videoElement${video._id}Id`)" @mouseleave="videoHoutHandler(`videoElement${video._id}Id`)">
+                <video class="videoHeader" controls :id="`videoElement${video._id}Id`" @mouseenter="videoHoverHandler(`videoElement${video._id}Id`)" @mouseleave="videoHoutHandler(`videoElement${video._id}Id`)">
                   <source :src="`http://localhost:4000/api/videos/source/get/?videoname=${video.name}`" />
                 </video>
                 <div class="videoFooter">
@@ -1031,6 +1136,7 @@ export default {
 
   .popularVideo {
     display: flex;
+    margin: 15px 0px;
   }
 
   .popularVideoInfo {
